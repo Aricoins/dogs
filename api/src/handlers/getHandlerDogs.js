@@ -7,7 +7,7 @@ const handleGetAll = async (req, res)=>{
     try {
       res.status(200).json(dogFinal)  
     } catch (error) {
-      res.status(400).json("no hay drivers")
+      res.status(400).json("no hay dogs")
    }}
 
       module.exports =  handleGetAll

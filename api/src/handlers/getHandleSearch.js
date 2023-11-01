@@ -1,23 +1,23 @@
 const searchDogs =require("../controllers/searchDogs")
 
 const getHandlerSearch =  async (req, res) => {
-    const {name} = req.query;
+    const {nombre} = req.query;
 
     
       try {
-      const drivers = await searchDogs(name);
+      const dogs = await searchDogs(nombre);
       
   
-      if (drivers.length === 0) {
-        res.status(404).json({ 
+      if (dogs.length === 0) {
+   return     res.status(404).json({ 
           
           message:
-        'No se encontraron drivers.' });
+        'No se encontraron dogs.' });
       }
      
-      res.status(200).json(drivers);
+      res.status(200).json(dogs);
     } catch (error) {
-      res.status(500).json({ error: 'Error al buscar drivers.' });
+      res.status(500).json({ error: 'Error al buscar dogs.' });
     }
   }
 

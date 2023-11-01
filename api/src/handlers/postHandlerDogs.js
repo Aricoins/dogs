@@ -3,11 +3,11 @@ const createDogs = require("../controllers/createDogs")
 const postHandlerDogs = (req, res)=>{
 //Obtener info por body
 
-const { ID, Imagen,  Nombre, Altura,  Peso, Añosdevida} = req.body
+const {  nombre, imagen, altura,  peso, anios} = req.body
 
 try {
-    const newDog = createDogs( ID, Imagen,  Nombre, Altura,  Peso, Añosdevida )
-    res.status(200).json( `${Nombre} se ha creado con éxito!`)
+    const newDog = createDogs(nombre, imagen, altura,  peso, anios )
+    res.status(200).json( `${nombre} se ha creado con éxito!`)
 } catch (error) {
     res.status(400).json ({error: error.message})
 }

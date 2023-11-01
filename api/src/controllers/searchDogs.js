@@ -1,50 +1,46 @@
-// controllers/searchdogs.js
-const { Dogs } = require('../db');
-const { Op } = require('sequelize');
+require("dotenv").config()
+const axios = require('axios');
+const { Dog } = require('../db');
+const { Op, Sequelize} = require('sequelize');
+const distanciaLexica = require('./distanciaLexica');
 
-async function searchDogs(name) {
-  
-  
-  const response = await axios(`https://api.thedogapi.com/v1/breeds?name=${name}`)
-    .then(data=>data)
-    const apiDogs = response.data;
-  
-  
-    const dogs = apiDrivers.map((dog) => ({
-      id: dog.id,
-      nombre: dog.Nombre,
-       imagen: dog.Imgen,
-       altura: dog.Alura,
-       peso: dog.Peso, 
-      anios: dog.Añosdevida, 
-       temperament: dog.temperament,
-       }));
-  
-  
-  
-  const dbdogs = await Dogs.findAll(
+async function searchDogs(nombre) {
+  try {
+    // Consultar la API externa
+    //?api_key=${process.env.API_KEY}
+    const response = await axios(`https://api.thedogapi.com/v1/breeds`);
+    const apiData = response.data;
 
+    const APIdogs = apiData.filter((dog) => {
+      return distanciaLexica(dog.name.toLowerCase(), nombre.toLowerCase()) <= 4;
+    });
 
-    {
+    // Consultar en la base de datos local
+    const dbDogs = await Dog.findAll({
       where: {
         [Op.or]: [
           {
-            forename: {
-              [Op.iLike]: `%${name}%`,
+            nombre: {
+              [Op.iLike]: `%${nombre}%`, // Búsqueda insensible a mayúsculas y minúsculas
             },
           },
           {
-            surname: {
-              [Op.iLike]: `%${name}%`,
+            nombre: {
+              [Op.substring]: Sequelize.literal(`FREETEXT('${nombre}')`), // Búsqueda tolerante a errores tipográficos
             },
           },
         ],
       },
-    }
-  )
-        // Si se encontraron conductores en la base de datos, responde con esos datos
-       return [...dogs, ...dbDogs]
-         }
+    });
 
-    
-module.exports = searchDogs
+    // responde con los datos de ambas fuentes
+
+    return [...APIdogs, ...dbDogs];
+  } catch (error) {
+    // Manejar errores, por ejemplo, podrías lanzar una excepción o devolver un objeto de error
+    console.error('Error en la búsqueda de perros:', error);
+    throw new Error('Error en la búsqueda de perros');
+  }
+}
+
+module.exports = searchDogs;

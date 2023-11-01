@@ -1,0 +1,55 @@
+    import React from 'react';
+    import Driver from './Driver';
+    import styled from "styled-components"
+    
+const Back = styled.div  `
+background-image: url("../src/assets/backgroundd.jpg");
+  background-size: cover; 
+
+`     
+    const Cartas = styled.div`
+      display: grid;
+  grid-template-columns: repeat(4, 1fr); // Cuatro columnas
+  gap: 1px; // Espacio entre las cartas
+  max-width: 50vh;
+  margin: 2px auto; // Centra el contenedor horizontalmente
+  padding: 5%;
+  height: auto; // Elimina la altura fija
+justify-content: center;
+
+@media only screen and (max-width: 600px) {
+    grid-template-columns: repeat(3, 1fr); // Tres columnas en dispositivos móviles
+  }
+`;
+    
+    
+
+
+    export default function Drivers(props) {
+       const { drivers , deleteDriver} = props;
+
+       const lista = drivers.map((e) => (
+             <Driver 
+             key= {e.id}
+                id={e.id}
+                surname={e.surname} 
+                forename={e.forename}
+                team= {e.teams}
+                image={e.image} 
+                description={e.desription} 
+                nationality={e.nationality}
+                deleteDriver={() => deleteDriver(e.id)}
+             />
+            
+       ))
+               return (<>
+              <Back><Cartas className='lista'>
+         {lista}
+          </Cartas>
+          </Back>
+    
+    
+  </>
+       );
+         }
+   

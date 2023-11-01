@@ -2,22 +2,20 @@
 const { Dog, DogsTemperament } = require('../db'); 
 
 
-async function createDogs( Imagen,  Nombre, Altura,  Peso, Añosdevida) {
+async function createDogs(nombre, imagen, altura,  peso, anios) {
 
-  const ID = Math.random(123233);
-
-const  dogData = {ID, Imagen,  Nombre, Altura,  Peso, Añosdevida}
+const  dogData = {  nombre, imagen, altura,  peso, anios}
   
   try {
-    // Crea el nuevo driver en la base de datos
+    // Crea el nuevo dog en la base de datos
     const newDog = await Dog.create(dogData);
 
-    // Asocia el driver con los equipos solicitados (driverData.teams)
-    if (dogData.temperament && driverData.temperament.length > 0) {
+    // Asocia el dog con los temperamentos solicitados (dogData.temps)
+    if (dogData.temperament && dogData.temperament.length > 0) {
       await newDog.addTemps(dogData.temperament, { through: DogsTemperament });
     }
-
-    return newDriver;
+console.log(newDog)
+    return newDog;
   } catch (error) {
     throw error; // Lanza cualquier error que ocurra al invocar la función
   }

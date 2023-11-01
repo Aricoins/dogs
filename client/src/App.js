@@ -1,11 +1,29 @@
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Welcome from './vistas/Landing/Welcome';
+import Home from './vistas/Home/Home';
+import Detail from './vistas/Detail/Detail';
+import CreateDog from './vistas/CrearDog/CreateDog';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <h1>Henry Dogs</h1>
-    </div>
+    
+    <Router>
+      <Switch>
+        {/* Landing Page */}
+        <Route exact path="/" component={Welcome} />
+
+        {/* Home Page */}
+        <Route exact path="/home" component={Home} />
+
+        {/* Detail Page */}
+        <Route path="/detail/:id" component={Detail} />
+
+        {/* Form Page */}
+        <Route path="/form" component={CreateDog} />
+      </Switch>
+    </Router>
   );
-}
+};
 
 export default App;
