@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components";
 import {Link} from "react-router-dom"
-//import imagen from "../assets/imagenlogin.jpg"
+import icono from './icono.png'
 
 /*
   background-color: #b2d8d8; /* Azul Claro */
@@ -73,6 +73,8 @@ flex-direction: column;
   font-size: 1rem;
   text-decoration: none;
   color: #d3d3d3; /* Gris Claro */
+  z-index: 5000;
+  
 
   &:hover {
     background-color: #b2d8d8;
@@ -94,16 +96,13 @@ export default function Form() {
 
 return (
     <>
-   
-     <Contenedor>
-      
-         <H1> Dogs App</H1>
-   
-          <StyledLink to="/home">Ingresar</StyledLink>
+        <Contenedor>
+        
+               <H1> Dogs App</H1>
+                <img style={{width:"30%"}}src={icono} alt="hueso"/>
+                   <StyledLink to="/home">Ingresar</StyledLink>
          <Pe>No hace falta tener cuenta</Pe>
                </Contenedor>
-    
-
-      </>
+          </>
 )
 }

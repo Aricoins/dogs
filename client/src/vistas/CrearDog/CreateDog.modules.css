@@ -1,0 +1,20 @@
+.bien{
+
+      font-size: 0.8em;
+  color: white;
+  background-color: #31c253;
+  justify-content: center;
+}
+.mal {
+
+   
+    font-size: 0.8em;
+    color: white;
+    background-color: #fb0a7a;
+    justify-content: center;
+}
+
+.pe{
+
+    color:red;
+}

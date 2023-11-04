@@ -1,0 +1,5 @@
+body{
+  background-color: rgb(139, 69, 19);
+  background-image: url("./assets/fondo.mp4");
+  z-index: 1
+}

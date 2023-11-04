@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import styled  from 'styled-components';
-import {NavLink} from "react-router-dom"
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
+import colores from '../vistas/colores';
+
 const CardWrapper = styled.figure`
   width: 200px;
-  height: 300px;
+  height: 400px;
   margin: 20px;
   display: flex;
   justify-content: center;
-  border: 2px solid #000;
-  background-color: red;
+  border: 2px solid ${colores.verde};
+  background-color: ${colores.amarillo};
+  border-radius: 10px;
 `;
 
 const CardContent = styled.div`
@@ -28,11 +30,12 @@ const ImageContainer = styled.h2`
   justify-content: center;
   transition: 1s;
   opacity: 1;
+  color: ${colores.marron}
 
   img {
     width: 150px;
     height: 200px;
-    border-radius: 5px;
+    border-radius: 10px;
   }
 
   :hover {
@@ -41,39 +44,41 @@ const ImageContainer = styled.h2`
 `;
 
 const StyledLink = styled(NavLink)`
-  color: #fdfafa;
+  color: ${colores.blanco};
   text-decoration: none;
   text-align: center;
   transition: 1s;
-  background-color: #F10505ff;
   opacity: 1;
+  border-radius: 10px;
+  font-size: 20px;
 
   :hover {
-    color: black;
+    color: ${colores.negro};
     cursor: pointer;
     opacity: 1;
   }
 `;
 
 const Button = styled.button`
-  background-color: #fd0909;
+  background-color: ${colores.rojo};
   display: flex;
-  color: white;
+  color: ${colores.blanco};
   height: 80%;
   width: 80%;
   margin: 5%;
   opacity: 1;
   justify-content: center;
   cursor: pointer;
+  border-radius: 10px;
 
   :hover {
-    background-color: #eeabab;
-    color: white;
+    background-color: ${colores.melon};
+    color: ${colores.blanco};
   }
 `;
 
 const SubHeading = styled.h6`
-  color: white;
+  color: ${colores.verde};
   display: flex;
   justify-content: center;
   margin: 1%;
@@ -81,17 +86,21 @@ const SubHeading = styled.h6`
 `;
 
 function Card({
-  nombre,
-  imagen,
-  altura,
-  peso,
-  anios,
- }) {
+  dog
+}) {
+  const {
+        id,
+    nombre,
+    imagen,
+    altura,
+    peso,
+    anios,
+  } = dog;
 
   return (
     <CardWrapper>
       <CardContent>
-        <StyledLink to={`/detail/${nombre}`}>
+        <StyledLink to={`/detail/${id}`} props={dog}>
           {nombre}
           <ImageContainer>
             <img src={imagen} alt={`Dog ${nombre}`} />
@@ -104,4 +113,5 @@ function Card({
     </CardWrapper>
   );
 }
-export default Card
+
+export default Card;

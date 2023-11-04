@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
-import videoSrc from '../../assets/dog.mp4'
 import video from '../../assets/fondo.mp4'
 import audio from '../../assets/sonido.mp3';
 import Login from './Login';
@@ -48,6 +47,7 @@ width: 100vw;
 display: flex;
 justify-content: center;
 align-items: center;
+z-index:0;
   @media only screen and (max-width: 700px) {
     /* Cambia la altura para dispositivos más pequeños */
     height: 35vh;
@@ -120,9 +120,10 @@ const Welcome = () => {
     };
   }, [appPhrases.length]); // El array vacío [] asegura que el efecto solo se ejecute al montar y desmontar el componente
   
-  return (
+  return (<>
+    <Login />
     <WelcomeWrapper>
-      <Login />
+   
       <VideoBackground src={ video} autoPlay loop muted />
       <TextOverlay>
         <h3>
@@ -135,6 +136,7 @@ const Welcome = () => {
         <source type="audio/mpeg" src={audio} />  </Sound>
      
     </WelcomeWrapper>
+    </>
   );
 };
 

@@ -1,24 +1,30 @@
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 
+export const GET_DOGS = 'GET_DOGS';
 
-// export const setCurrentPage = (page) => ({
-//   type: 'SET_CURRENT_PAGE',
-//   payload: page,
-// });
-export const GET_DOGS = "GET_DOGS";
+export function getDogs() {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get('http://localhost:3001/dogs');
+      const data = response.data;
+      const dataWithIds = data.map((dog) => ({
+        ...dog,
+        id: dog.id !== undefined ? dog.id : uuidv4(),
+      }));
 
+      dispatch({
+        type: GET_DOGS,
+        payload: dataWithIds,
+      });
+    } catch (error) {
+      console.error('Error al obtener los perros', error);
 
-export function getDogs(){
-    return  async function (dispatch){
-  try {
-    const response = await axios.get(`http://localhost:3001/dogs`);
-    const data = response.data;
-    return dispatch( { 
-        type: 'GET_DOGS',
-    payload: { data },})
-
-  } catch (error) {
-    console.error('No estan viniendo los dogs', error);
-  }
-} 
+      // Puedes despachar otra acción aquí para manejar el error si es necesario
+      // dispatch({
+      //   type: 'FETCH_DOGS_FAILURE',
+      //   payload: { error: error.message },
+      // });
+    }
+  };
 }

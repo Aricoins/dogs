@@ -8,6 +8,7 @@ async function getTemps() {
     const response = await axios.get(`https://api.thedogapi.com/v1/breeds`);
     const dogs = response.data;
 
+
     for (const dog of dogs) {
       if (dog.temperament) { // Verifica si 'temperament' está definido y no es null
         const tempsList = dog.temperament.split(",").map((temp) => temp.trim());
@@ -15,14 +16,14 @@ async function getTemps() {
         for (const tempName of tempsList) {
           // Verifica si el temp ya existe en la base de datos.
           const existingTemp = await Dog.findOne({ where: { temperament: tempName } });
-
-          if (!existingTemp) {
-            // Si no existe, créalo.
-            await Temperament.create({ name: tempName });
-            console.log(`Temperamento "${tempName}" creado en la base de datos.`);
-          } else {
-            console.log(`El Tempramento "${tempName}" ya existe en la base de datos.`);
-          }
+    if (!existingTemp) {
+      // Si no existe, créalo.
+      await Temperament.create({ name: tempName });
+      console.log(`Temperamento "${tempName}" creado en la base de datos.`);
+    } else {
+      console.log(`El Tempramento "${tempName}" ya existe en la base de datos.`);
+    }
+     
         }
       }
     }

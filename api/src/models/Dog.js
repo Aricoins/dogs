@@ -1,13 +1,16 @@
 const { DataTypes } = require('sequelize');
 
+const { v4: uuidv4 } = require('uuid');
+
 module.exports = (sequelize) => {
   // Modelo para Dogs
   const Dog = sequelize.define('Dog', {
-    uuid: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV1,
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
       primaryKey: true,
-       },
+    },
     imagen: {
       type: DataTypes.STRING,
       allowNull: true,

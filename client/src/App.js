@@ -4,6 +4,8 @@ import Welcome from './vistas/Landing/Welcome';
 import Home from './vistas/Home/Home';
 import Detail from './vistas/Detail/Detail';
 import CreateDog from './vistas/CrearDog/CreateDog';
+import * as stylo from './App.css';
+import CrearDemo from "./vistas/CrearDog/CrearDemo"
 
 const App = () => {
   return (

@@ -11,7 +11,7 @@ async function getDetail(idDog) {
     const detail = {
       id: dogData.id,
       nombre: dogData.name,
-      imagen: dogData.reference_image_id, // Asumo que esta es la propiedad para la imagen
+      imagen: `https://cdn2.thedogapi.com/images/${dogData.reference_image_id }_1280.jpg`, // Asumo que esta es la propiedad para la imagen
       altura: dogData.height ? `${dogData.height.metric} cm` : 'Altura no disponible',
       peso: dogData.weight ? `${dogData.weight.metric} kg` : 'Peso no disponible',
         anios: dogData.life_span,

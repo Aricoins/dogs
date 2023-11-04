@@ -12,7 +12,7 @@ async function searchDogs(nombre) {
     const apiData = response.data;
 
     const APIdogs = apiData.filter((dog) => {
-      return distanciaLexica(dog.name.toLowerCase(), nombre.toLowerCase()) <= 4;
+      return distanciaLexica(dog.name.toLowerCase(), nombre.toLowerCase()) <= 1;
     });
 
     // Consultar en la base de datos local
