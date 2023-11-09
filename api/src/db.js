@@ -8,7 +8,6 @@ const {
   DB_USER, DB_PASSWORD, DB_HOST, DB_URL
 } = process.env;
 
-console.log(DB_USER)
 
 const sequelize = new Sequelize(DB_URL, {
   logging: false, // set to console.log to see the raw SQL queriess
@@ -16,6 +15,7 @@ const sequelize = new Sequelize(DB_URL, {
   dialectOptions: {
     ssl: {
       require: true,
+      rejectUnauthorized: false
        }
   }
 });
