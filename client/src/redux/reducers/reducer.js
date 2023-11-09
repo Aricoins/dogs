@@ -3,7 +3,7 @@ import {GET_DOGS} from "../actions/dogsActions";
 const initialState = {
     dogs: [], // Aquí almacenaremos la lista de perros
   //  currentPage: 1,
-   // totalDogs: 0,
+   // totalDogs: 0
   };
   
   const reducer = (state = initialState, action) => {

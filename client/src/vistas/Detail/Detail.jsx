@@ -50,15 +50,15 @@ const Img = styled.img`
 background-color: ${colores.amarillo};
 width: 100%;
 `
+// ... (other imports)
+
 function Detail(props) {
-
-const {id} = useParams()
-const [dog, setDog] = useState()
-
+  const { id } = useParams();
+  const [dog, setDog] = useState();
 
   useEffect(() => {
     axios.get(`http://localhost:3001/dogs/${id}`).then(({ data }) => {
-      if (data) {
+      if (data && data[0]) {
         setDog(data);
       } else {
         window.alert("No hay personajes con ese ID");
@@ -66,24 +66,23 @@ const [dog, setDog] = useState()
     });
   }, [id]);
 
-
   return (
     <>
-      {dog && (
+      {dog && dog[0] && (
         <Onda>
           <Detalle>Nombre: {dog[0].nombre}</Detalle>
-          <Img src={dog[0].imagen} alt={dog[0].nombre} /> 
+          <Img src={dog[0].imagen} alt={dog[0].nombre} />
           <Propiedades>Altura:</Propiedades>
           {dog[0].altura}
           <Propiedades>Peso:</Propiedades>
           {dog[0].peso}
           <Propiedades>Temperamento:</Propiedades>
           {dog[0].temperament}
-          <Propiedades> Pronóstico de Vida :</Propiedades>
-                {dog[0].anios}        
-          </Onda>
-         ) } 
-            <Nav />
+          <Propiedades>Pronóstico de Vida:</Propiedades>
+          {dog[0].anios}
+        </Onda>
+      )}
+      <Nav />
     </>
   );
 }

@@ -3,7 +3,6 @@ import axios from 'axios';
 import colores from '../../vistas/colores';
 import styled from 'styled-components';
 import styles from './CreateDog.modules.css';
-import colors from '../../vistas/colores';
 import Nav from '../../Components/Nav';
 //import validation from "../CrearDog/validation"
 
@@ -75,7 +74,7 @@ const Caja = styled.div`
   gap: 10px;
   align-items: center;
   align-content: center;
-  font-size: xx-large;
+margin-bottom: 10%;
 
   h1 {
     color: ${colores.verde}; 
@@ -110,7 +109,7 @@ color: white
       color: ${colores.gris}; /* Cambiado a color más claro */
 
       &:hover {
-        background-color: ${colores.azul};
+        background-color: ${colores.marron};
       }
     }
 
@@ -127,6 +126,24 @@ color: white
     }
   }`;
 
+const Boton = styled.button`
+ background-color: ${colores.verde};
+      padding: 10px;
+      border: none;
+      border-radius: 5%;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      color: ${colores.gris}; /* Cambiado a color más claro */
+      width: 100%;
+      font-size: large;
+      &:hover {
+        background-color: ${colores.marron};
+        color: ${colores.amarillo};
+       
+         width: 100%;
+      }
+
+`
 
 
 const CreateDog = () => {
@@ -168,7 +185,8 @@ const CreateDog = () => {
     // Verificar si hay algún error en el formulario
     const hasErrors = Object.values(errors).some((error) => error !== "");
   
-    if (!hasErrors) {
+    if (!hasErrors)
+    {
       try {
         // Enviar datos al servidor para crear un nuevo perro
         const { nombre, imagen, altura, peso, anios, temperament } = form;
@@ -236,10 +254,9 @@ const CreateDog = () => {
     <Caja>
         <h1>Creá tu Mascota</h1>
             <form onSubmit={handleFormSubmit}>
-              <div>  
+       <div>  
             <label htmlFor="nombre">Nombre:</label>
-        </div>
-        <div><input   name="nombre"
+       <input   name="nombre"
         type="text"
         id="nombre"
         value={form.nombre}
@@ -337,7 +354,7 @@ const CreateDog = () => {
       <Nav/>
 
 
-{/* Convertimos form.temperament a un array antes de usar map */}
+Convertimos form.temperament a un array antes de usar map
 {Array.isArray(form.temperament) && form.temperament.map((selectedTemp) => (
   <div style= {{width:"100%"}} key={selectedTemp}>
     {selectedTemp} {/* Aquí mostramos directamente el nombre del temperamento */}
@@ -351,9 +368,9 @@ const CreateDog = () => {
       ?
       null 
       :
-       <button type="submit" onSubmit={handleFormSubmit} >
+       <Boton type="submit" onSubmit={handleFormSubmit} >
             Crear Mascota
-          </button> }
+          </Boton>  }
 
                  </form>  
                  
