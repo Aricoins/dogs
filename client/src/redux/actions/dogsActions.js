@@ -6,7 +6,7 @@ export const GET_DOGS = 'GET_DOGS';
 export function getDogs() {
   return async function (dispatch) {
     try {
-      const response = await axios.get('https://dogs-server-s368.onrender.com/dogs');
+      const response = await axios.get('https://server-dogs-lr41.onrender.com/dogs');
       const data = response.data;
       const dataWithIds = data.map((dog) => ({
         ...dog,
