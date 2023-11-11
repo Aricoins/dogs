@@ -70,16 +70,16 @@ function Detail(props) {
     <>
       {dog && dog[0] && (
         <Onda>
-          <Detalle>Nombre: {dog[0].nombre}</Detalle>
-          <Img src={dog[0].imagen} alt={dog[0].nombre} />
+          <Detalle>Nombre: {dog.nombre}</Detalle>
+          <Img src={dog.imagen} alt={dog[0].nombre} />
           <Propiedades>Altura:</Propiedades>
-          {dog[0].altura}
+          {dog.altura}
           <Propiedades>Peso:</Propiedades>
-          {dog[0].peso}
+          {dog.peso}
           <Propiedades>Temperamento:</Propiedades>
-          {dog[0].temperament}
+          {dog.temperament}
           <Propiedades>Pronóstico de Vida:</Propiedades>
-          {dog[0].anios}
+          {dog.anios}
         </Onda>
       )}
       <Nav />

@@ -6,19 +6,15 @@ export const GET_DOGS = 'GET_DOGS';
 export function getDogs() {
   return async function (dispatch) {
     try {
-      const response = await axios.get('https://server-dogs-lr41.onrender.com/dogs');
+      const response = await axios.get('http://localhost:3001/dogs');
       const data = response.data;
-      const dataWithIds = data.map((dog) => ({
-        ...dog,
-        id: dog.id !== undefined ? dog.id : uuidv4(),
-      }));
-
-      dispatch({
+          dispatch({
         type: GET_DOGS,
-        payload: dataWithIds,
+        payload: data,
       });
+      console.log(data)
     } catch (error) {
-      console.error('Error al obtener los perros', error);
+      console.error('Error al obtener los dogs', error);
 
       // Puedes despachar otra acción aquí para manejar el error si es necesario
       // dispatch({

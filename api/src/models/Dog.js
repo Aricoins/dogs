@@ -6,15 +6,11 @@ module.exports = (sequelize) => {
   const Dog = sequelize.define('Dog', {
     id: {
       type: DataTypes.UUID,
-      defaultValue: uuidv4(),
-      allowNull: false,
+    defaultValue: DataTypes.UUIDV4,
+        allowNull: false,
       primaryKey: true,
     },
-    imagen: {
-      type: DataTypes.STRING,
-      allowNull: true,
-      defaultValue: 'https://cdn2.thedogapi.com/images/BJa4kxc4X.jpg',
-    },
+
     nombre: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -24,6 +20,11 @@ module.exports = (sequelize) => {
           msg: "El nombre debe tener entre 2 y 20 caracteres",
         },
       },
+    },
+    imagen: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: 'https://cdn2.thedogapi.com/images/BJa4kxc4X.jpg',
     },
     altura: {
       type: DataTypes.FLOAT,

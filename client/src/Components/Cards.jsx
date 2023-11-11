@@ -25,10 +25,7 @@ const CardContainer = styled.div`
 export default function Cards(props) {
   const { dogs } = props;
 
-  // Filtrar perros sin imagen
-  const dogsWithImages = dogs?.filter((dog) => dog.imagen && dog.imagen.trim() !== '');
-
-  const cardList = dogsWithImages?.map((dog) => (
+  const cardList = dogs.map((dog) => (
     <Card key= {dog.id} dog={dog} />
   ));
   return (

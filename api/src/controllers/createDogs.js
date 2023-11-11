@@ -1,10 +1,11 @@
 
 const { Dog, DogsTemperament } = require('../db'); 
+const { v4: uuidv4 } = require('uuid');
 
-
-async function createDogs(nombre, imagen, altura,  peso, anios) {
-
-const  dogData = { nombre, imagen, altura,  peso, anios}
+async function createDogs(nombre, imagen, altura,  peso, anios, temperament) {
+  const id = uuidv4();
+const  dogData = { id, nombre, imagen, altura,  peso, anios, temperament}
+console.log(dogData)
 
 
   try {

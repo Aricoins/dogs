@@ -6,6 +6,7 @@ import styles from './CreateDog.modules.css';
 import Nav from '../../Components/Nav';
 //import validation from "../CrearDog/validation"
 
+
 const nombreRegex = /^[^\d]+$/; // El nombre no puede incluir números
 const urlRegex = /^(ftp|http|https):\/\/[^\s]+$/; // Valida las URL que comienzan con ftp, http, o https, seguido por ://, y luego cualquier caracter que no sea un espacio en blanco
 const digito = /^\d+$/;  // Valida que el campo contenga solo números
@@ -191,7 +192,7 @@ const CreateDog = () => {
         // Enviar datos al servidor para crear un nuevo perro
         const { nombre, imagen, altura, peso, anios, temperament } = form;
       
-  
+  const id = 1000
         await axios.post('http://localhost:3001/post', { imagen, nombre, altura, peso, anios, temperament })
           .then((response) => {
             console.log(response);
