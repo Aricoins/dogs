@@ -6,6 +6,7 @@ import colores from "../colores";
 import Nav from "../../Components/Nav";
 
 
+
 const Onda = styled.div`
   position: absolute;
   top: 2%;
@@ -50,38 +51,47 @@ const Img = styled.img`
 background-color: ${colores.amarillo};
 width: 100%;
 `
-// ... (other imports)
 
 function Detail(props) {
   const { id } = useParams();
-  const [dog, setDog] = useState();
+  const [dog, setDog] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/dogs/${id}`).then(({ data }) => {
-      if (data && data[0]) {
-        setDog(data);
-      } else {
-        window.alert("No hay personajes con ese ID");
-      }
-    });
+    axios.get(`http://localhost:3001/dogs/${id}`)
+      .then(({ data }) => {
+        if (data) {
+          setDog(data);
+        } else {
+          window.alert("No hay personajes con ese ID");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        window.alert("Error fetching data");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [id]);
 
   return (
     <>
-      {dog && dog[0] && (
-        <Onda>
-          <Detalle>Nombre: {dog.nombre}</Detalle>
-          <Img src={dog.imagen} alt={dog[0].nombre} />
-          <Propiedades>Altura:</Propiedades>
-          {dog.altura}
-          <Propiedades>Peso:</Propiedades>
-          {dog.peso}
-          <Propiedades>Temperamento:</Propiedades>
-          {dog.temperament}
-          <Propiedades>Pronóstico de Vida:</Propiedades>
-          {dog.anios}
-        </Onda>
-      )}
+      <Onda>
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <>
+            <Detalle>Nombre: {dog.nombre}</Detalle>
+            <Img src={dog.imagen} alt={dog.nombre} />
+            <Propiedades>Altura: {dog.altura}</Propiedades>
+            <Propiedades>Peso: {dog.peso}</Propiedades>
+            <Propiedades>Temperamento: {dog.temperament}</Propiedades>
+            <Propiedades>Pronóstico de Vida: {dog.anios}</Propiedades>
+          </>
+        )}
+      </Onda>
+
       <Nav />
     </>
   );

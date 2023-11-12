@@ -353,9 +353,6 @@ const CreateDog = () => {
 </div> */}
 
       <Nav/>
-
-
-Convertimos form.temperament a un array antes de usar map
 {Array.isArray(form.temperament) && form.temperament.map((selectedTemp) => (
   <div style= {{width:"100%"}} key={selectedTemp}>
     {selectedTemp} {/* Aquí mostramos directamente el nombre del temperamento */}
