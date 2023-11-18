@@ -6,12 +6,13 @@ import colores from '../vistas/colores';
 const CardWrapper = styled.figure`
   width: 200px;
   height: 400px;
-  margin: 20px;
+  margin: 10px;
   display: flex;
   justify-content: center;
-  border: 2px solid ${colores.verde};
+  border: 5px solid ${colores.verde};
   background-color: ${colores.amarillo};
   border-radius: 10px;
+  box-shadow: 0em 1em 2em 0.5em black;
 `;
 
 const CardContent = styled.div`
@@ -23,9 +24,9 @@ const CardContent = styled.div`
 `;
 
 const ImageContainer = styled.h2`
-  width: 150px;
-  height: 200px;
-  display: flex;
+  width: 200px;
+  max-height: 200px;
+   display: flex;
   flex-direction: column;
   justify-content: center;
   transition: 1s;
@@ -34,7 +35,7 @@ const ImageContainer = styled.h2`
 
   img {
     width: 150px;
-    height: 200px;
+    height: 100px;
     border-radius: 10px;
   }
 
@@ -44,38 +45,23 @@ const ImageContainer = styled.h2`
 `;
 
 const StyledLink = styled(NavLink)`
-  color: ${colores.blanco};
-  text-decoration: none;
+  
+color: ${colores.marron};
+font-weight: bold;
+text-decoration: none;
   text-align: center;
   transition: 1s;
   opacity: 1;
   border-radius: 10px;
-  font-size: 20px;
+  font-size: 15px;
 
   :hover {
     color: ${colores.negro};
     cursor: pointer;
-    opacity: 1;
+    opacity: 0.9;
   }
 `;
 
-const Button = styled.button`
-  background-color: ${colores.rojo};
-  display: flex;
-  color: ${colores.blanco};
-  height: 80%;
-  width: 80%;
-  margin: 5%;
-  opacity: 1;
-  justify-content: center;
-  cursor: pointer;
-  border-radius: 10px;
-
-  :hover {
-    background-color: ${colores.melon};
-    color: ${colores.blanco};
-  }
-`;
 
 const SubHeading = styled.h6`
   color: ${colores.verde};
@@ -95,8 +81,10 @@ function Card({
     altura,
     peso,
     anios,
-  } = dog;
+    temperament
 
+  } = dog;
+console.log(dog)
   return (
     <CardWrapper>
       <CardContent>
@@ -108,6 +96,7 @@ function Card({
           <SubHeading>Altura: {altura} cm</SubHeading>
           <SubHeading>Peso: {peso} kg</SubHeading>
           <SubHeading>Años: {anios}</SubHeading>
+          <SubHeading>Temperamentos: {temperament}</SubHeading>
         </StyledLink>
       </CardContent>
     </CardWrapper>

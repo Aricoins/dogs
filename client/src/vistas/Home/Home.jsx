@@ -7,6 +7,8 @@ import SearchBar from '../../Components/SearchBar';
 import styled from 'styled-components';
 import imagen from "../Landing/icono.png";
 import colores from "../../vistas/colores"
+import { setPage, setTotalPages } from '../../redux/actions/paginationActions';
+
 
 const H2 = styled.h2`
 display:flex;
@@ -23,13 +25,16 @@ display: flex ;
 flex-direction: row;
 background-color: ${colores.amarillo};
 height: 8rem;
+align-items: right;
 
 `
 
 const Home = () => {
   const dispatch = useDispatch();
   const dogs = useSelector((state) => state.dogs);
-  
+
+
+
   useEffect(() => {
     dispatch(getDogs());
   }, [dispatch]);
@@ -41,6 +46,7 @@ const Home = () => {
               
     <SearchBar/>
     </Barra>
+
     <Nav/>
     
       <Cards dogs={dogs} />

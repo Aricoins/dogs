@@ -7,53 +7,50 @@ import { useHistory } from "react-router-dom";
 import Nav from "./Nav";
 
 const Barra = styled.nav`
+position: absolute;
 display: flex;
-flex-direction: row;
 padding: 1%;
 padding-bottom: 1%;
 border-radius: 10px;
 border-color: ${colores.marron};
 display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-content: center;
-  align-items: center; 
-  background-color: ${colores.amarillo};
-  top: 0%
+background-color: ${colores.amarillo};
+right:10px;
+top:32px;
 `
 
 const Input= styled.input`
 
 border-color: ${colores.verde};
-height: 3rem; 
-    color: ${colores.amarillo};
+ color: ${colores.amarillo};
     width: 60%;
     height: 2em;
     text-align: center;
     text-decoration: none;
-    font-size: 2rem;
+    font-size: 1rem;
     border-radius: 8%;
-    border: 0.08em solid black;
+    border: 0.2em solid ${colores.verde};
     transition-duration: 0.8s;
 `
 
 const Boton = styled.button`
-    background-color: ${colores.verde};
-    color: ${colores.amarillo};
+    background-color: ${colores.amarillo};
+    color: ${colores.verde};
     width: 30%;
     height: 2em;
     text-align: center;
     text-decoration: none;
-    font-size: 2rem;
+    font-size: 1rem;
     border-radius: 8%;
-    border: 0.08em solid black;
+    border: 0.2em solid ${colores.verde};
     transition-duration: 0.8s;
+    margin: 5px;
     cursor: pointer;
-       :hover{
-       background-color: white;
+       &:hover{
+       background-color: ${colores.verde};
         border-color: ${colores.verde};
-        border-bottom: #09090e;
-      color: #080000;
+        border-bottom: ${colores.marron};
+      color: ${colores.amarillo};
         cursor: pointer;
       }
 `
@@ -79,11 +76,16 @@ event.preventDefault();
     setResults(response.data);
     const firstResult = response.data[0];
 console.log(firstResult)
+alert (`Se encontró mascota con el nombre ${firstResult.name}`)
     // Redirect to the Detail component with the id as a parameter
     history.push(`/detail/${firstResult.id}`);
 
+
+
   } catch (error) {
     console.error("Error al buscar:", error);
+    console.log(error.message)
+    alert("No se encontraron resultados")
   }
 };
 
@@ -93,7 +95,7 @@ console.log(firstResult)
        <form onSubmit={handleSubmit}>
         <lavel htmlFor="buscar"></lavel>
         <Boton type="submit">Buscar</Boton>
-         <Input type='search' placeholder="por Palabra" name="buscar" value={input} onChange={handleChange} />
+         <Input type='search' placeholder="por raza" name="buscar" value={input} onChange={handleChange} />
         
                 
         </form>

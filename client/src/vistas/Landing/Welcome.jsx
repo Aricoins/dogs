@@ -15,12 +15,7 @@ const fadeInAnimation = keyframes`
   0% {
     opacity: 0;
   }
-  25% {
-    opacity: 0;
-  }
-  95% {
-    opacity: 50%;
-  }
+
   100% {
     opacity: 1;
   }
@@ -76,7 +71,7 @@ const TextOverlay = styled.div`
   color:  #d3d3d3;
   font-size: 2rem;
   font-weight: bold;
-  -webkit-text-stroke:#0d0b01 0.5px ;
+  -webkit-text-stroke:#0d0b01 2px ;
   @media only screen and (max-width: 700px) {
     /* Cambia la altura para dispositivos más pequeños */
     top: 10%;
@@ -87,14 +82,11 @@ const TextOverlay = styled.div`
     margin: 0;
   }
 
-  .fadeIn {
-    animation: ${fadeInAnimation} 0.3s backwards infinite;
-  }
 `;
 
 const Welcome = () => {
   const appPhrases = [
-    "lealtad","suavidad", "amistad", "inteligencia", "compañia"
+    "lealtad", "suavidad", "amistad", "inteligencia", "compañia", "bonhomía", "destreza", "nobleza", "fidelidad", "alegría"
   ];
 
   const [phraseIndex, setPhraseIndex] = useState(0);
@@ -129,12 +121,11 @@ const Welcome = () => {
         <h3>
          Descubrí la <Styles>{appPhrases[phraseIndex]}</Styles> de tu nueva
          <br/> mascota
-          <span className="fadeIn"></span>
+     
         </h3>
       </TextOverlay>
-      <Sound controls  >
-        <source type="audio/mpeg" src={audio} />  </Sound>
-     
+      <Sound controls  >     </Sound>
+
     </WelcomeWrapper>
     </>
   );

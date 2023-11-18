@@ -1,18 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from './Card';
 import styled from 'styled-components';
+import Paginado from './Paginado';
+import Filtros from './Filtros';
 
 const Background = styled.div`
   background-image: url("../src/assets/backgroundd.jpg");
   background-size: cover;
 `;
+const Footer = styled.footer`
 
+margin-bottom:200px ;
+`
 const CardContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  max-width: 50vh;
-  margin: 2px auto;
+  gap: 10px;
+  max-width: 40vh;
+  margin: auto;
+  margin-top: 1%;
   padding: 5%;
   height: auto;
   justify-content: center;
@@ -21,20 +27,45 @@ const CardContainer = styled.div`
     grid-template-columns: repeat(3, 1fr);
   }
 `;
+const Cards = ({ dogs }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const perPage = 8;
 
-export default function Cards(props) {
-  const { dogs } = props;
+  // Calculate the start and end indexes for the paginated dogs
+  const startIndex = (currentPage - 1) * perPage;
+  const endIndex = startIndex + perPage;
+  const paginatedDogs = dogs.slice(startIndex, endIndex);
 
-  const cardList = dogs.map((dog) => (
-    <Card key= {dog.id} dog={dog} />
+  // Create a list of Card components for the paginated dogs
+  const cardList = paginatedDogs.map((dog) => (
+    <Card key={dog.id} dog={dog} />
   ));
+
+  // Calculate the total number of pages
+  const totalPaginas = Math.ceil(dogs.length / perPage);
+
+  // Handle page change
+  const handlePaginaChange = (newPaginatedDogs) => {
+    setCurrentPage(newPaginatedDogs);
+  };
+
   return (
     <>
+    <Filtros />
       <Background>
         <CardContainer className='lista'>
           {cardList}
         </CardContainer>
+        <Paginado
+          totalPages={totalPaginas}
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+          handlePaginaChange={handlePaginaChange}
+        />
+        <Footer><div>foot</div></Footer>
       </Background>
     </>
   );
-}
+};
+
+export default Cards;

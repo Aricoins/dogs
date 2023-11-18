@@ -15,7 +15,7 @@ async function getTemps() {
 
         for (const tempName of tempsList) {
           // Verifica si el temp ya existe en la base de datos.
-          const existingTemp = await Dog.findOne({ where: { temperament: tempName } });
+          const existingTemp = await Temperament.findOne({ where: { name: tempName } });
     if (!existingTemp) {
       // Si no existe, créalo.
       await Temperament.create({ name: tempName });

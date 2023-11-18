@@ -4,12 +4,13 @@ require("dotenv").config()
 const axios = require("axios")
 const {Dog} = require("../db")
 const {Op} = require("sequelize")
+const {API_KEY} = process.env	
 
 
 const getDogs = async () => {
   try {
 
-let response = await axios(`https://api.thedogapi.com/v1/breeds?api_key={API_KEY}`)
+let response = await axios(`https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`)
   .then(data=>data)
   const apiDogs = response.data;
 
