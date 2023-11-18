@@ -8,7 +8,7 @@ export const APPLY_FILTERS = 'APPLY_FILTERS';
 export function getDogs() {
   return async function (dispatch) {
     try {
-      const response = await axios.get('http://localhost:3001/dogs');
+      const response = await axios.get('https://server-dogs-lr41.onrender.com/dogs');
       const data = response.data;
           dispatch({
         type: GET_DOGS,
@@ -25,7 +25,7 @@ export function getDogs() {
 export const getTemperaments = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get('http://localhost:3001/temps');
+      const response = await axios.get('https://server-dogs-lr41.onrender.com/temps');
       const temperaments = response.data.slice(0, 10); 
       dispatch({ type: GET_TEMPERAMENTS, 
         payload: temperaments });
