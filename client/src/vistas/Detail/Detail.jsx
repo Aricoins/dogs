@@ -58,7 +58,7 @@ function Detail(props) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/dogs/${id}`)
+    axios.get(`https://server-dogs-lr41.onrender.com/${id}`)
       .then(({ data }) => {
         if (data) {
           setDog(data);
