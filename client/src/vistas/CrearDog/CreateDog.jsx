@@ -193,7 +193,7 @@ const CreateDog = () => {
         const { nombre, imagen, altura, peso, anios, temperament } = form;
       
   const id = 1000
-        await axios.post('http://localhost:3001/post', { imagen, nombre, altura, peso, anios, temperament })
+        await axios.post('https://server-dogs-lr41.onrender.com/post', { imagen, nombre, altura, peso, anios, temperament })
           .then((response) => {
             console.log(response);
           });
