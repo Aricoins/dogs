@@ -71,7 +71,7 @@ function handleChange(event){
 const handleSubmit = async (event) => {
 event.preventDefault();
   try {
-    const response = await axios.get(`http://localhost:3001/dogs/name?nombre=${input}`);
+    const response = await axios.get(`https://server-dogs-lr41.onrender.com/dogs/name?nombre=${input}`);
     // Actualiza el estado con los resultados de la búsqueda
     setResults(response.data);
     const firstResult = response.data[0];
