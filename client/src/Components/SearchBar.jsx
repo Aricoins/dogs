@@ -4,7 +4,6 @@ import { useState } from "react";
 import colores from "../vistas/colores";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import Nav from "./Nav";
 
 const Barra = styled.nav`
 position: absolute;
@@ -56,17 +55,13 @@ const Boton = styled.button`
 `
 
 export default function SearchBar() {
-
   const history = useHistory();
   const [results, setResults] = useState("");
-const [input, setInput] = useState('')  ;
+  const [input, setInput] = useState('')  ;
 
-
-function handleChange(event){
- 
-  setInput(event.target.value)
+  function handleChange(event){
+   setInput(event.target.value)
 }
-
 
 const handleSubmit = async (event) => {
 event.preventDefault();
@@ -81,14 +76,12 @@ alert (`Se encontró mascota con el nombre ${firstResult.name}`)
     history.push(`/detail/${firstResult.id}`);
 
 
-
   } catch (error) {
     console.error("Error al buscar:", error);
     console.log(error.message)
     alert("No se encontraron resultados")
   }
 };
-
 
   return (<>
     <Barra>      
