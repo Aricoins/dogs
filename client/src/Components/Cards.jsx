@@ -3,14 +3,15 @@ import Card from './Card';
 import styled from 'styled-components';
 import Paginado from './Paginado';
 import Filtros from './Filtros';
+import colores from '../vistas/colores'
 
 const Background = styled.div`
-  background-image: url("../src/assets/backgroundd.jpg");
-  background-size: cover;
+//background-image: url("https://i.pinimg.com/originals/6c/6d/6a/6c6d6a4b0b0b0b0b0b0b0b0b0b0b0b0b.jpg");
 `;
-const Footer = styled.footer`
 
-margin-bottom:200px ;
+const Footer = styled.footer`
+  background-color: ${colores.amarillo};
+  height: 100px;
 `
 const CardContainer = styled.div`
   display: grid;
@@ -63,7 +64,7 @@ const Cards = ({ dogs }) => {
           currentPage={currentPage}
           handlePaginaChange={handlePaginaChange}
         />
-        <Footer><div>foot</div></Footer>
+        <Footer/>
       </Background>
     </>
   );
