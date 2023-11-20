@@ -38,7 +38,7 @@ const Filtros = () => {
   const dogs = useSelector((state) => state.dogs);
   const dispatch = useDispatch();
   const temperaments = useSelector((state) => state.temperaments);
-  const [selectedTemperament, setSelectedTemperament] = useState("Todos");
+  const [selectedTemperament, setSelectedTemperament] = useState("");
   const [filterType, setFilterType] = useState('all');
   const [sortType, setSortType] = useState('asc');
 
@@ -56,20 +56,22 @@ const Filtros = () => {
   };
 
   const handleApplyFilters = (e) => {
+    if (!selectedTemperament) {
+      dispatch(getDogs(dogs));
+      return;
+    }
+
     let filteredDogs = dogs.filter((dog) => {
       return dog.temperament && dog.temperament.includes(selectedTemperament);
     });
-    
-   if (sortType === 'asc') {
+  
+    if (sortType === 'asc') {
       filteredDogs.sort((a, b) => a.nombre.localeCompare(b.nombre));
     } else {
       filteredDogs.sort((a, b) => b.nombre.localeCompare(a.nombre));
     }
-
-    if (selectedTemperament === 'Todos') {
-      dispatch(applyFilters(dogs))}
-
-     dispatch(applyFilters(filteredDogs));
+  
+    dispatch(applyFilters(filteredDogs));
   };
 
     const handleOrigen = () => {
@@ -96,6 +98,7 @@ const Filtros = () => {
       <div>
         <SelectTemperamentos value={selectedTemperament} onChange={handleTemperamentChange}>
           <option value="">Todos</option>
+          console.log(document.option.value)
           {temperaments.map((temperamento) => (
             <option key={temperamento.ID} value={temperamento.name}>
               {temperamento.name}
@@ -103,7 +106,7 @@ const Filtros = () => {
           ))}
         </SelectTemperamentos>
         <BotonFiltro onClick={handleSortTypeChange}>
-  Cambiar Ordenamiento: {sortType === 'asc' ? 'A-Z' : 'Z-A'}
+  {sortType === 'asc' ? 'A-Z' : 'Z-A'}
 </BotonFiltro>
   <BotonFiltro onClick={handleApplyFilters}>Aplicar Filtros</BotonFiltro>
       </div>

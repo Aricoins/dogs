@@ -4,8 +4,7 @@ import Welcome from './vistas/Landing/Welcome';
 import Home from './vistas/Home/Home';
 import Detail from './vistas/Detail/Detail';
 import CreateDog from './vistas/CrearDog/CreateDog';
-import * as stylo from './App.css';
-import CrearDemo from "./vistas/CrearDog/CrearDemo"
+import About from './vistas/About/About';
 
 const App = () => {
   return (
@@ -23,6 +22,9 @@ const App = () => {
 
         {/* Form Page */}
         <Route path="/form" component={CreateDog} />
+
+        {/* About Page*/}
+        <Route path="/about" component={About} />
       </Switch>
     </Router>
   );

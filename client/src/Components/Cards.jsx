@@ -29,6 +29,7 @@ const CardContainer = styled.div`
 `;
 const Cards = ({ dogs }) => {
   const [currentPage, setCurrentPage] = useState(1);
+
   const perPage = 8;
 
   // Calculate the start and end indexes for the paginated dogs
