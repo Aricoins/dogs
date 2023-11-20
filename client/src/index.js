@@ -1,12 +1,24 @@
+import { createGlobalStyle } from 'styled-components';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { Provider } from 'react-redux';
 import store from '../src/redux/store';
+import colores from './vistas/colores';
+
+const GlobalStyles = createGlobalStyle`
+  body {
+     background-color: ${colores.marron};
+  }
+   ` 
+
+
+
 
 ReactDOM.render(
   <Provider store={store}>
+  <GlobalStyles />
     <App />
     </Provider>,
 
