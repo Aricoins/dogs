@@ -103,7 +103,7 @@ export default function Nav (props){
         <Navigator>
        <StyledLink to="/home"> <Botones> Inicio </Botones> </StyledLink>
        <StyledLink to="/form"> <Botones> Crear Mascota </Botones> </StyledLink>
-       <StyledLink to="/portfolio"> <Botones> About </Botones> </StyledLink>
+       <StyledLink to="/about"> <Botones> About </Botones> </StyledLink>
        </Navigator>
      </>
               )
