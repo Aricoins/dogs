@@ -104,14 +104,13 @@ function About (){
 <Contenedor>
 <Bloque>
      <H2> About Dogs App</H2>   
-     <Imagen src={imagenn} alt="imagen del desarrollador"/>
+     <Imagen src={imagenn} alt="logo"/>
        <Estilo >   
-       Desarrollé esta Single Page Application como proyecto individual en mi carrera como full stack developer. 
+       Desarrollé esta <i>single page application </i> como proyecto individual en mi aprendizaje de Full Stack Developer. 
        Acá se integran los principales lenguajes y tecnologías que me permiten programar bases de datos relacionales,
        servidores web, sitios y aplicaciones de vanguardia. <br/>
        </Estilo>
-       <p> <Link to="https://aegres.netlify.app/">Ariel G Rogel
-       <br/>
+       <p style={{justifyContent: "right"}}> <Link to="https://aegres.netlify.app/"> "Ariel G Rogel" <br/>
        Full Stack Developer</Link></p> 
        <Tecnologias>
           <h3>   Con Javascript, CSS, HTML, React, Router, Redux, 
