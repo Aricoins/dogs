@@ -37,8 +37,7 @@ async function searchDogs(nombre) {
 
     return [...APIdogs, ...dbDogs];
   } catch (error) {
-    // Manejar errores, por ejemplo, podrías lanzar una excepción o devolver un objeto de error
-    console.error('Error en la búsqueda de razas:', error);
+     console.error('Error en la búsqueda de razas:', error);
     throw new Error('Error en la búsqueda de razas');
   }
 }
