@@ -33,20 +33,20 @@ const Cards = ({ dogs }) => {
 
   const perPage = 8;
 
-  // Calculate the start and end indexes for the paginated dogs
+  // Calculate el inicio y los indices de las paginas
   const startIndex = (currentPage - 1) * perPage;
   const endIndex = startIndex + perPage;
   const paginatedDogs = dogs.slice(startIndex, endIndex);
 
-  // Create a list of Card components for the paginated dogs
+  // Mapea los dogs en cada CArd
   const cardList = paginatedDogs.map((dog) => (
     <Card key={dog.id} dog={dog} />
   ));
 
-  // Calculate the total number of pages
+  // Calcula el total de paginas en función de la cantidad de dogs a mostrar
   const totalPaginas = Math.ceil(dogs.length / perPage);
 
-  // Handle page change
+  // Maneja el cambio de pagina
   const handlePaginaChange = (newPaginatedDogs) => {
     setCurrentPage(newPaginatedDogs);
   };
