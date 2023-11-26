@@ -62,7 +62,7 @@ export default function SearchBar() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.get(`http://localhost:3001/dogs/name?nombre=${input}`);
+      const response = await axios.get(`https://server-dogs-lr41.onrender.com/dogs/name?nombre=${input}`);
       const resultados = response.data;
 
       // No necesitas guardar los resultados en el estado local
