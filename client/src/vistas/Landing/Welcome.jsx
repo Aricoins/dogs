@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
-import video from '../../assets/fondo.mp4'
+import video from '../../assets/dog.mp4'
 import audio from '../../assets/sonido.mp3';
 import Login from './Login';
 
