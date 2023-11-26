@@ -56,15 +56,19 @@ const Filtros = () => {
     // Lógica actualizada para ordenar por peso y actualizar el estado
     const sortedDogs = [...dogs].sort((a, b) => {
       const parseWeight = (weight) => {
-        const [minA, maxA] = a.peso.split('-').map((value) => parseFloat(value.trim()));
-        const [minB, maxB] = b.peso.split('-').map((value) => parseFloat(value.trim()));
+        if (typeof weight !== 'string') {
+          return 0;
+        }
+  
+        const [minA, maxA] = weight.split('-').map((value) => parseFloat(value.trim()));
+  
+        if (isNaN(minA) || isNaN(maxA)) {
+          return 0;
+        }
   
         const averageA = (minA + maxA) / 2;
-        const averageB = (minB + maxB) / 2;
   
-        const orderFactor = sortTypeW === 'asc' ? 1 : -1;
-  
-        return orderFactor * (averageA - averageB);
+        return averageA;
       };
   
       return parseWeight(a.peso) - parseWeight(b.peso);
@@ -73,6 +77,7 @@ const Filtros = () => {
     dispatch(applyFilters(sortedDogs));
     setSortTypeW((prevSortType) => (prevSortType === 'asc' ? 'desc' : 'asc'));
   };
+  
   
 
   
