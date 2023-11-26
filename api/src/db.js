@@ -10,7 +10,7 @@ const {
 
 
 const sequelize = new Sequelize(DB_URL, {
-  logging: false, // set to console.log to see the raw SQL queries
+  logging: false, 
   native: false, 
 dialectOptions: {
     ssl: {
@@ -44,6 +44,8 @@ const { Dog, Temperament } = sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
+
+
   // Relación muchos a muchos entre Dog y Temperament
   Dog.belongsToMany(Temperament, { through: 'DogTemperament' });
   Temperament.belongsToMany(Dog, { through: 'DogTemperament' });
@@ -52,3 +54,4 @@ module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
   conn: sequelize,     // para importart la conexión { conn } = require('./db.js');
 };
+

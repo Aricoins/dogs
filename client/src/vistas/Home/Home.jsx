@@ -42,7 +42,7 @@ const Home = () => {
   return (
     <>
     <Barra>
-         <H2><img style={{width:"30%", height:"140%"}}src={imagen} alt="hueso"/> Dogs App</H2>
+         <H2><img style={{width:"30%", height:"140%"}} src={imagen} alt="hueso"/> Dogs App</H2>
               
     <SearchBar/>
     </Barra>

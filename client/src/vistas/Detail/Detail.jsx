@@ -56,9 +56,9 @@ function Detail(props) {
   const { id } = useParams();
   const [dog, setDog] = useState({});
   const [loading, setLoading] = useState(true);
-const url = "https://server-dogs-lr41.onrender.com/dogs/"
+const url = "http://server-dogs-lr41.onrender.com/dogs/"
   useEffect(() => {
-    axios.get(url + `${id}`)
+    axios.get(`https://server-dogs-lr41.onrender.com/dogs/${id}`)
       .then(({ data }) => {
         if (data) {
           setDog(data);

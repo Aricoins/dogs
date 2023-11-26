@@ -1,38 +1,49 @@
 const axios = require("axios");
-//const { Temperament } = require("../db");
-const {Temperament, Dog} = require("../db");
+const { Temperament } = require("../db");
 
-// Función para obtener las razas de perros de la API.
 async function getTemps() {
   try {
-    const response = await axios.get(`https://api.thedogapi.com/v1/breeds`);
-    const dogs = response.data;
+    // Obtén todos los temperamentos existentes en la base de datos
+    const existingTemps = await Temperament.findAll();
+    const existingTempNames = existingTemps.map((temp) => temp.name);
 
+    // Realiza la llamada a la API
+    const response = await axios.get(`http://api.thedogapi.com/v1/breeds`, { timeout: 5000 });
+    const dogs = response.data; // Process only the first 50 dogs for example
 
     for (const dog of dogs) {
-      if (dog.temperament) { // Verifica si 'temperament' está definido y no es null
+      if (dog.temperament) {
+        // Verifica si 'temperament' está definido y no es null
         const tempsList = dog.temperament.split(",").map((temp) => temp.trim());
 
-        for (const tempName of tempsList) {
-          // Verifica si el temp ya existe en la base de datos.
-          const existingTemp = await Temperament.findOne({ where: { name: tempName } });
-    if (!existingTemp) {
-      // Si no existe, créalo.
-      await Temperament.create({ name: tempName });
-      console.log(`Temperamento "${tempName}" creado en la base de datos.`);
-    } else {
-      console.log(`El Tempramento "${tempName}" ya existe en la base de datos.`);
-    }
-     
-        }
-      }
-    }
+        // Filtra los temperamentos que ya existen en la base de datos
+        const existingTempsInAPI = tempsList.filter((tempName) => existingTempNames.includes(tempName));
 
+        // Log los temperamentos existentes en la base de datos
+        existingTempsInAPI.forEach((existingTemp) => {
+          console.log(`El Temperamento "${existingTemp}" ya existe en la base de datos.`);
+        });
+
+        // Filtra los temperamentos que aún no existen en la base de datos
+        const newTemps = tempsList.filter((tempName) => !existingTempNames.includes(tempName));
+
+        if (newTemps.length > 0) {
+          // Crea nuevos temperamentos en la base de datos
+          const createdTemps = await Temperament.bulkCreate(newTemps.map((tempName) => ({ name: tempName })));
+
+          console.log(`${createdTemps.length} nuevos temperamentos creados en la base de datos.`);
+        }
+      
+      }
+    
+    }
     const temperamento = await Temperament.findAll();
-    return temperamento
+    console.log(temperamento)
+    return temperamento;
+   
   } catch (error) {
     console.error("Error al obtener los temperamentos", error);
-    throw error; // Puedes lanzar el error para que sea manejado por el llamador de la función.
+    throw error;
   }
 }
 

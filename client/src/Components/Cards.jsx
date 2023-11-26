@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Card from './Card';
 import styled from 'styled-components';
 import Paginado from './Paginado';
@@ -28,7 +28,7 @@ const CardContainer = styled.div`
     grid-template-columns: repeat(3, 1fr);
   }
 `;
-const Cards = ({ dogs }) => {
+const Cards = ( {dogs} ) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const perPage = 8;

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import axios from 'axios';
 import colores from '../../vistas/colores';
 import styled from 'styled-components';
 import styles from './CreateDog.modules.css';
 import Nav from '../../Components/Nav';
+import { useSelector } from 'react-redux';
 //import validation from "../CrearDog/validation"
 
 
@@ -52,11 +53,6 @@ const validation = (form, setErrors, errors) => {
     errors.anios = "";
   }
 
-  if (!form.temperament || form.temperament.length === 0) {
-    errors.temperament = "Elige al menos un temperamento";
-  } else {
-    errors.temperament = "";
-  }
 };
 
 
@@ -148,7 +144,7 @@ const Boton = styled.button`
 
 
 const CreateDog = () => {
-
+const temperaments = useSelector((state) => state.temperaments);
  // const [temperaments, setTemperaments] = useState([]);
   const [form, setForm] = useState({
     nombre: "",
@@ -164,15 +160,22 @@ const CreateDog = () => {
     altura:"",
     peso: "",
     anios: "",
-    temperament: "",
+    temperament:"",
   });
-
+  const handleChangeSelect = (event) => {
+    const selectedOptions = Array.from(event.target.selectedOptions, (option) => option.value);
+    setForm((prevForm) => ({ ...prevForm, temperament: selectedOptions }));
+  };
   const handleChange = (event) => {
     const property = event.target.name;
     const value = event.target.value;
+
     setForm((prevForm) => {
       const updatedForm = { ...prevForm, [property]: value };
+
+      // Use the state temperaments instead of the value of the temperament field
       validation(updatedForm, (newErrors) => setErrors(newErrors), errors);
+
       return updatedForm;
     });
   };
@@ -186,31 +189,37 @@ const CreateDog = () => {
     // Verificar si hay algún error en el formulario
     const hasErrors = Object.values(errors).some((error) => error !== "");
   
-    if (!hasErrors)
-    {
+    if (!hasErrors) {
       try {
         // Enviar datos al servidor para crear un nuevo perro
         const { nombre, imagen, altura, peso, anios, temperament } = form;
-      
-  const id = 1000
-        await axios.post('https://server-dogs-lr41.onrender.com/post', { imagen, nombre, altura, peso, anios, temperament })
-          .then((response) => {
-            console.log(response);
-          });
+  
+        // Convert the array of temperaments to a comma-separated string
+        const temperamentString = temperament.join(', ');
+  
+        await axios.post('https://server-dogs-lr41.onrender.com/post', {
+          imagen,
+          nombre,
+          altura,
+          peso,
+          anios,
+          temperament: temperamentString,
+        });
   
         // Limpiar el formulario después de enviar
-        const resetForm = () => setForm({
-          nombre: "",
-          imagen: "",
-          altura: "",
-          peso: "",
-          anios: "",
-          temperament: "",
-        });
+        const resetForm = () =>
+          setForm({
+            nombre: "",
+            imagen: "",
+            altura: "",
+            peso: "",
+            anios: "",
+            temperament: [],
+          });
         resetForm();
   
         // Mostrar mensaje de éxito
-        alert(`La ${form.temperament} mascota ${form.nombre} se ha creado exitosamente`);
+        alert(`La ${temperamentString} mascota ${nombre} se ha creado exitosamente`);
       } catch (error) {
         console.error("Error al crear el perro:", error);
         alert("Hubo un error al crear el perro.", error);
@@ -220,6 +229,7 @@ const CreateDog = () => {
       alert("Por favor, corrige los errores antes de enviar el formulario.");
     }
   };
+  
   
   // const fetchTemperaments = async () => {
   //   try {
@@ -246,11 +256,8 @@ const CreateDog = () => {
   //   }
   // };
   
-  // const handleChangeSelect = (event) => {
-  //   const selectedOptions = Array.from(event.target.selectedOptions, (option) => option.value);
-  //   setForm((prevForm) => ({ ...prevForm, temperament: selectedOptions }));
-  // };
-  
+
+
   return (
     <>
     <Caja>
@@ -320,20 +327,32 @@ const CreateDog = () => {
             <span>{errors.anios ? <p>{errors.anios}</p> :<p style = {{color:`${colores.amarillo}`, backgroundColor: `${colores.amarillo}`}}>No hay errores</p>}</span> 
 
       </div>
-
       <div>
-    <label htmlFor="temperament">Temperamentos</label>
-      <input
-        type="text"
-        id="temperament"
-        name="temperament"
-        value={form.temperament}
-    onChange={handleChange}
-                />
-            <span>{errors.temperament ? <p>{errors.temperament}</p> :<p style = {{color:`${colores.amarillo}`, backgroundColor: `${colores.amarillo}`}}>No hay errores</p>}</span> 
-      </div>
-
-
+            <label htmlFor="temperament">Temperamentos:</label>
+            <select
+            style={{width: "100%"}}
+              id="temperament"
+              name="temperament"
+              value={form.temperament}
+              onChange={handleChangeSelect}
+              multiple
+            >
+              {temperaments.map((temp) => (
+                <option key={temp.ID} value={temp.name}>
+                  {temp.name}
+                </option>
+              ))}
+            </select>
+            <span>
+              {errors.temperament ? (
+                <p>{errors.temperament}</p>
+              ) : (
+                <p style={{ color: `${colores.amarillo}`, backgroundColor: `${colores.amarillo}` }}>
+                  No hay errores
+                </p>
+              )}
+            </span>
+          </div>
  { errors.altura || errors.peso || errors.anios  || errors.nombre || errors.imagen  || errors.temperament 
       ?
       null 
@@ -351,5 +370,4 @@ const CreateDog = () => {
  };
   
 export default CreateDog;
-
 

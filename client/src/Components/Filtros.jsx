@@ -50,10 +50,30 @@ const Filtros = () => {
   const handleTemperamentChange = (e) => {
     setSelectedTemperament(e.target.value);
   };
-  const handleSortTypeChange = () => {
-    const newSortType = sortType === 'asc' ? 'desc' : 'asc';
-    setSortType(newSortType);
+
+
+  const handleSortByWeight = () => {
+    // Lógica actualizada para ordenar por peso y actualizar el estado
+    const sortedDogs = [...dogs].sort((a, b) => {
+      const parseWeight = (weight) => {
+        const [min, max] = weight.split('-').map((value) => parseFloat(value.trim()));
+        return (min + max) / 2;
+      };
+
+      const weightA = parseWeight(a.peso);
+      const weightB = parseWeight(b.peso);
+
+      const orderFactor = sortType === 'asc' ? 1 : -1;
+
+      return orderFactor * (weightA - weightB);
+    });
+
+    dispatch(applyFilters(sortedDogs));
+    setSortType((prevSortType) => (prevSortType === 'asc' ? 'desc' : 'asc'));
   };
+
+  
+
 
   const handleApplyFilters = (e) => {
     if (!selectedTemperament) {
@@ -73,7 +93,19 @@ const Filtros = () => {
   
     dispatch(applyFilters(filteredDogs));
   };
+  const handleSortAZ = () => {
+    const newSortType = sortType === 'asc' ? 'desc' : 'asc';
+    setSortType(newSortType);
 
+    // Obtén la lista de perros actualmente filtrada
+    let filteredDogs = [...dogs];
+
+    // Ordena la lista según el tipo de orden actual
+    filteredDogs.sort((a, b) => (newSortType === 'asc' ? a.nombre.localeCompare(b.nombre) : b.nombre.localeCompare(a.nombre)));
+
+    // Aplica los filtros
+    dispatch(applyFilters(filteredDogs));
+  };
     const handleOrigen = () => {
       let filteredDogs = [];
       if (filterType === 'all') {
@@ -105,12 +137,23 @@ const Filtros = () => {
             </option>
           ))}
         </SelectTemperamentos>
-        <BotonFiltro onClick={handleSortTypeChange}>
-  {sortType === 'asc' ? 'A-Z' : 'Z-A'}
-</BotonFiltro>
-  <BotonFiltro onClick={handleApplyFilters}>Aplicar Filtros</BotonFiltro>
+          <BotonFiltro onClick={handleApplyFilters
+          }>Aplicar Filtros</BotonFiltro>
+  
+      
       </div>
       <hr />
+      <h5>Alfabético:</h5>
+      <BotonFiltro onClick={handleSortAZ}>
+        {sortType === 'asc' ? 'Z-A' : 'A-Z'}
+      </BotonFiltro>
+
+            <h5>Orden por Peso:</h5>
+      
+        <BotonFiltro onClick={handleSortByWeight}>
+          {sortType === 'asc' ? 'Menor a Mayor' : 'Mayor a Menor'}
+        </BotonFiltro>
+
       <h5> Origen: </h5>
            <SelectTemperamentos value={filterType} onChange={(e) => setFilterType(e.target.value)}>
           <option value="all">Todos</option>
