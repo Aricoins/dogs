@@ -42,7 +42,7 @@ const Filtros = () => {
   const [filterType, setFilterType] = useState('all');
   const [sortType, setSortType] = useState('asc');
   const [sortTypeW, setSortTypeW] = useState('asc');
-
+  
   useEffect(() => {
     dispatch(getTemperaments());
   }, [dispatch]);
@@ -56,21 +56,24 @@ const Filtros = () => {
     // Lógica actualizada para ordenar por peso y actualizar el estado
     const sortedDogs = [...dogs].sort((a, b) => {
       const parseWeight = (weight) => {
-        const [min, max] = weight.split('-').map((value) => parseFloat(value.trim()));
-        return (min + max) / 2;
+        const [minA, maxA] = a.peso.split('-').map((value) => parseFloat(value.trim()));
+        const [minB, maxB] = b.peso.split('-').map((value) => parseFloat(value.trim()));
+  
+        const averageA = (minA + maxA) / 2;
+        const averageB = (minB + maxB) / 2;
+  
+        const orderFactor = sortTypeW === 'asc' ? 1 : -1;
+  
+        return orderFactor * (averageA - averageB);
       };
-
-      const weightA = parseWeight(a.peso);
-      const weightB = parseWeight(b.peso);
-
-      const orderFactor = sortTypeW === 'asc' ? 1 : -1;
-
-      return orderFactor * (weightA - weightB);
+  
+      return parseWeight(a.peso) - parseWeight(b.peso);
     });
-
+  
     dispatch(applyFilters(sortedDogs));
     setSortTypeW((prevSortType) => (prevSortType === 'asc' ? 'desc' : 'asc'));
   };
+  
 
   
 
