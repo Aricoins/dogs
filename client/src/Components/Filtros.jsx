@@ -51,7 +51,6 @@ const Filtros = () => {
     setSelectedTemperament(e.target.value);
   };
 
-
   const handleSortByWeight = () => {
     // Lógica actualizada para ordenar por peso y actualizar el estado
     const sortedDogs = [...dogs].sort((a, b) => {
@@ -77,7 +76,6 @@ const Filtros = () => {
     dispatch(applyFilters(sortedDogs));
     setSortTypeW((prevSortType) => (prevSortType === 'asc' ? 'desc' : 'asc'));
   };
-  
   
 
   
