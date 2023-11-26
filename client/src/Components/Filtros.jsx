@@ -41,8 +41,8 @@ const Filtros = () => {
   const [selectedTemperament, setSelectedTemperament] = useState("");
   const [filterType, setFilterType] = useState('all');
   const [sortType, setSortType] = useState('asc');
+  const [sortTypeW, setSortTypeW] = useState('asc');
 
-  
   useEffect(() => {
     dispatch(getTemperaments());
   }, [dispatch]);
@@ -63,13 +63,13 @@ const Filtros = () => {
       const weightA = parseWeight(a.peso);
       const weightB = parseWeight(b.peso);
 
-      const orderFactor = sortType === 'asc' ? 1 : -1;
+      const orderFactor = sortTypeW === 'asc' ? 1 : -1;
 
       return orderFactor * (weightA - weightB);
     });
 
     dispatch(applyFilters(sortedDogs));
-    setSortType((prevSortType) => (prevSortType === 'asc' ? 'desc' : 'asc'));
+    setSortTypeW((prevSortType) => (prevSortType === 'asc' ? 'desc' : 'asc'));
   };
 
   
@@ -151,7 +151,7 @@ const Filtros = () => {
             <h5>Orden por Peso:</h5>
       
         <BotonFiltro onClick={handleSortByWeight}>
-          {sortType === 'asc' ? 'Menor a Mayor' : 'Mayor a Menor'}
+          {sortTypeW === 'asc' ? 'Menor a Mayor' : 'Mayor a Menor'}
         </BotonFiltro>
 
       <h5> Origen: </h5>
