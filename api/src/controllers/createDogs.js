@@ -11,16 +11,17 @@ async function createDogs(nombre, imagen, altura, peso, anios, temperament) {
     // Create a new dog in the database
     const newDog = await Dog.create(dogData);
 
-    // Create a new temperament in the database
-    const newTemperament = await Temperament.create({ name: temperament });
+   
+    // // Create a new temperament in the database
+    // const newTemperament = await Temperament.create({ name: temperament });
 
     // Associate the dog with the requested temperament
-    await newDog.addTemperament(newTemperament, { through: { selfGranted: false } });
+    await newDog.addTemperament(temperament, { through: { selfGranted: false } });
 
     // Find the dog with the associated temperament
     const result = await Dog.findAll({
       where: { id },
-      include: Temperament,
+      include: temperament,
     });
 
     return newDog;
