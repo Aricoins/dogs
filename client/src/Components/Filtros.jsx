@@ -50,37 +50,39 @@ const Filtros = () => {
   const handleTemperamentChange = (e) => {
     setSelectedTemperament(e.target.value);
   };
+//   <BotonFiltro onClick={handleSortByWeight}>
+//   {sortTypeW === 'asc' ? 'Menor a Mayor' : 'Mayor a Menor'}
+// </BotonFiltro>
 
-  const handleSortByWeight = () => {
-    // Lógica actualizada para ordenar por peso y actualizar el estado
-    const sortedDogs = [...dogs].sort((a, b) => {
-      const parseWeight = (weight) => {
-        if (typeof weight !== 'string') {
-          return 0;
-        }
-  
-        const [minA, maxA] = weight.split('-').map((value) => parseFloat(value.trim()));
-  
-        if (isNaN(minA) || isNaN(maxA)) {
-          return 0;
-        }
-  
-        const averageA = (minA + maxA) / 2;
-  
-        return averageA;
-      };
-  
-      return parseWeight(a.peso) - parseWeight(b.peso);
-    });
-  
-    dispatch(applyFilters(sortedDogs));
-    setSortTypeW((prevSortType) => (prevSortType === 'asc' ? 'desc' : 'asc'));
-  };
-  
+const handleSortByWeight = () => {
+  // Lógica actualizada para ordenar por peso y actualizar el estado
+  const sortedDogs = [...dogs].sort((a, b) => {
+    const parseWeight = (weight) => {
+      if (typeof weight !== 'string') {
+        return 0;
+      }
 
-  
+      const [minA, maxA] = weight.split('-').map((value) => parseFloat(value.trim()));
+      if (isNaN(minA) || isNaN(maxA)) {
+        return 0;
+      }
 
+      const averageA = (minA + maxA) / 2;
 
+      return averageA;
+    };
+
+    // Cambia el orden según el estado actual
+    const orderMultiplier = sortTypeW === 'Mayor a Menor' ? 1 : -1;
+
+    return (parseWeight(a.peso) - parseWeight(b.peso)) * orderMultiplier;
+  });
+
+  dispatch(applyFilters(sortedDogs));
+  setSortTypeW((prevSortType) => (prevSortType === 'Mayor a Menor' ? 'Menor a Mayor' : 'Mayor a Menor'));
+};
+
+ 
   const handleApplyFilters = (e) => {
     if (!selectedTemperament) {
       dispatch(getDogs(dogs));
@@ -127,17 +129,13 @@ const Filtros = () => {
   
       dispatch(applyFilters(filteredDogs));
     };
-   
-
-
-  return (
+   return (
     <FiltrosContainer>
       <h5>Temperamento:</h5>
       <div>
         <SelectTemperamentos value={selectedTemperament} onChange={handleTemperamentChange}>
           <option value="">Todos</option>
-          console.log(document.option.value)
-          {temperaments.map((temperamento) => (
+             {temperaments.map((temperamento) => (
             <option key={temperamento.ID} value={temperamento.name}>
               {temperamento.name}
             </option>
@@ -157,7 +155,7 @@ const Filtros = () => {
             <h5>Orden por Peso:</h5>
       
         <BotonFiltro onClick={handleSortByWeight}>
-          {sortTypeW === 'asc' ? 'Menor a Mayor' : 'Mayor a Menor'}
+          {sortTypeW === 'Mayor a Menor' ? 'Menor a Mayor' : 'Mayor a Menor'}
         </BotonFiltro>
 
       <h5> Origen: </h5>
