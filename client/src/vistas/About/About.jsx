@@ -111,8 +111,8 @@ function About (){
        servidores web, sitios y aplicaciones de vanguardia. <br/>
        </Estilo>
        <p style={{justifyContent: "right", textDecoration: "none", 
-       cursor: "pointer" }}> <Link  style={{textDecoration:'none'}}to="https://portfolio-dmao.vercel.app/"> Ariel G Rogel <br/>
-       Full Stack Developer</Link></p> 
+       cursor: "pointer" }}> <a href="https://portfolio-dmao.vercel.app/"> Ariel G Rogel <br/>
+       Full Stack Developer</a></p> 
        <Tecnologias>
           <h3>   Con Javascript, CSS, HTML, React, Router, Redux, 
          <br/> Express, Postgress, Sequelize & MySQL</h3>

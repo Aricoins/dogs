@@ -230,31 +230,7 @@ const temperaments = useSelector((state) => state.temperaments);
     }
   };
   
-  
-  // const fetchTemperaments = async () => {
-  //   try {
-  //     const response = await axios.get('http://localhost:3001/temps');
-  //     setTemperaments(response.data);
-  //   } catch (error) {
-  //     console.error('Error al obtener los temperamentos:', error);
-  //     return [];
-  //   }
-  // };
 
-  // const handleAddTemperamentClick = () => {
-  //   // Verificar que haya al menos un temperamento seleccionado
-  //   if (form.temperament.length > 0) {
-  //     setForm((prevForm) => {
-  //       // Realizar la lógica para agregar al formulario aquí
-  //       const updatedForm = { ...prevForm, temperament: [...prevForm.temperament] };
-  //       // Aquí puedes realizar más lógica si es necesario
-  //       return updatedForm;
-  //     });
-  //   } else {
-  //     // Manejar el caso en el que no se haya seleccionado ningún temperamento
-  //     console.warn("Por favor, selecciona al menos un temperamento antes de agregar al formulario.");
-  //   }
-  // };
   
 
 
