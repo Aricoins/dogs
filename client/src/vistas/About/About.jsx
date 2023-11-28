@@ -111,7 +111,7 @@ function About (){
        servidores web, sitios y aplicaciones de vanguardia. <br/>
        </Estilo>
        <p style={{justifyContent: "right", textDecoration: "none", 
-       cursor: "pointer" }}> <Link to="https://aegres.netlify.app/"> Ariel G Rogel <br/>
+       cursor: "pointer" }}> <Link  style={{textDecoration:'none'}}to="https://portfolio-dmao.vercel.app/"> Ariel G Rogel <br/>
        Full Stack Developer</Link></p> 
        <Tecnologias>
           <h3>   Con Javascript, CSS, HTML, React, Router, Redux, 
