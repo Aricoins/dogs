@@ -93,8 +93,8 @@ console.log(dog)
           <ImageContainer>
             <img src={imagen} alt={`Dog ${nombre}`} />
           </ImageContainer>
-          <SubHeading>Altura: {altura} cm</SubHeading>
-          <SubHeading>Peso: {peso} kg</SubHeading>
+          <SubHeading>Altura: {altura}</SubHeading>
+          <SubHeading>Peso: {peso} </SubHeading>
           <SubHeading>Años: {anios}</SubHeading>
           <SubHeading>Temperamentos: {temperament}</SubHeading>
         </StyledLink>
