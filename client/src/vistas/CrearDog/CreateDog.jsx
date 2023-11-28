@@ -194,8 +194,7 @@ const temperaments = useSelector((state) => state.temperaments);
         // Enviar datos al servidor para crear un nuevo perro
         const { nombre, imagen, altura, peso, anios, temperament } = form;
   
-        // Convert the array of temperaments to a comma-separated string
-        const temperamentString = temperament.join(', ');
+ 
   
         await axios.post('https://server-dogs-lr41.onrender.com/post', {
           imagen,
@@ -203,7 +202,7 @@ const temperaments = useSelector((state) => state.temperaments);
           altura,
           peso,
           anios,
-          temperament: temperamentString,
+          temperament,
         });
   
         // Limpiar el formulario después de enviar
