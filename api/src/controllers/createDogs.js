@@ -12,18 +12,14 @@ async function createDogs(nombre, imagen, altura, peso, anios, temperament) {
     // Crear un nuevo perro en la base de datos
     const newDog = await Dog.create(dogData);
 
-    // Crear un nuevo temperamento en la base de datos
-    const newTemperament = await Temperament.create({ name: temperament });
+    // // Si no existe, crear un nuevo temperamento en la base de datos
 
-    // Asociar el perro con el temperamento solicitado
-    await newDog.addTemperament(newTemperament, { through: { selfGranted: false } });
+    // const newTemperament = await Temperament.create({ name: temperament });
 
-    // Buscar el perro con el temperamento asociado
-    const result = await Dog.findAll({
-      where: { id },
-      include: Temperament,
-    });
+    // Asociar el perro con el temperamento solicitado /autoconcedido
+    await newDog.addTemperament(temperament, { through: { selfGranted: false } });
 
+ 
     return newDog;
   } catch (error) {
     throw error; // Lanzar cualquier error que ocurra al invocar la función
