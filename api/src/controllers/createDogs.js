@@ -13,7 +13,7 @@ async function createDogs(nombre, imagen, altura, peso, anios, temperament) {
     const newDog = await Dog.create(dogData);
 
     // Si no existe, crear un nuevo temperamento en la base de datos
-    cconsole.log(temperament)
+    const primerT = temeperament[0]
     // Asociar el perro con el temperamento solicitado
     await newDog.addTemperament(temperament, { through: { selfGranted: false } });
 
