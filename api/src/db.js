@@ -8,17 +8,26 @@ const {
   DB_USER, DB_PASSWORD, DB_HOST, DB_URL
 } = process.env;
 
+/*Conexion local*/
+// const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/dogs`, {
+//   logging: false, 
+//   native: false, 
+//   })
 
+
+
+/*Conexion deploy*/
 const sequelize = new Sequelize(DB_URL, {
   logging: false, 
   native: false, 
-dialectOptions: {
+  dialectOptions: {
     ssl: {
       require: true,
       rejectUnauthorized: false
     }
   }  
 });
+
 const basename = path.basename(__filename);
 
 

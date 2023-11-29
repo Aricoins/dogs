@@ -3,7 +3,6 @@ import React from "react";
 import { useState } from "react";
 import colores from "../vistas/colores";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { applyFilters } from "../redux/actions/dogsActions";
 

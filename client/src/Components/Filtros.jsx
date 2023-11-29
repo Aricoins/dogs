@@ -42,93 +42,93 @@ const Filtros = () => {
   const [filterType, setFilterType] = useState('all');
   const [sortType, setSortType] = useState('asc');
   const [sortTypeW, setSortTypeW] = useState('asc');
-  
-  useEffect(() => {
-    dispatch(getTemperaments());
-  }, [dispatch]);
+          
+          useEffect(() => {
+            dispatch(getTemperaments());
+          }, [dispatch]);
 
-  const handleTemperamentChange = (e) => {
-    setSelectedTemperament(e.target.value);
-  };
-//   <BotonFiltro onClick={handleSortByWeight}>
-//   {sortTypeW === 'asc' ? 'Menor a Mayor' : 'Mayor a Menor'}
-// </BotonFiltro>
+          const handleTemperamentChange = (e) => {
+            setSelectedTemperament(e.target.value);
+          };
 
-const handleSortByWeight = () => {
-  // Lógica actualizada para ordenar por peso y actualizar el estado
-  const sortedDogs = [...dogs].sort((a, b) => {
-    const parseWeight = (weight) => {
-      if (typeof weight !== 'string') {
-        return 0;
-      }
 
-      const [minA, maxA] = weight.split('-').map((value) => parseFloat(value.trim()));
-      if (isNaN(minA) || isNaN(maxA)) {
-        return 0;
-      }
+            const handleSortByWeight = () => {
+              // Lógica actualizada para ordenar por peso y actualizar el estado
+              const sortedDogs = [...dogs].sort((a, b) => {
+                const parseWeight = (weight) => {
+                  if (typeof weight !== 'string') {
+                    return 0;
+                  }
 
-      const averageA = (minA + maxA) / 2;
+                  const [minA, maxA] = weight.split('-').map((value) => parseFloat(value.trim()));
+                  if (isNaN(minA) || isNaN(maxA)) {
+                    return 0;
+                  }
 
-      return averageA;
-    };
+                  const averageA = (minA + maxA) / 2;
 
-    // Cambia el orden según el estado actual
-    const orderMultiplier = sortTypeW === 'Mayor a Menor' ? 1 : -1;
+                  return averageA;
+                };
 
-    return (parseWeight(a.peso) - parseWeight(b.peso)) * orderMultiplier;
-  });
+                // Cambia el orden según el estado actual
+                const orderMultiplier = sortTypeW === 'Mayor a Menor' ? 1 : -1;
 
-  dispatch(applyFilters(sortedDogs));
-  setSortTypeW((prevSortType) => (prevSortType === 'Mayor a Menor' ? 'Menor a Mayor' : 'Mayor a Menor'));
-};
+                return (parseWeight(a.peso) - parseWeight(b.peso)) * orderMultiplier;
+              });
 
+              dispatch(applyFilters(sortedDogs));
+              setSortTypeW((prevSortType) => (prevSortType === 'Mayor a Menor' ? 'Menor a Mayor' : 'Mayor a Menor'));
+            };
  
-  const handleApplyFilters = (e) => {
-    if (!selectedTemperament) {
-      dispatch(getDogs(dogs));
-      return;
-    }
+          const handleApplyFilters = (e) => {
+          if (!selectedTemperament) {
+          dispatch(getDogs(dogs));
+          return;
+          }
 
-    let filteredDogs = dogs.filter((dog) => {
-      return dog.temperament && dog.temperament.includes(selectedTemperament);
-    });
-  
-    if (sortType === 'asc') {
-      filteredDogs.sort((a, b) => a.nombre.localeCompare(b.nombre));
-    } else {
-      filteredDogs.sort((a, b) => b.nombre.localeCompare(a.nombre));
-    }
-  
-    dispatch(applyFilters(filteredDogs));
-  };
-  const handleSortAZ = () => {
-    const newSortType = sortType === 'asc' ? 'desc' : 'asc';
-    setSortType(newSortType);
+          let filteredDogs = dogs.filter((dog) => {
+          return dog.temperament && dog.temperament.includes(selectedTemperament);
+          });
 
-    // Obtén la lista de perros actualmente filtrada
-    let filteredDogs = [...dogs];
+          if (sortType === 'asc') {
+          filteredDogs.sort((a, b) => a.nombre.localeCompare(b.nombre));
+          } else {
+          filteredDogs.sort((a, b) => b.nombre.localeCompare(a.nombre));
+          }
 
-    // Ordena la lista según el tipo de orden actual
-    filteredDogs.sort((a, b) => (newSortType === 'asc' ? a.nombre.localeCompare(b.nombre) : b.nombre.localeCompare(a.nombre)));
+          dispatch(applyFilters(filteredDogs));
+          };
 
-    // Aplica los filtros
-    dispatch(applyFilters(filteredDogs));
-  };
-    const handleOrigen = () => {
-      let filteredDogs = [];
-      if (filterType === 'all') {
-        // Filtrar todos los perros
-       dispatch(getDogs(dogs))
-      } else if (filterType === 'api') {
-        // Filtrar perros de la API
-        filteredDogs = dogs.filter((dog) => dog.id < 300);
-      } else if (filterType === 'uuid') {
-        // Filtrar perros de la DB
-            filteredDogs = dogs.filter((dog) => dog.id.length > 6 )
-      }
-  
-      dispatch(applyFilters(filteredDogs));
-    };
+          const handleSortAZ = () => {
+          const newSortType = sortType === 'asc' ? 'desc' : 'asc';
+          setSortType(newSortType);
+
+          // Obtén la lista de perros actualmente filtrada
+          let filteredDogs = [...dogs];
+
+          // Ordena la lista según el tipo de orden actual
+          filteredDogs.sort((a, b) => (newSortType === 'asc' ? a.nombre.localeCompare(b.nombre) : b.nombre.localeCompare(a.nombre)));
+
+          // Aplica los filtros
+          dispatch(applyFilters(filteredDogs));
+          };
+
+          const handleOrigen = () => {
+          let filteredDogs = [];
+          if (filterType === 'all') {
+          // Filtrar todos los perros
+          dispatch(getDogs(dogs))
+          } else if (filterType === 'api') {
+          // Filtrar perros de la API
+          filteredDogs = dogs.filter((dog) => dog.id < 300);
+          } else if (filterType === 'uuid') {
+          // Filtrar perros de la DB
+              filteredDogs = dogs.filter((dog) => dog.id.length > 6 )
+          }
+
+          dispatch(applyFilters(filteredDogs));
+          };
+
    return (
     <FiltrosContainer>
       <h5>Temperamento:</h5>
@@ -142,18 +142,15 @@ const handleSortByWeight = () => {
           ))}
         </SelectTemperamentos>
           <BotonFiltro onClick={handleApplyFilters
-          }>Aplicar Filtros</BotonFiltro>
-  
-      
-      </div>
+          }>Aplicar Filtro</BotonFiltro>
+    </div>
       <hr />
       <h5>Alfabético:</h5>
       <BotonFiltro onClick={handleSortAZ}>
         {sortType === 'asc' ? 'Z-A' : 'A-Z'}
       </BotonFiltro>
 
-            <h5>Orden por Peso:</h5>
-      
+            <h5>Por Peso:</h5>
         <BotonFiltro onClick={handleSortByWeight}>
           {sortTypeW === 'Mayor a Menor' ? 'Menor a Mayor' : 'Mayor a Menor'}
         </BotonFiltro>
@@ -165,7 +162,7 @@ const handleSortByWeight = () => {
           <option value="uuid">Dogs DB</option>
         </SelectTemperamentos>
         
-        <BotonFiltro onClick={handleOrigen}>Aplicar Filtros</BotonFiltro>
+        <BotonFiltro onClick={handleOrigen}>Aplicar Filtro</BotonFiltro>
   
     </FiltrosContainer>
  

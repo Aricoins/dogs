@@ -99,9 +99,9 @@ export default function Nav (props){
 
     return(
         <>
-      
-        <Navigator>
+            <Navigator>
        <StyledLink to="/"> <Botones> Inicio </Botones> </StyledLink>
+       <StyledLink to="/home"> <Botones> Dogs App </Botones> </StyledLink>
        <StyledLink to="/form"> <Botones> Crear Mascota </Botones> </StyledLink>
        <StyledLink to="/about"> <Botones> About </Botones> </StyledLink>
        </Navigator>

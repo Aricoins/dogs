@@ -3,22 +3,22 @@ const { v4: uuidv4 } = require('uuid');
 
 module.exports = (sequelize) => {
   // Modelo para Dogs
-  const Dog = sequelize.define('Dog', {
-    id: {
-      type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
-        allowNull: false,
-      primaryKey: true,
-    },
+    const Dog = sequelize.define('Dog', {
+      id: {
+              type: DataTypes.UUID,
+              defaultValue: DataTypes.UUIDV4,
+              allowNull: false,
+              primaryKey: true,
+          },
 
     nombre: {
-      type: DataTypes.STRING,
-      allowNull: true,
-      validate: {
-        len: {
-          args: [2, 20],
-          msg: "El nombre debe tener entre 2 y 20 caracteres",
-        },
+                type: DataTypes.STRING,
+                allowNull: true,
+                validate: {
+                len: {
+                args: [2, 20],
+                msg: "El nombre debe tener entre 2 y 20 caracteres",
+                },
       },
     },
     imagen: {

@@ -1,5 +1,6 @@
 const axios = require("axios");
 const { Temperament } = require("../db");
+const {API_KEY} = process.env	// API_KEY = "b0b3b0d9-8b7a-4b9e-9b0f-5b9b6b6b6b6b";
 
 async function getTemps() {
   try {
@@ -8,7 +9,7 @@ async function getTemps() {
     const existingTempNames = existingTemps.map((temp) => temp.name);
 
     // Realiza la llamada a la API
-    const response = await axios.get(`http://api.thedogapi.com/v1/breeds`, { timeout: 5000 });
+    const response = await axios.get(`http://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`, { timeout: 5000 });
     const dogs = response.data; // Process only the first 50 dogs for example
 
     for (const dog of dogs) {

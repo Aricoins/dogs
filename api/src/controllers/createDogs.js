@@ -1,4 +1,4 @@
-const { Dog, Temperament } = require('../db');
+const { Dog, Temperament, DogTemperament } = require('../db');
 const { v4: uuidv4 } = require('uuid');
 
 async function createDogs(nombre, imagen, altura, peso, anios, temperament) {
@@ -12,10 +12,12 @@ async function createDogs(nombre, imagen, altura, peso, anios, temperament) {
     // Crear un nuevo perro en la base de datos
     const newDog = await Dog.create(dogData);
 
-    // Si no existe, crear un nuevo temperamento en la base de datos
-    const primerT = temeperament[0]
-    // Asociar el perro con el temperamento solicitado
-    await newDog.addTemperament(temperament, { through: { selfGranted: false } });
+    // Buscar el temperamento en la base de datos
+    const temperamento = await Temperament.findOne({
+      where: { name: temperament },
+    });
+      // Asociar el perro con el temperamento solicitado
+    await newDog.addTemperament(temperamento.id, DogTemperament);
 
     // Buscar el perro con el temperamento asociado
     const result = await Dog.findAll({

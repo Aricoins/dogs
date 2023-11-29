@@ -145,7 +145,8 @@ const Boton = styled.button`
 
 const CreateDog = () => {
 const temperaments = useSelector((state) => state.temperaments);
- // const [temperaments, setTemperaments] = useState([]);
+const [selectedTemperaments, setSelectedTemperaments] = useState([]);
+
   const [form, setForm] = useState({
     nombre: "",
     imagen: "",
@@ -162,10 +163,14 @@ const temperaments = useSelector((state) => state.temperaments);
     anios: "",
     temperament:"",
   });
+
   const handleChangeSelect = (event) => {
     const selectedOptions = Array.from(event.target.selectedOptions, (option) => option.value);
     setForm((prevForm) => ({ ...prevForm, temperament: selectedOptions }));
+    setSelectedTemperaments(selectedOptions);
   };
+  
+  
   const handleChange = (event) => {
     const property = event.target.name;
     const value = event.target.value;
@@ -202,7 +207,7 @@ const temperaments = useSelector((state) => state.temperaments);
           altura,
           peso,
           anios,
-          temperament,
+          temperament: temperament.join(", "),
         });
   
         // Limpiar el formulario después de enviar
@@ -213,12 +218,13 @@ const temperaments = useSelector((state) => state.temperaments);
             altura: "",
             peso: "",
             anios: "",
-            temperament: [],
+            temperament: "",
           });
         resetForm();
   
         // Mostrar mensaje de éxito
-        alert(`La ${temperamentString} mascota ${nombre} se ha creado exitosamente`);
+        alert(`La mascota ${nombre} con temperamento ${selectedTemperaments.join(", ")} se ha creado exitosamente`);
+
       } catch (error) {
         console.error("Error al crear el perro:", error);
         alert("Hubo un error al crear el perro.", error);
@@ -229,112 +235,110 @@ const temperaments = useSelector((state) => state.temperaments);
     }
   };
   
-
-  
-
-
   return (
     <>
     <Caja>
         <h1>Creá tu Mascota</h1>
             <form onSubmit={handleFormSubmit}>
-      <div>  
-          <label htmlFor="nombre">Nombre:</label>
-      <input   name="nombre"
-      type="text"
-      id="nombre"
-      value={form.nombre}
-      onChange={handleChange}
-      className={errors.nombre ? styles.mal : styles.bien}
-        />
-      <span>{errors.nombre ? <p>{errors.nombre}</p> :<p style = {{color:`${colores.amarillo}`, backgroundColor: `${colores.amarillo}`}}>No hay errores</p>}</span> 
-      </div>
-      <div>
-            <label htmlFor="imagen">Imagen (URL):</label>
-            <input
-      type="url"
-      id="imagen"
-      name="imagen"
-      value={form.imagen}
-      onChange={handleChange}
-      className={errors.imagen ? styles.mal : styles.bien}
-    />
-      <span>{errors.imagen ? <p>{errors.imagen}</p> :<p style = {{color:`${colores.amarillo}`, backgroundColor: `${colores.amarillo}`}}>No hay errores</p>}</span> 
-      </div>
-
-      <div> <label htmlFor="altura">Altura:</label>
-      <input
-        type="text"
-        id="altura"
-        name="altura"
-        value={form.altura}
-        placeholder="centímetros"
-        onChange={handleChange}
-          className={errors.nombre ? styles.mal : styles.bien}
-      
-      />
-        <span>{errors.altura ? <p>{errors.altura}</p> :<p style = {{color:`${colores.amarillo}`, backgroundColor: `${colores.amarillo}`}}>No hay errores</p>}</span> 
-                    
-      </div>   
-      <div> 
-      <label htmlFor="peso">Peso:</label>
-      <input
-        type="text"
-        id="peso"
-        name="peso"
-        value={form.peso}
-        placeholder="kilogramos"
-        onChange={handleChange}
-      />
-      
-      <span>{errors.peso ? <p>{errors.peso}</p> :<p style = {{color:`${colores.amarillo}`, backgroundColor: `${colores.amarillo}`}}>No hay errores</p>}</span> 
-
-      </div>
-      <div>
-            <label htmlFor="anios">Años de Vida:</label>
-      <input
-        type="text"
-        id="anios"
-        name="anios"
-        value={form.anios}
-    onChange={handleChange}
+                <div>   <label htmlFor="nombre">Nombre:</label>
+                <input   name="nombre"
+                type="text"
+                id="nombre"
+                value={form.nombre}
+                onChange={handleChange}
+                className={errors.nombre ? styles.mal : styles.bien}
                 />
-            <span>{errors.anios ? <p>{errors.anios}</p> :<p style = {{color:`${colores.amarillo}`, backgroundColor: `${colores.amarillo}`}}>No hay errores</p>}</span> 
+                <span>{errors.nombre ? <p>{errors.nombre}</p> :<p style = {{color:`${colores.amarillo}`, backgroundColor: `${colores.amarillo}`}}>No hay errores</p>}</span> 
+                </div>
+                <div> <label htmlFor="imagen">Imagen (URL):</label>
+                <input
+                type="url"
+                id="imagen"
+                name="imagen"
+                value={form.imagen}
+                onChange={handleChange}
+                className={errors.imagen ? styles.mal : styles.bien}
+                />
+                <span>{errors.imagen ? <p>{errors.imagen}</p> :<p style = {{color:`${colores.amarillo}`, backgroundColor: `${colores.amarillo}`}}>No hay errores</p>}</span> 
+                </div>
+                <div> <label htmlFor="altura">Altura:</label>
+                <input
+                type="text"
+                id="altura"
+                name="altura"
+                value={form.altura}
+                placeholder="centímetros"
+                onChange={handleChange}
+                className={errors.nombre ? styles.mal : styles.bien}
 
-      </div>
-      <div>
-            <label htmlFor="temperament">Temperamentos:</label>
-            <select
-            style={{width: "100%"}}
-              id="temperament"
-              name="temperament"
-              value={form.temperament}
-              onChange={handleChangeSelect}
-              multiple
-            >
-              {temperaments.map((temp) => (
+                />
+                <span>{errors.altura ? <p>{errors.altura}</p> :<p style = {{color:`${colores.amarillo}`, backgroundColor: `${colores.amarillo}`}}>No hay errores</p>}</span> 
+
+                </div>   
+                <div>  <label htmlFor="peso">Peso:</label>
+                <input
+                type="text"
+                id="peso"
+                name="peso"
+                value={form.peso}
+                placeholder="kilogramos"
+                onChange={handleChange}
+                />
+
+                <span>{errors.peso ? <p>{errors.peso}</p> :<p style = {{color:`${colores.amarillo}`, backgroundColor: `${colores.amarillo}`}}>No hay errores</p>}</span> 
+
+                </div>
+                <div> <label htmlFor="anios">Años de Vida:</label>
+                <input
+                type="text"
+                id="anios"
+                name="anios"
+                value={form.anios}
+                onChange={handleChange}
+                />
+                <span>{errors.anios ? <p>{errors.anios}</p> :<p style = {{color:`${colores.amarillo}`, backgroundColor: `${colores.amarillo}`}}>No hay errores</p>}</span> 
+
+                </div>
+                <div><label htmlFor="temperament">Temperamentos:</label>
+                <select
+                style={{ width: "100%" }}
+                id="temperament"
+                name="temperament"
+                value={Array.isArray(form.temperament) ? form.temperament : []}
+                onChange={handleChangeSelect}
+                multiple
+                >
+
+                {temperaments.map((temp) => (
                 <option key={temp.ID} value={temp.name}>
-                  {temp.name}
+                {temp.name}
                 </option>
-              ))}
-            </select>
-            <span>
-              {errors.temperament ? (
+                ))}
+                </select>
+
+                <div>
+                <h5>{selectedTemperaments}</h5>
+                </div>
+
+                <span>
+                {errors.temperament ? (
                 <p>{errors.temperament}</p>
-              ) : (
+                ) : (
                 <p style={{ color: `${colores.amarillo}`, backgroundColor: `${colores.amarillo}` }}>
-                  No hay errores
+                No hay errores
                 </p>
-              )}
-            </span>
-          </div>
- { errors.altura || errors.peso || errors.anios  || errors.nombre || errors.imagen  || errors.temperament 
-      ?
-      null 
-      :
-       <Boton type="submit" onSubmit={handleFormSubmit} >
-            Crear Mascota
-          </Boton>  }
+                )}
+                </span>
+                </div>
+       
+
+                { errors.altura || errors.peso || errors.anios  || errors.nombre || errors.imagen  || errors.temperament 
+                ?
+                null 
+                :
+                <Boton type="submit" onSubmit={handleFormSubmit} >
+                Crear Mascota
+                </Boton>  }
 
                  </form>  
                  
