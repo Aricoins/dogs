@@ -23,27 +23,31 @@ async function getTemps() {
 
     const newTemps = tempsList.filter((tempName) => !existingTempNames.includes(tempName.toLowerCase()));
 
-    if (newTemps.length > 0) {
-  const uniqueNewTemps = [...new Set(newTemps)];
-  const nonExistingNewTemps = uniqueNewTemps.filter((tempName) => !existingTempNames.includes(tempName.toLowerCase()));
+if (newTemps.length > 0) {
+    const uniqueNewTemps = [...new Set(newTemps)];
+    const nonExistingNewTemps = uniqueNewTemps.filter((tempName) => !existingTempNames.includes(tempName.toLowerCase()));
 
-  if (nonExistingNewTemps.length > 0) {
-    const createdTemps = await Temperament.bulkCreate(nonExistingNewTemps.map((tempName) => ({ name: tempName })));
+    if (nonExistingNewTemps.length > 0) {
+      const createdTemps = await Temperament.bulkCreate(
+        nonExistingNewTemps.map((tempName) => ({ name: tempName })),
+        { transaction }
+      );
 
-    console.log(`${createdTemps.length} nuevos temperamentos creados en la base de datos.`);
+      console.log(`${createdTemps.length} nuevos temperamentos creados en la base de datos.`);
 
-    existingTempNames.push(...nonExistingNewTemps);
+      // Actualizar la lista de existingTempNames después de confirmar la transacción
+      await transaction.commit();
+      existingTempNames.push(...nonExistingNewTemps);
     }
-  
+  }
 
-    const temperamento = await Temperament.findAll();
-    console.log(temperamento)
-    return temperamento;
-}}   }
-  } catch (error) {
-    console.error("Error al obtener los temperamentos", error);
-    throw error;
+  const temperamento = await Temperament.findAll();
+  console.log(temperamento);
+  return temperamento;
+} catch (error) {
+  await transaction.rollback();
+  console.error("Error al obtener los temperamentos", error);
+  throw error;
 }
-}
-
+  }
 module.exports = getTemps;
