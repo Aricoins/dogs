@@ -13,33 +13,27 @@ async function getTemps() {
     const dogs = response.data; // Process only the first 50 dogs for example
 
     for (const dog of dogs) {
-      if (dog.temperament) {
-        // Verifica si 'temperament' está definido y no es null
-        const tempsList = dog.temperament.split(",").map((temp) => temp.trim());
-
-        // Filtra los temperamentos que ya existen en la base de datos
-        const existingTempsInAPI = tempsList.filter((tempName) => existingTempNames.includes(tempName));
-
-        // Log los temperamentos existentes en la base de datos
-        existingTempsInAPI.forEach((existingTemp) => {
-          console.log(`El Temperamento "${existingTemp}" ya existe en la base de datos.`);
-        });
-
-   const newTemps = tempsList
-  .filter((tempName) => !existingTempNames.includes(tempName.toLowerCase()))
-  .map((tempName) => tempName.toLowerCase()); // Convertir a minúsculas para evitar repeticiones
-
-if (newTemps.length > 0) {
-  // Crea nuevos temperamentos en la base de datos solo si no existen
-  const uniqueNewTemps = [...new Set(newTemps)]; // Eliminar duplicados
-  const createdTemps = await Temperament.bulkCreate(uniqueNewTemps.map((tempName) => ({ name: tempName })));
-
-  console.log(`${createdTemps.length} nuevos temperamentos creados en la base de datos.`);
-}
-   
-      }
+  if (dog.temperament) {
+    const tempsList = dog.temperament.split(",").map((temp) => temp.trim());
+    const existingTempsInAPI = tempsList.filter((tempName) => existingTempNames.includes(tempName));
     
+    existingTempsInAPI.forEach((existingTemp) => {
+      console.log(`El Temperamento "${existingTemp}" ya existe en la base de datos.`);
+    });
+
+    const newTemps = tempsList.filter((tempName) => !existingTempNames.includes(tempName.toLowerCase()));
+
+    if (newTemps.length > 0) {
+      const uniqueNewTemps = [...new Set(newTemps)];
+      const createdTemps = await Temperament.bulkCreate(uniqueNewTemps.map((tempName) => ({ name: tempName })));
+
+      console.log(`${createdTemps.length} nuevos temperamentos creados en la base de datos.`);
+
+      existingTempNames.push(...uniqueNewTemps);
     }
+  }
+}
+
     const temperamento = await Temperament.findAll();
     console.log(temperamento)
     return temperamento;
