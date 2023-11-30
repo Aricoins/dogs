@@ -24,12 +24,15 @@ async function getTemps() {
     const newTemps = tempsList.filter((tempName) => !existingTempNames.includes(tempName.toLowerCase()));
 
     if (newTemps.length > 0) {
-      const uniqueNewTemps = [...new Set(newTemps)];
-      const createdTemps = await Temperament.bulkCreate(uniqueNewTemps.map((tempName) => ({ name: tempName })));
+  const uniqueNewTemps = [...new Set(newTemps)];
+  const nonExistingNewTemps = uniqueNewTemps.filter((tempName) => !existingTempNames.includes(tempName.toLowerCase()));
 
-      console.log(`${createdTemps.length} nuevos temperamentos creados en la base de datos.`);
+  if (nonExistingNewTemps.length > 0) {
+    const createdTemps = await Temperament.bulkCreate(nonExistingNewTemps.map((tempName) => ({ name: tempName })));
 
-      existingTempNames.push(...uniqueNewTemps);
+    console.log(`${createdTemps.length} nuevos temperamentos creados en la base de datos.`);
+
+    existingTempNames.push(...nonExistingNewTemps);
     }
   }
 }
