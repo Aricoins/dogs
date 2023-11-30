@@ -34,17 +34,16 @@ async function getTemps() {
 
     existingTempNames.push(...nonExistingNewTemps);
     }
-  }
-}
+  
 
     const temperamento = await Temperament.findAll();
     console.log(temperamento)
     return temperamento;
-   
+}}   }
   } catch (error) {
     console.error("Error al obtener los temperamentos", error);
     throw error;
-  }
+}
 }
 
 module.exports = getTemps;
