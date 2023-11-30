@@ -26,7 +26,8 @@ async function getTemps() {
         });
 
         // Filtra los temperamentos que aún no existen en la base de datos
-        const newTemps = tempsList.filter((tempName) => !existingTempNames.includes(tempName));
+    const newTemps = tempsList.filter((tempName) => !existingTempNames.includes(tempName.toLowerCase()));
+
 
         if (newTemps.length > 0) {
           // Crea nuevos temperamentos en la base de datos
