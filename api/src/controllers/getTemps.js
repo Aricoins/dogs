@@ -1,3 +1,7 @@
+const { sequelize } = require("../db"); // Asegúrate de que la ruta sea correcta
+const { Sequelize } = require("sequelize");
+
+
 const axios = require("axios");
 const { Temperament } = require("../db");
 const { API_KEY } = process.env; // API_KEY = "b0b3b0d9-8b7a-4b9e-9b0f-5b9b6b6b6b6b";
