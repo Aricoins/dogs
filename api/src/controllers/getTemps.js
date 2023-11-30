@@ -1,8 +1,10 @@
 const axios = require("axios");
 const { Temperament } = require("../db");
-const {API_KEY} = process.env	// API_KEY = "b0b3b0d9-8b7a-4b9e-9b0f-5b9b6b6b6b6b";
+const {API_KEY} = process.env; // API_KEY = "b0b3b0d9-8b7a-4b9e-9b0f-5b9b6b6b6b6b";
 
 async function getTemps() {
+  const transaction = await sequelize.transaction(); // Agregamos esta línea para crear la transacción
+
   try {
     // Obtén todos los temperamentos existentes en la base de datos
     const existingTemps = await Temperament.findAll();
@@ -13,41 +15,44 @@ async function getTemps() {
     const dogs = response.data; // Process only the first 50 dogs for example
 
     for (const dog of dogs) {
-  if (dog.temperament) {
-    const tempsList = dog.temperament.split(",").map((temp) => temp.trim());
-    const existingTempsInAPI = tempsList.filter((tempName) => existingTempNames.includes(tempName));
-    
-    existingTempsInAPI.forEach((existingTemp) => {
-      console.log(`El Temperamento "${existingTemp}" ya existe en la base de datos.`);
-    });
+      if (dog.temperament) {
+        const tempsList = dog.temperament.split(",").map((temp) => temp.trim());
+        const existingTempsInAPI = tempsList.filter((tempName) => existingTempNames.includes(tempName));
 
-    const newTemps = tempsList.filter((tempName) => !existingTempNames.includes(tempName.toLowerCase()));
+        existingTempsInAPI.forEach((existingTemp) => {
+          console.log(`El Temperamento "${existingTemp}" ya existe en la base de datos.`);
+        });
 
-if (newTemps.length > 0) {
-    const uniqueNewTemps = [...new Set(newTemps)];
-    const nonExistingNewTemps = uniqueNewTemps.filter((tempName) => !existingTempNames.includes(tempName.toLowerCase()));
+        const newTemps = tempsList.filter((tempName) => !existingTempNames.includes(tempName.toLowerCase()));
 
-    if (nonExistingNewTemps.length > 0) {
-      const createdTemps = await Temperament.bulkCreate(
-        nonExistingNewTemps.map((tempName) => ({ name: tempName })),
-        { transaction }
-      );
+        if (newTemps.length > 0) {
+          const uniqueNewTemps = [...new Set(newTemps)];
+          const nonExistingNewTemps = uniqueNewTemps.filter((tempName) => !existingTempNames.includes(tempName.toLowerCase()));
 
-      console.log(`${createdTemps.length} nuevos temperamentos creados en la base de datos.`);
+          if (nonExistingNewTemps.length > 0) {
+            const createdTemps = await Temperament.bulkCreate(
+              nonExistingNewTemps.map((tempName) => ({ name: tempName })),
+              { transaction }
+            );
 
-      // Actualizar la lista de existingTempNames después de confirmar la transacción
-      await transaction.commit();
-      existingTempNames.push(...nonExistingNewTemps);
+            console.log(`${createdTemps.length} nuevos temperamentos creados en la base de datos.`);
+
+            // Actualizar la lista de existingTempNames después de confirmar la transacción
+            await transaction.commit();
+            existingTempNames.push(...nonExistingNewTemps);
+          }
+        }
+      }
     }
-  }
 
-  const temperamento = await Temperament.findAll();
-  console.log(temperamento);
-  return temperamento;
-} catch (error) {
-  await transaction.rollback();
-  console.error("Error al obtener los temperamentos", error);
-  throw error;
-}
+    const temperamento = await Temperament.findAll();
+    console.log(temperamento);
+    return temperamento;
+  } catch (error) {
+    await transaction.rollback();
+    console.error("Error al obtener los temperamentos", error);
+    throw error;
   }
+}
+
 module.exports = getTemps;
