@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import video from '../../assets/dog.mp4'
-import audio from '../../assets/sonido.mp3';
 import Login from './Login';
 
 /*
@@ -21,17 +20,7 @@ const fadeInAnimation = keyframes`
   }
 `;
 
-const Sound = styled.audio`
-  position: fixed;
-  top: 89%;
-  left: 12%;
-  width: 20%;
-  opacity: 0.2;
-  transform: translate(0, -50%);
-  text-align: left;
-  font-size: 3rem;
-  font-weight: bold;
-`;
+
 
 const WelcomeWrapper = styled.div`
  position: fixed;
@@ -124,9 +113,7 @@ const Welcome = () => {
      
         </h3>
       </TextOverlay>
-      <Sound controls  >     </Sound>
-
-    </WelcomeWrapper>
+      </WelcomeWrapper>
     </>
   );
 };
