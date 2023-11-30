@@ -25,17 +25,18 @@ async function getTemps() {
           console.log(`El Temperamento "${existingTemp}" ya existe en la base de datos.`);
         });
 
-        // Filtra los temperamentos que aún no existen en la base de datos
-    const newTemps = tempsList.filter((tempName) => !existingTempNames.includes(tempName.toLowerCase()));
+   const newTemps = tempsList
+  .filter((tempName) => !existingTempNames.includes(tempName.toLowerCase()))
+  .map((tempName) => tempName.toLowerCase()); // Convertir a minúsculas para evitar repeticiones
 
+if (newTemps.length > 0) {
+  // Crea nuevos temperamentos en la base de datos solo si no existen
+  const uniqueNewTemps = [...new Set(newTemps)]; // Eliminar duplicados
+  const createdTemps = await Temperament.bulkCreate(uniqueNewTemps.map((tempName) => ({ name: tempName })));
 
-        if (newTemps.length > 0) {
-          // Crea nuevos temperamentos en la base de datos
-          const createdTemps = await Temperament.bulkCreate(newTemps.map((tempName) => ({ name: tempName })));
-
-          console.log(`${createdTemps.length} nuevos temperamentos creados en la base de datos.`);
-        }
-      
+  console.log(`${createdTemps.length} nuevos temperamentos creados en la base de datos.`);
+}
+   
       }
     
     }
