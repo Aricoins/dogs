@@ -1,5 +1,4 @@
 const axios = require("axios");
-//const { Temperament } = require("../db");
 const {Temperament, Dog} = require("../db");
 
 // Función para obtener las razas de perros de la API.
@@ -11,13 +10,13 @@ async function getTemps() {
 
 
     for (const dog of dogs) {
-
-      if (dog.temperament === alert) { alert = "alert"} // Verifica si 'temperament' está definido y no es null
-     else if (dog.temperament) { // Verifica si 'temperament' está definido y no es null
+      
+      if (dog.temperament) { // Verifica si 'temperament' está definido y no es null
         const tempsList = dog.temperament.split(",").map((temp) => temp.trim());
 
         for (const tempName of tempsList) {
           // Verifica si el temp ya existe en la base de datos.
+          if(tempName === "alert"){continue;}
           const existingTemp = await Temperament.findOne({ where: { name: tempName } });
     if (!existingTemp) {
       // Si no existe, créalo.
