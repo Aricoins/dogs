@@ -1,57 +1,38 @@
-const { sequelize } = require("../db");
-const { Temperament } = require("../db");
-const { Sequelize } = require("sequelize");
 const axios = require("axios");
-const { API_KEY } = process.env;
+//const { Temperament } = require("../db");
+const {Temperament, Dog} = require("../db");
 
+// Función para obtener las razas de perros de la API.
 async function getTemps() {
-  const transaction = await sequelize.transaction();
-
   try {
-    const existingTemps = await Temperament.findAll();
-    const existingTempNames = existingTemps.map((temp) => temp.name);
-
-    const response = await axios.get(`http://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`, { timeout: 5000 });
+    const response = await axios.get(`https://api.thedogapi.com/v1/breeds`);
     const dogs = response.data;
 
+
     for (const dog of dogs) {
-      if (dog.temperament) {
+      if (dog.temperament) { // Verifica si 'temperament' está definido y no es null
         const tempsList = dog.temperament.split(",").map((temp) => temp.trim());
-        const existingTempsInAPI = tempsList.filter((tempName) => existingTempNames.includes(tempName));
 
-        existingTempsInAPI.forEach((existingTemp) => {
-          console.log(`El Temperamento "${existingTemp}" ya existe en la base de datos.`);
-        });
-
-        const newTemps = tempsList.filter((tempName) => !existingTempNames.includes(tempName.toLowerCase()));
-
-        if (newTemps.length > 0) {
-          const uniqueNewTemps = [...new Set(newTemps)];
-          const nonExistingNewTemps = uniqueNewTemps.filter((tempName) => !existingTempNames.includes(tempName.toLowerCase()));
-
-          if (nonExistingNewTemps.length > 0) {
-            const createdTemps = await Temperament.bulkCreate(
-              nonExistingNewTemps.map((tempName) => ({ name: tempName })),
-              { transaction }
-            );
-
-            console.log(`${createdTemps.length} nuevos temperamentos creados en la base de datos.`);
-
-            await transaction.commit();
-            existingTempNames.push(...nonExistingNewTemps);
-          }
+        for (const tempName of tempsList) {
+          // Verifica si el temp ya existe en la base de datos.
+          const existingTemp = await Temperament.findOne({ where: { name: tempName } });
+    if (!existingTemp) {
+      // Si no existe, créalo.
+      await Temperament.create({ name: tempName });
+      console.log(`Temperamento "${tempName}" creado en la base de datos.`);
+    } else {
+      console.log(`El Tempramento "${tempName}" ya existe en la base de datos.`);
+    }
+     
         }
       }
     }
 
     const temperamento = await Temperament.findAll();
-    console.log(temperamento);
-
-    return temperamento;
+    return temperamento
   } catch (error) {
-    await transaction.rollback();
     console.error("Error al obtener los temperamentos", error);
-    throw error;
+    throw error; // Puedes lanzar el error para que sea manejado por el llamador de la función.
   }
 }
 
