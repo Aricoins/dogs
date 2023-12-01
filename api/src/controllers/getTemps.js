@@ -16,7 +16,6 @@ async function getTemps() {
 
         for (const tempName of tempsList) {
           // Verifica si el temp ya existe en la base de datos.
-          if(tempName === "Alert"){tempName = null}
           const existingTemp = await Temperament.findOne({ where: { name: tempName } });
     if (!existingTemp) {
       // Si no existe, créalo.
