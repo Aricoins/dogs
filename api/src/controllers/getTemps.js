@@ -9,8 +9,11 @@ async function getTemps() {
     const dogs = response.data;
 
 
+
     for (const dog of dogs) {
-      if (dog.temperament) { // Verifica si 'temperament' está definido y no es null
+
+      if (dog.temperament === alert) { alert === "alert"} // Verifica si 'temperament' está definido y no es null
+     else if (dog.temperament) { // Verifica si 'temperament' está definido y no es null
         const tempsList = dog.temperament.split(",").map((temp) => temp.trim());
 
         for (const tempName of tempsList) {
