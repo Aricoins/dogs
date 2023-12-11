@@ -16,8 +16,9 @@ const FiltrosContainer = styled.div`
   font-size: 15px;
   font-weight: bold;
   align-items: center;
+  @media only screen and (max-width : 700px) {
+    flex-direction: column;}
   `;
-
 const BotonFiltro = styled.button`
   padding: 10px;
   background-color: ${colores.amarillo};
