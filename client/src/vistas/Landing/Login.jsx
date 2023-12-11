@@ -27,13 +27,9 @@ text-align: center;
 color: #b2d8d8;
   z-index: 1000;
 @media only screen and (max-width : 700px) {
- top: 12%;
-  width: 30%;
- height:20%;
- overflow: scroll;
- border-radius: 0;
- font-size: small; 
-}` 
+  font-size: small; 
+} 
+` 
 /* @media only screen and (max-width : 400px){
   top: 30%;
  width: 100%;
