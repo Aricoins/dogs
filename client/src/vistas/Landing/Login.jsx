@@ -27,12 +27,12 @@ text-align: center;
 color: #b2d8d8;
   z-index: 1000;
 @media only screen and (max-width : 700px) {
- top: 20%;
-  width: 100%;
- height:100vh;
+ top: 12%;
+  width: 30%;
+ height:20%;
  overflow: scroll;
  border-radius: 0;
- font-size: x-large; 
+ font-size: small; 
 }` 
 /* @media only screen and (max-width : 400px){
   top: 30%;
@@ -56,6 +56,9 @@ const H1 = styled.h1`
 color: #3d7d52;
 align-items: center;
 font-size: xx-large;
+@media only screen and (max-width : 700px) {
+  font-size: small; 
+} 
 
 `;
 
