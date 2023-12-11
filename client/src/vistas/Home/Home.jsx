@@ -18,8 +18,18 @@ color: ${colores.verde};
 font-size:40px;
 padding: 0%;
 width: 40%;
-margin-left:0%
+margin-left:0%;
+@media only screen and (max-width : 700px) {
+  font-size: 20px; 
+  width: 20%;
+  margin-left: 0%;
+  height: 20%;
+  font-size: small;
+}
 `
+  
+
+
 const Barra = styled.div`
 display: flex ;
 flex-direction: row;
