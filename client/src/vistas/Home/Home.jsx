@@ -78,10 +78,8 @@ const Home = () => {
       <Nav />
 
       {loading ? (
-        <LoadingIndicator>
-          Loading...
-        </LoadingIndicator>
-      ) : (
+        <LoadingIndicator/>
+        ) : (
         <Cards dogs={dogs} />
       )}
     </>
