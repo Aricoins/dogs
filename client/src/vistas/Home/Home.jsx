@@ -34,12 +34,19 @@ const Barra = styled.div`
   height: 8rem;
   align-items: right;
 `;
-
+const spinAnimation = keyframes`
+  to {
+    transform: rotate(360deg);
+  }
+`;
 const LoadingIndicator = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+ display: inline-block;
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid #ffffff;
+  animation: ${spinAnimation} 1s ease-in-out infinite;
 `;
 
 const Home = () => {
