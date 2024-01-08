@@ -58,8 +58,8 @@ const Home = () => {
     </Barra>
 
     <Nav/>
-    
-      <Cards dogs={dogs} />
+      { dogs? 
+      <Cards dogs={dogs} />: Loading...} 
     </>
   );
 };
