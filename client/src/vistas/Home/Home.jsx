@@ -42,12 +42,23 @@ align-items: right;
 const Home = () => {
   const dispatch = useDispatch();
   const dogs = useSelector((state) => state.dogs);
+const [loading, setLoading] = useState(true);
 
 
+ useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await dispatch(getDogs());
+        setLoading(false);
+      } catch (error) {
+        // Handle error if needed
+        setLoading(false);
+      }
+    };
 
-  useEffect(() => {
-    dispatch(getDogs());
+    fetchData();
   }, [dispatch]);
+  
  // const filteredData = dogs.filter((dog) => dog.id !== undefined);
   return (
     <>
@@ -58,8 +69,13 @@ const Home = () => {
     </Barra>
 
     <Nav/>
-      { dogs? 
-      <Cards dogs={dogs} />: Loading...} 
+     {loading ? (
+       <div>           {/* Puedes personalizar tu indicador de carga aquí */}
+          Loading...
+        </div>
+      ) : (
+        <Cards dogs={dogs} />
+      )}
     </>
   );
 };
