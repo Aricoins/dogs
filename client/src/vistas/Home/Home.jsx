@@ -46,6 +46,7 @@ const LoadingIndicator = styled.div`
   border: 4px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   border-top: 4px solid #ffffff;
+  background-color: ${colores.amarillo}
   animation: ${spinAnimation} 1s ease-in-out infinite;
 `;
 
