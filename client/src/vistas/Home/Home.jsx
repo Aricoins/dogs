@@ -79,7 +79,7 @@ const Home = () => {
       <Nav />
 
       {loading ? (
-      <span style: {{ color: "white"}} > Loading </span>
+      <span style: {{ color: "white"}} > Loading... </span>
         ) : (
         <Cards dogs={dogs} />
       )}
