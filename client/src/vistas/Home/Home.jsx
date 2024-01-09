@@ -79,7 +79,7 @@ const Home = () => {
       <Nav />
 
       {loading ? (
-        <LoadingIndicator/>
+      <span style: {{ color: "white"}} > Loading </span>
         ) : (
         <Cards dogs={dogs} />
       )}
