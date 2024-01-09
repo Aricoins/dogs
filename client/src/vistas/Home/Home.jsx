@@ -80,7 +80,7 @@ const Home = () => {
       <Nav />
 
       {loading ? (
-      <span style: {{ color: "white"}} > Loading... </span>
+      <span style: {{ color: "white", fontSize: "30px" }} > Loading... </span>
         ) : (
         <Cards dogs={dogs} />
       )}
