@@ -34,6 +34,7 @@ const Barra = styled.div`
   height: 8rem;
   align-items: right;
 `;
+/*
 const spinAnimation = keyframes`
   to {
     transform: rotate(360deg);
@@ -48,7 +49,7 @@ const LoadingIndicator = styled.div`
   border-top: 4px solid #ffffff;
   background-color: ${colores.amarillo}
   animation: ${spinAnimation} 1s ease-in-out infinite;
-`;
+`; */
 
 const Home = () => {
   const dispatch = useDispatch();
