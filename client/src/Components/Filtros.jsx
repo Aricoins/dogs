@@ -136,8 +136,8 @@ const Filtros = () => {
       <div>
         <SelectTemperamentos value={selectedTemperament} onChange={handleTemperamentChange}>
           <option value="">Todos</option>
-             {temperaments.map((temperamento) => (
-            <option key={temperamento.ID} value={temperamento.name}>
+             {temperaments.map((temperamento, index) => (
+            <option key={index} value={temperamento.name}>
               {temperamento.name}
             </option>
           ))}

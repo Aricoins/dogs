@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import imagen from "../Landing/icono.png";
 import colores from "../../vistas/colores"
 import { setPage, setTotalPages } from '../../redux/actions/paginationActions';
-
+import gif from "../../assets/gif3.gif"
 const H2 = styled.h2`
   display:flex;
   flex-direction: row;
@@ -79,12 +79,16 @@ const Home = () => {
 
       <Nav />
 
-      {loading ? (
-      <span style: {{ color: "white", fontSize: "30px" }} > Loading... </span>
-        ) : (
+     {loading ? (  <>
+      <div style={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
+      <img style={{padding:"1%",width:"25%", borderRadius:"50%"}} src={gif} alt="hueso"/>  
+      </div>
+      <span style={{padding:"1%", display: "flex", flexDirection: "row", justifyContent: "center", color: "white"}}>Loading...</span>
+      </>)
+     : (
         <Cards dogs={dogs} />
-      )}
-    </>
+      )} 
+    </>  
   );
 };
 
