@@ -17,15 +17,15 @@ const {
 
 
 /*Conexion deploy*/
-const sequelize = new Sequelize(DB_URL, {
-  logging: false, 
-  native: false, 
+const sequelize = new Sequelize(process.env.DB_URL, {
+  dialect: 'postgres',
+  protocol: 'postgres',
   dialectOptions: {
     ssl: {
       require: true,
       rejectUnauthorized: false
     }
-  }  
+  }
 });
 
 const basename = path.basename(__filename);
