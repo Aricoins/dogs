@@ -105,3 +105,5 @@ The Dogs App is a Single Page Application developed using React, Redux, Node, Ex
 ## Conclusion
 
 The Dogs App provides a user-friendly interface to explore, search, and interact with a variety of dog breeds. The combination of React, Redux, Node, Express, and Sequelize ensures a smooth and responsive experience for users.
+
+<dev>aricoins</dev>
