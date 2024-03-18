@@ -43,9 +43,11 @@ const Filtros = () => {
   const [filterType, setFilterType] = useState('all');
   const [sortType, setSortType] = useState('asc');
   const [sortTypeW, setSortTypeW] = useState('asc');
+  const [loading, setLoading] = useState(true);
           
           useEffect(() => {
             dispatch(getTemperaments());
+            setLoading(false);
           }, [dispatch]);
 
           const handleTemperamentChange = (e) => {
@@ -132,8 +134,9 @@ const Filtros = () => {
 
    return (
     <FiltrosContainer>
-      <h5>Temperamento:</h5>
-      <div>
+      <h5>Temperamento:</h5><div>
+      {loading ? (<p>Cargando...</p>) : 
+            (
         <SelectTemperamentos value={selectedTemperament} onChange={handleTemperamentChange}>
           <option value="">Todos</option>
              {temperaments.map((temperamento, index) => (
@@ -141,7 +144,7 @@ const Filtros = () => {
               {temperamento.name}
             </option>
           ))}
-        </SelectTemperamentos>
+        </SelectTemperamentos>)  }
           <BotonFiltro onClick={handleApplyFilters
           }>Aplicar Filtro</BotonFiltro>
     </div>

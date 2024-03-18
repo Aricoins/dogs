@@ -33,7 +33,7 @@ const Cards = ( {dogs} ) => {
 
   const perPage = 8;
 
-  // Calculate el inicio y los indices de las paginas
+  // Calcula el inicio y los indices de las paginas
   const startIndex = (currentPage - 1) * perPage;
   const endIndex = startIndex + perPage;
   const paginatedDogs = dogs.slice(startIndex, endIndex);
