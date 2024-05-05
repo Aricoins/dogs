@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Card from './Card';
 import styled from 'styled-components';
 import Paginado from './Paginado';
 import Filtros from './Filtros';
-import colores from '../vistas/colores'
+import colores from '../vistas/colores';
 
 const Background = styled.div`
-//background-image: url("https://i.pinimg.com/originals/6c/6d/6a/6c6d6a4b0b0b0b0b0b0b0b0b0b0b0b0b.jpg");
+// background-image: url("https://i.pinimg.com/originals/6c/6d/6a/6c6d6a4b0b0b0b0b0b0b0b0b0b0b0b0b.jpg");
 `;
 
 const Footer = styled.footer`
   background-color: ${colores.amarillo};
   height: 100px;
-`
+`;
+
 const CardContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -28,43 +29,24 @@ const CardContainer = styled.div`
     grid-template-columns: repeat(3, 1fr);
   }
 `;
-const Cards = ( {dogs} ) => {
-  const [currentPage, setCurrentPage] = useState(1);
 
-  const perPage = 8;
-
-  // Calcula el inicio y los indices de las paginas
-  const startIndex = (currentPage - 1) * perPage;
-  const endIndex = startIndex + perPage;
-  const paginatedDogs = dogs.slice(startIndex, endIndex);
-
-  // Mapea los dogs en cada CArd
-  const cardList = paginatedDogs.map((dog) => (
-    <Card key={dog.id} dog={dog} />
-  ));
-
-  // Calcula el total de paginas en función de la cantidad de dogs a mostrar
-  const totalPaginas = Math.ceil(dogs.length / perPage);
-
-  // Maneja el cambio de pagina
-  const handlePaginaChange = (newPaginatedDogs) => {
-    setCurrentPage(newPaginatedDogs);
-  };
+const Cards = ({ paginatedDogs, totalPages, currentPage, onPageChange }) => {
+  // Mapea los perros de la página actual a cada Card
+  const cardList = paginatedDogs.map((dog) => <Card key={dog.id} dog={dog} />);
 
   return (
     <>
-    <Filtros />
+      <Filtros />
       <Background>
         <CardContainer className='lista'>
           {cardList}
         </CardContainer>
         <Paginado
-          totalPages={totalPaginas}
-          setCurrentPage={setCurrentPage}
+          totalPages={totalPages}
           currentPage={currentPage}
-          handlePaginaChange={handlePaginaChange}
+          onPageChange={onPageChange}
         />
-        <Footer/>
+        <Footer />
       </Background>
     </>
   );
