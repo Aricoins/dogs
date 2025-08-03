@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import colores from '../../vistas/colores';
 import styled, { keyframes } from 'styled-components';
@@ -340,7 +340,7 @@ const validation = (form) => {
 };
 
 const CreateDog = () => {
-  const navigate = useNavigate();
+  const history = useHistory();
   const temperaments = useSelector((state) => state.temperaments);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -441,10 +441,10 @@ const CreateDog = () => {
         
         // Redirigir al detalle del perro creado
         if (createdDogId) {
-          navigate(`/detail/${createdDogId}`);
+          history.push(`/detail/${createdDogId}`);
         } else {
           // Si no hay ID, redirigir a home
-          navigate('/home');
+          history.push('/home');
         }
         
       } catch (error) {
