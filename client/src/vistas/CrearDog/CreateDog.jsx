@@ -148,7 +148,8 @@ const CreateDog = () => {
         };
 
         console.log('Enviando datos:', dogData);
-        console.log('Temperaments array:', JSON.stringify(dogData.temperament));
+        console.log('Temperaments string:', JSON.stringify(dogData.temperament));
+        console.log('Temperaments array original:', form.temperament);
         console.log('Tipos de datos:', {
           nombre: typeof dogData.nombre,
           imagen: typeof dogData.imagen,
