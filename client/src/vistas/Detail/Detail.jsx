@@ -79,7 +79,7 @@ function Detail(props) {
     <>
       <Onda>
         {loading ? (
-          <p>Loading...</p>
+          <p>Se escuchan ladridos, las mascotas están llegando... </p>
         ) : (
           <>
             <Detalle>Nombre: {dog.nombre}</Detalle>
