@@ -6,10 +6,10 @@ async function createDogs(nombre, imagen, altura, peso, anios, temperament) {
   const dogData = { id, nombre, imagen, altura, peso, anios };
   
   try {
-    // 1. Crear el perro sin temperamentos primero
+    // 1. Crear el perro
     const newDog = await Dog.create(dogData);
     
-    // 2. Procesar temperamentos solo si existen
+    // 2. Procesar temperamentos
     if (temperament && typeof temperament === 'string') {
       const temperamentNames = temperament.split(',')
         .map(t => t.trim())
@@ -30,24 +30,15 @@ async function createDogs(nombre, imagen, altura, peso, anios, temperament) {
       console.log('Solicitados:', normalizedNames);
       console.log('Encontrados:', existingTemperaments.map(t => t.name));
       
-      const foundNames = existingTemperaments.map(t => t.name);
-      const missingTemperaments = normalizedNames.filter(name => 
-        !foundNames.includes(name)
-      );
-      
-      if (missingTemperaments.length > 0) {
-        console.warn('⚠️ Temperamentos no encontrados:', missingTemperaments);
-      }
-
-      // 6. Asociar solo temperamentos existentes
+      // 6. Asociar usando el método PLURAL
       if (existingTemperaments.length > 0) {
-        await newDog.addTemperaments(existingTemperaments); // ¡Importante! Pasar objetos completos
+        // ¡CORRECCIÓN CLAVE AQUÍ!
+        await newDog.addTemperaments(existingTemperaments);
         console.log('✅ Temperamentos asociados correctamente');
       }
     }
     
     return newDog;
-    
   } catch (error) {
     console.error('❌ Error creando perro:', error);
     throw error;
