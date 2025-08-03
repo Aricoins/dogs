@@ -1,52 +1,47 @@
 const { Dog, Temperament, DogTemperament } = require('../db');
 const { v4: uuidv4 } = require('uuid');
 
+const { Dog, Temperament, DogTemperament } = require('../db');
+const { v4: uuidv4 } = require('uuid');
+
 async function createDogs(nombre, imagen, altura, peso, anios, temperament) {
   const id = uuidv4();
   const dogData = { id, nombre, imagen, altura, peso, anios, temperament };
-  console.log('Datos del perro a crear:', dogData);
   
   try {
     // Crear un nuevo perro en la base de datos
     const newDog = await Dog.create(dogData);
-    console.log('Perro creado exitosamente:', newDog.id);
     
-    // Procesar los temperamentos del string
+    // Procesar temperamentos solo si existen
     if (temperament && typeof temperament === 'string') {
-      // Dividir por comas y limpiar espacios
       const temperamentNames = temperament.split(',').map(t => t.trim());
-      console.log('Temperamentos a buscar:', temperamentNames);
       
-      // Procesar cada temperamento
       for (const tempName of temperamentNames) {
-        if (tempName) { // Validar que no esté vacío
-          console.log(`Buscando temperamento: "${tempName}"`);
-          
-          const temperamento = await Temperament.findOne({
-            where: { name: tempName },
-          });
-          
-          if (temperamento) {
-            console.log(`Temperamento encontrado: ${temperamento.name} (ID: ${temperamento.id})`);
-            await newDog.addTemperament(temperamento.id);
-          } else {
-            console.log(`⚠️  Temperamento no encontrado: "${tempName}"`);
-            // No lanzar error, solo continuar con los demás
+        if (tempName) { // Verificar que no esté vacío
+          try {
+            const temperamento = await Temperament.findOne({
+              where: { name: tempName },
+            });
+            
+            // ✅ VERIFICACIÓN SEGURA ANTES DE ACCEDER A .id
+            if (temperamento && temperamento.id) {
+              await newDog.addTemperament(temperamento.id);
+              console.log(`✅ Temperamento "${tempName}" añadido correctamente`);
+            } else {
+              console.warn(`⚠️ Temperamento "${tempName}" no encontrado en la base de datos`);
+            }
+          } catch (tempError) {
+            console.error(`❌ Error procesando temperamento "${tempName}":`, tempError);
+            // Continuar con el siguiente temperamento
           }
         }
       }
     }
     
-    // Buscar el perro con los temperamentos asociados
-    const result = await Dog.findByPk(id, {
-      include: Temperament,
-    });
-    
-    console.log('Perro creado con temperamentos:', result);
-    return result; // Retornar el perro con temperamentos incluidos
+    return newDog;
     
   } catch (error) {
-    console.error('Error en createDogs:', error);
+    console.error('Error creando perro:', error);
     throw error;
   }
 }
