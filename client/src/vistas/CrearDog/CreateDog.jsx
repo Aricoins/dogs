@@ -99,7 +99,7 @@ const FormContent = styled.div`
 const FormGroup = styled.div`
   margin-bottom: 1.5rem;
   animation: ${slideIn} 0.6s ease-out;
-  animation-delay: ${props => props.delay || '0s'};
+  animation-delay: ${props => props.$delay || '0s'};
   animation-fill-mode: both;
 `;
 
@@ -484,7 +484,7 @@ const CreateDog = () => {
         
         <FormContent>
           <form onSubmit={handleFormSubmit}>
-            <FormGroup delay="0.1s">
+            <FormGroup $delay="0.1s">
               <Label htmlFor="nombre">Nombre de la mascota</Label>
               <Input
                 type="text"
@@ -502,7 +502,7 @@ const CreateDog = () => {
               )}
             </FormGroup>
 
-            <FormGroup delay="0.2s">
+            <FormGroup $delay="0.2s">
               <Label htmlFor="imagen">URL de la imagen</Label>
               <Input
                 type="url"
@@ -520,7 +520,7 @@ const CreateDog = () => {
               )}
             </FormGroup>
 
-            <FormGroup delay="0.3s">
+            <FormGroup $delay="0.3s">
               <Label htmlFor="altura">Altura (cm)</Label>
               <Input
                 type="number"
@@ -540,7 +540,7 @@ const CreateDog = () => {
               )}
             </FormGroup>
 
-            <FormGroup delay="0.4s">
+            <FormGroup $delay="0.4s">
               <Label htmlFor="peso">Peso (kg)</Label>
               <Input
                 type="number"
@@ -560,7 +560,7 @@ const CreateDog = () => {
               )}
             </FormGroup>
 
-            <FormGroup delay="0.5s">
+            <FormGroup $delay="0.5s">
               <Label htmlFor="anios">Años de vida</Label>
               <Input
                 type="number"
@@ -580,7 +580,7 @@ const CreateDog = () => {
               )}
             </FormGroup>
 
-            <FormGroup delay="0.6s">
+            <FormGroup $delay="0.6s">
               <TemperamentContainer>
                 <Label htmlFor="temperament">Temperamentos (máx. 5)</Label>
                 <Select
@@ -631,7 +631,7 @@ const CreateDog = () => {
               </TemperamentContainer>
             </FormGroup>
 
-            <FormGroup delay="0.7s">
+            <FormGroup $delay="0.7s">
               {isSubmitting ? (
                 <LoadingButton disabled>
                   Creando mascota...
