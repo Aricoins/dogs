@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize');
-  // Modelo para Temperaments
-  
+
 module.exports = (sequelize) => {
   const Temperament = sequelize.define('Temperament', {
     id: {
@@ -10,8 +9,11 @@ module.exports = (sequelize) => {
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false, // Cambiado a false para mayor seguridad
+      unique: true // Asegura nombres únicos
     },
   });
 
-}
+  // ¡IMPORTANTE! Exportar el modelo
+  return Temperament;
+};
