@@ -114,23 +114,23 @@ const Label = styled.label`
 const Input = styled.input`
   width: 100%;
   padding: 12px 16px;
-  border: 2px solid ${props => props.hasError ? '#e74c3c' : '#e0e0e0'};
+  border: 2px solid ${props => props.$hasError ? '#e74c3c' : '#e0e0e0'};
   border-radius: 10px;
   font-size: 1rem;
   transition: all 0.3s ease;
-  background: ${props => props.hasError ? '#fdf2f2' : 'white'};
+  background: ${props => props.$hasError ? '#fdf2f2' : 'white'};
   
   &:focus {
     outline: none;
-    border-color: ${props => props.hasError ? '#e74c3c' : colores.verde};
-    box-shadow: 0 0 0 3px ${props => props.hasError ? 'rgba(231, 76, 60, 0.1)' : 'rgba(46, 204, 113, 0.1)'};
+    border-color: ${props => props.$hasError ? '#e74c3c' : colores.verde};
+    box-shadow: 0 0 0 3px ${props => props.$hasError ? 'rgba(231, 76, 60, 0.1)' : 'rgba(46, 204, 113, 0.1)'};
   }
   
   &::placeholder {
     color: #999;
   }
   
-  ${props => props.hasError && `animation: ${shake} 0.5s ease-in-out;`}
+  ${props => props.$hasError && `animation: ${shake} 0.5s ease-in-out;`}
 `;
 
 const Select = styled.select`
@@ -493,7 +493,7 @@ const CreateDog = () => {
                 value={form.nombre}
                 onChange={handleChange}
                 placeholder="Ej: Max, Luna, Rocky..."
-                hasError={!!errors.nombre}
+                $hasError={!!errors.nombre}
               />
               {errors.nombre ? (
                 <ErrorMessage>{errors.nombre}</ErrorMessage>
@@ -511,7 +511,7 @@ const CreateDog = () => {
                 value={form.imagen}
                 onChange={handleChange}
                 placeholder="https://ejemplo.com/imagen.jpg"
-                hasError={!!errors.imagen}
+                $hasError={!!errors.imagen}
               />
               {errors.imagen ? (
                 <ErrorMessage>{errors.imagen}</ErrorMessage>
@@ -529,7 +529,7 @@ const CreateDog = () => {
                 value={form.altura}
                 onChange={handleChange}
                 placeholder={`Entre ${alturaMinima} y ${alturaMaxima} cm`}
-                hasError={!!errors.altura}
+                $hasError={!!errors.altura}
                 min={alturaMinima}
                 max={alturaMaxima}
               />
@@ -549,7 +549,7 @@ const CreateDog = () => {
                 value={form.peso}
                 onChange={handleChange}
                 placeholder={`Entre ${pesoMinimo} y ${pesoMaximo} kg`}
-                hasError={!!errors.peso}
+                $hasError={!!errors.peso}
                 min={pesoMinimo}
                 max={pesoMaximo}
               />
@@ -569,7 +569,7 @@ const CreateDog = () => {
                 value={form.anios}
                 onChange={handleChange}
                 placeholder={`Entre ${aniosMinimo} y ${aniosMaximo} años`}
-                hasError={!!errors.anios}
+                $hasError={!!errors.anios}
                 min={aniosMinimo}
                 max={aniosMaximo}
               />
