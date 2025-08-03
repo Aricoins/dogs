@@ -33,10 +33,13 @@ const Cards = ( {dogs} ) => {
 
   const perPage = 8;
 
+  // Validar que dogs sea un array
+  const validDogs = Array.isArray(dogs) ? dogs : [];
+
   // Calcula el inicio y los indices de las paginas
   const startIndex = (currentPage - 1) * perPage;
   const endIndex = startIndex + perPage;
-  const paginatedDogs = dogs.slice(startIndex, endIndex);
+  const paginatedDogs = validDogs.slice(startIndex, endIndex);
 
   // Mapea los dogs en cada CArd
   const cardList = paginatedDogs.map((dog) => (
@@ -44,7 +47,7 @@ const Cards = ( {dogs} ) => {
   ));
 
   // Calcula el total de paginas en función de la cantidad de dogs a mostrar
-  const totalPaginas = Math.ceil(dogs.length / perPage);
+  const totalPaginas = Math.ceil(validDogs.length / perPage);
 
   // Maneja el cambio de pagina
   const handlePaginaChange = (newPaginatedDogs) => {
