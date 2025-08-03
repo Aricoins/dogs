@@ -8,18 +8,21 @@ export const APPLY_FILTERS = 'APPLY_FILTERS';
 export function getDogs() {
   return async function (dispatch) {
     try {
-//      const response = await axios.get('https://server-dogs-lr41.onrender.com/dogs');
-const response = await axios.get('https://server-dogs-lr41.onrender.com/dogs');
+      const response = await axios.get('https://server-dogs-lr41.onrender.com/dogs');
 
       const data = response.data;
-          dispatch({
+      dispatch({
         type: GET_DOGS,
         payload: data,
       });
       console.log(data)
     } catch (error) {
       console.error('Error al obtener los dogs', error);
-
+      // Dispatch con array vacío para evitar errores en la UI
+      dispatch({
+        type: GET_DOGS,
+        payload: [],
+      });
     }
   };
 }
@@ -35,7 +38,10 @@ export const getTemperaments = () => {
       dispatch({ type: GET_TEMPERAMENTS, 
         payload: temperaments });
     } catch (error) {
-      console.error(error);
+      console.error('Error al obtener temperamentos:', error);
+      // Dispatch con array vacío para evitar errores en la UI
+      dispatch({ type: GET_TEMPERAMENTS, 
+        payload: [] });
     }
   };
 };
