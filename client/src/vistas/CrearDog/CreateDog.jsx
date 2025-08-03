@@ -138,27 +138,29 @@ const CreateDog = () => {
       setIsSubmitting(true);
       
       try {
+        // Validar que todos los temperamentos existen antes de enviar
+        const validTemperaments = form.temperament.filter(temp => 
+          temperaments.some(dbTemp => dbTemp.name === temp)
+        );
+        
+        if (validTemperaments.length === 0) {
+          alert('Error: Ninguno de los temperamentos seleccionados es válido. Por favor, selecciona temperamentos de la lista.');
+          return;
+        }
+        
         const dogData = {
           nombre: form.nombre.trim(),
           imagen: form.imagen.trim(),
           altura: parseInt(form.altura.trim()),
           peso: parseInt(form.peso.trim()),
           anios: parseInt(form.anios.trim()),
-          temperament: form.temperament.join(', '), // Convertir array a string separado por comas
+          temperament: validTemperaments.join(', '), // Solo temperamentos válidos
         };
 
         console.log('Enviando datos:', dogData);
-        console.log('Temperaments string:', JSON.stringify(dogData.temperament));
-        console.log('Temperaments array original:', form.temperament);
-        console.log('Tipos de datos:', {
-          nombre: typeof dogData.nombre,
-          imagen: typeof dogData.imagen,
-          altura: typeof dogData.altura,
-          peso: typeof dogData.peso,
-          anios: typeof dogData.anios,
-          temperament: typeof dogData.temperament,
-          temperamentIsArray: Array.isArray(dogData.temperament)
-        });
+        console.log('Temperaments válidos enviados:', validTemperaments);
+        console.log('Temperaments originales:', form.temperament);
+        console.log('Temperaments disponibles en DB:', temperaments.map(t => t.name));
 
         const response = await axios.post('https://server-dogs-lr41.onrender.com/post', dogData);
         
