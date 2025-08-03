@@ -6,8 +6,12 @@ const getHandlerTemps = async (req, res) => {
       const temps = await getTemps();
       res.status(200).json(temps);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Error al obtener los temperamentos." });
+      console.error("Error detallado en getHandlerTemps:", error.message);
+      console.error("Stack trace:", error.stack);
+      res.status(500).json({ 
+        error: "Error al obtener los temperamentos.",
+        details: error.message 
+      });
     }
    }
 

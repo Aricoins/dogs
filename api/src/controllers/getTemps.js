@@ -44,7 +44,22 @@ async function getTemps() {
     });
     
   } catch (error) {
-    console.error("❌ Error obteniendo temperamentos", error);
+    console.error("❌ Error obteniendo temperamentos:", error.message);
+    console.error("Stack trace:", error.stack);
+    
+    // Si es un error de conexión a la API externa, intentar devolver temperamentos existentes
+    if (error.code === 'ENOTFOUND' || error.code === 'ECONNREFUSED') {
+      console.log("🔄 Error de conexión externa, devolviendo temperamentos existentes");
+      try {
+        return await Temperament.findAll({
+          order: [['name', 'ASC']]
+        });
+      } catch (dbError) {
+        console.error("❌ Error también en base de datos:", dbError.message);
+        throw new Error("Error de conexión tanto externa como de base de datos");
+      }
+    }
+    
     throw error;
   }
 }
