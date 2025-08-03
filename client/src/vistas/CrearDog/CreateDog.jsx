@@ -144,7 +144,7 @@ const CreateDog = () => {
           altura: parseInt(form.altura.trim()),
           peso: parseInt(form.peso.trim()),
           anios: parseInt(form.anios.trim()),
-          temperament: form.temperament,
+          temperament: form.temperament, // Mantener como array
         };
 
         console.log('Enviando datos:', dogData);
@@ -153,7 +153,7 @@ const CreateDog = () => {
         
         const createdDogId = response.data.id || response.data.ID;
         
-        alert(`¡${dogData.nombre} ha sido creado exitosamente!`);
+        alert(`¡${dogData.nombre} con temperamentos ${dogData.temperament.join(', ')} ha sido creado exitosamente!`);
         
         setForm({
           nombre: "",
