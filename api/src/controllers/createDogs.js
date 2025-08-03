@@ -2,33 +2,43 @@ const { Dog, Temperament, DogTemperament } = require('../db');
 const { v4: uuidv4 } = require('uuid');
 
 async function createDogs(nombre, imagen, altura, peso, anios, temperament) {
-  // Generar un ID único para el perro utilizando uuidv4
   const id = uuidv4();
-  const dogData = { id, nombre, imagen, altura, peso, anios, temperament };
-
-  console.log(dogData); // Imprimir los datos del perro en la consola
-
+  const dogData = { id, nombre, imagen, altura, peso, anios };
+  console.log(dogData);
+  
   try {
     // Crear un nuevo perro en la base de datos
     const newDog = await Dog.create(dogData);
-
-    // Buscar el temperamento en la base de datos
-    const temperamento = await Temperament.findOne({
-      where: { name: temperament },
-    });
-      // Asociar el perro con el temperamento solicitado
-    await newDog.addTemperament(temperamento.id, DogTemperament);
-
-    // Buscar el perro con el temperamento asociado
+    
+    // Manejar múltiples temperamentos
+    if (Array.isArray(temperament)) {
+      // Si es un array, procesar cada temperamento
+      for (const tempName of temperament) {
+        const temperamento = await Temperament.findOne({
+          where: { name: tempName },
+        });
+        if (temperamento) {
+          await newDog.addTemperament(temperamento.id);
+        }
+      }
+    } else {
+      // Si es un string, procesar un solo temperamento
+      const temperamento = await Temperament.findOne({
+        where: { name: temperament },
+      });
+      if (temperamento) {
+        await newDog.addTemperament(temperamento.id);
+      }
+    }
+    
+    // Buscar el perro con los temperamentos asociados
     const result = await Dog.findAll({
       where: { id },
       include: Temperament,
     });
-
+    
     return newDog;
   } catch (error) {
-    throw error; // Lanzar cualquier error que ocurra al invocar la función
+    throw error;
   }
 }
-
-module.exports = createDogs;
