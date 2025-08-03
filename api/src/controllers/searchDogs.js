@@ -23,6 +23,11 @@ async function searchDogs(nombre) {
           [Op.iLike]: `%${nombre}%`, // Búsqueda insensible a mayúsculas y minúsculas
         },
       },
+      include: [{
+        model: Temperament,
+        attributes: ['name'],
+        through: { attributes: [] }
+      }]
     });
 
     // Combina los datos de la API y la base de datos
@@ -31,12 +36,20 @@ async function searchDogs(nombre) {
     // Mapea los datos para que queden en el formato que queremos
     const dogis = dogs.map((dogData) => ({
       id: dogData.id,
-      nombre: dogData.name,
-      imagen: `https://cdn2.thedogapi.com/images/${dogData.reference_image_id }.jpg`, // Asumo que esta es la propiedad para la imagen
-      altura: `${dogData.height.metric} cm`, // Mostramos la altura en centímetros
-      peso: `${dogData.weight.metric} kg`, // Mostramos el peso en kilogramos
-      anios: dogData.life_span,
-      temperament: dogData.temperament,
+      nombre: dogData.name || dogData.nombre, // Maneja tanto API (name) como BD (nombre)
+      imagen: dogData.reference_image_id 
+        ? `https://cdn2.thedogapi.com/images/${dogData.reference_image_id}.jpg`
+        : dogData.imagen, // Para perros de BD usa la imagen directamente
+      altura: dogData.height 
+        ? `${dogData.height.metric} cm` 
+        : `${dogData.altura} cm`, // Para perros de BD
+      peso: dogData.weight 
+        ? `${dogData.weight.metric} kg` 
+        : `${dogData.peso} kg`, // Para perros de BD
+      anios: dogData.life_span || `${dogData.anios} years`, // Formato consistente
+      temperament: dogData.temperament || (dogData.Temperaments 
+        ? dogData.Temperaments.map(temp => temp.name).join(', ')
+        : ''),
     }));
 
     // Devuelve los datos mapeados

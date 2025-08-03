@@ -22,11 +22,22 @@ async function getDetail(idDog) {
       console.log(detailInfo);
       return detailInfo;
     } else {
-      const dog = await Dog.findByPk(idDog);
+      const dog = await Dog.findByPk(idDog, {
+        include: [{
+          model: Temperament,
+          attributes: ['name'],
+          through: { attributes: [] } // Excluir datos de la tabla intermedia
+        }]
+      });
 
       if (!dog) {
         throw new Error("No se encontró el perro");
       }
+
+      // Extraer temperamentos como string separado por comas
+      const temperamentNames = dog.Temperaments 
+        ? dog.Temperaments.map(temp => temp.name).join(', ')
+        : '';
 
       const detailInfo = {
         id: dog.id,
@@ -35,7 +46,7 @@ async function getDetail(idDog) {
         altura: `${dog.altura} cm`, 
         peso:`${dog.peso} kg`, 
         anios: dog.anios,
-        temperament: dog.temperament,
+        temperament: temperamentNames,
       };
 
       console.log(detailInfo);

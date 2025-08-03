@@ -9,9 +9,9 @@ const pesoMaximo = 500;
 
 const validation = (form, setErrors, errors) =>{
 
-if (urlRegex.test(form.imagen)) setErrors({ ...errors, imagen: "Debe ser una url / ftp, http, o https"});
+if (!urlRegex.test(form.imagen)) setErrors({ ...errors, imagen: "Debe ser una url / ftp, http, o https"});
    else setErrors({ ...errors, imagen: ""});
- if(nombreRegex.test(form.nombre)) setErrors({ ...errors, nombre: "No incluyas números"});
+ if(!nombreRegex.test(form.nombre)) setErrors({ ...errors, nombre: "No incluyas números"});
  else  setErrors({ ...errors, nombre: ""});
  if (digito.test(form.altura)) setErrors({ ...errors, altura: ""});
   else  setErrors({ ...errors, altura: "Un número para los centímetros"});
@@ -43,7 +43,7 @@ if (urlRegex.test(form.imagen)) setErrors({ ...errors, imagen: "Debe ser una url
     setErrors({ ...errors, anios: "" });
   }
 
-  if (formm.temperament) {
+  if (!form.temperament || form.temperament.length === 0) {
     setErrors({ ...errors, temperament: "Ingresa al menos un temperamento" });
   } else {
     setErrors({ ...errors, temperament: "" });

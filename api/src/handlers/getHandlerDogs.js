@@ -3,11 +3,15 @@ const getDogs =require("../controllers/getDogs");
 
 
 const handleGetAll = async (req, res)=>{ 
-    const dogFinal= await getDogs();
     try {
-      res.status(200).json(dogFinal)  
+      const dogFinal= await getDogs();
+      res.status(200).json(dogFinal);
     } catch (error) {
-      res.status(400).json("no hay dogs")
+      console.error('Error en handler getDogs:', error);
+      res.status(500).json({ 
+        error: 'Error interno del servidor al obtener perros',
+        message: error.message 
+      });
    }}
 
       module.exports =  handleGetAll
