@@ -144,10 +144,20 @@ const CreateDog = () => {
           altura: parseInt(form.altura.trim()),
           peso: parseInt(form.peso.trim()),
           anios: parseInt(form.anios.trim()),
-          temperament: form.temperament, // Mantener como array
+          temperament: form.temperament.join(', '), // Convertir array a string separado por comas
         };
 
         console.log('Enviando datos:', dogData);
+        console.log('Temperaments array:', JSON.stringify(dogData.temperament));
+        console.log('Tipos de datos:', {
+          nombre: typeof dogData.nombre,
+          imagen: typeof dogData.imagen,
+          altura: typeof dogData.altura,
+          peso: typeof dogData.peso,
+          anios: typeof dogData.anios,
+          temperament: typeof dogData.temperament,
+          temperamentIsArray: Array.isArray(dogData.temperament)
+        });
 
         const response = await axios.post('https://server-dogs-lr41.onrender.com/post', dogData);
         
@@ -172,11 +182,15 @@ const CreateDog = () => {
         }
         
       } catch (error) {
-        console.error("Error al crear el perro:", error);
+        console.error("Error completo:", error);
+        console.error("Error response:", error.response?.data);
+        console.error("Error status:", error.response?.status);
+        console.error("Error headers:", error.response?.headers);
         
         if (error.response) {
           const errorMessage = error.response.data?.message || error.response.data?.error || 'Error del servidor';
-          alert(`Error: ${errorMessage}`);
+          console.log("Mensaje de error del servidor:", errorMessage);
+          alert(`Error del servidor: ${errorMessage}\n\nDetalles: ${JSON.stringify(error.response.data)}`);
         } else if (error.request) {
           alert("Error de conexión. Verifica tu conexión a internet.");
         } else {
