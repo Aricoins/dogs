@@ -3,20 +3,6 @@ const { Sequelize } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
 
-
-const {
-  DB_USER, DB_PASSWORD, DB_HOST, DB_URL
-} = process.env;
-
-/*Conexion local*/
-// const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/dogs`, {
-//   logging: false, 
-//   native: false, 
-//   })
-
-
-
-/*Conexion deploy*/
 const sequelize = new Sequelize(process.env.DB_URL, {
   dialect: 'postgres',
   protocol: 'postgres',
@@ -25,42 +11,61 @@ const sequelize = new Sequelize(process.env.DB_URL, {
       require: true,
       rejectUnauthorized: false
     }
-  }
+  },
+  logging: console.log // Agrega logging para depuración
 });
 
 const basename = path.basename(__filename);
-
-
 const modelDefiners = [];
 
-// Leemos todos los archivos de la carpeta Models, los requerimos y agregamos al arreglo modelDefiners
+// Cargar modelos
 fs.readdirSync(path.join(__dirname, '/models'))
-  .filter((file) => (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js'))
-  .forEach((file) => {
+  .filter(file => file.endsWith('.js'))
+  .forEach(file => {
     modelDefiners.push(require(path.join(__dirname, '/models', file)));
   });
 
-// Injectamos la conexion (sequelize) a todos los modelos
+// Inyectar conexión a modelos
 modelDefiners.forEach(model => model(sequelize));
-// Capitalizamos los nombres de los modelos ie: product => Product
-let entries = Object.entries(sequelize.models);
-let capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].slice(1), entry[1]]);
-sequelize.models = Object.fromEntries(capsEntries);
 
-// En sequelize.models están todos los modelos importados como propiedades
-// Para relacionarlos hacemos un destructuring
-const { Dog, Temperament } = sequelize.models;
+// Capitalizar nombres de modelos
+const models = Object.entries(sequelize.models).reduce((acc, [name, model]) => {
+  acc[name[0].toUpperCase() + name.slice(1)] = model;
+  return acc;
+}, {});
 
-// Aca vendrian las relaciones
-// Product.hasMany(Reviews);
+// 1. DEFINIR RELACIONES ANTES DE EXPORTAR
+const { Dog, Temperament } = models;
 
+if (Dog && Temperament) {
+  Dog.belongsToMany(Temperament, { 
+    through: 'DogTemperament',
+    timestamps: false
+  });
+  
+  Temperament.belongsToMany(Dog, { 
+    through: 'DogTemperament',
+    timestamps: false
+  });
+  
+  console.log('✅ Relaciones definidas correctamente');
+} else {
+  console.error('❌ No se pudieron definir relaciones: modelos no encontrados');
+}
 
-  // Relación muchos a muchos entre Dog y Temperament
-  Dog.belongsToMany(Temperament, { through: 'DogTemperament' });
-  Temperament.belongsToMany(Dog, { through: 'DogTemperament' });
+// 2. SINCRONIZAR CON LA BASE DE DATOS
+(async () => {
+  try {
+    await sequelize.sync({ force: false });
+    console.log('✅ Base de datos sincronizada');
+  } catch (error) {
+    console.error('❌ Error sincronizando base de datos:', error);
+  }
+})();
 
 module.exports = {
-  ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
-  conn: sequelize,     // para importart la conexión { conn } = require('./db.js');
+  ...models,
+  conn: sequelize,
+  Dog, // Exportar explícitamente para fácil acceso
+  Temperament
 };
-
