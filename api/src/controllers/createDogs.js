@@ -1,13 +1,28 @@
-const { Dog, Temperament, DogTemperament } = require('../db');
-const { v4: uuidv4 } = require('uuid');
 
 const { Dog, Temperament, DogTemperament } = require('../db');
 const { v4: uuidv4 } = require('uuid');
+
+// Función temporal para debugging
+async function listAllTemperaments() {
+  try {
+    const temperaments = await Temperament.findAll();
+    console.log('=== TEMPERAMENTOS DISPONIBLES ===');
+    temperaments.forEach(t => {
+      console.log(`ID: ${t.id}, Nombre: "${t.name}"`);
+    });
+    console.log('=== FIN LISTA ===');
+    return temperaments;
+  } catch (error) {
+    console.error('Error listando temperamentos:', error);
+  }
+}
+
 
 async function createDogs(nombre, imagen, altura, peso, anios, temperament) {
   const id = uuidv4();
   const dogData = { id, nombre, imagen, altura, peso, anios, temperament };
-  
+ await listAllTemperaments();
+   
   try {
     // Crear un nuevo perro en la base de datos
     const newDog = await Dog.create(dogData);
