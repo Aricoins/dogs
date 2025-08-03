@@ -3,31 +3,26 @@ const { v4: uuidv4 } = require('uuid');
 
 async function createDogs(nombre, imagen, altura, peso, anios, temperament) {
   const id = uuidv4();
-  const dogData = { id, nombre, imagen, altura, peso, anios };
+  const dogData = { id, nombre, imagen, altura, peso, anios, temperament }; // Guardar como string
   console.log(dogData);
   
   try {
     // Crear un nuevo perro en la base de datos
     const newDog = await Dog.create(dogData);
     
-    // Manejar múltiples temperamentos
-    if (Array.isArray(temperament)) {
-      // Si es un array, procesar cada temperamento
-      for (const tempName of temperament) {
+    // Procesar los temperamentos del string
+    if (temperament && typeof temperament === 'string') {
+      // Dividir por comas y limpiar espacios
+      const temperamentNames = temperament.split(',').map(t => t.trim());
+      
+      // Procesar cada temperamento
+      for (const tempName of temperamentNames) {
         const temperamento = await Temperament.findOne({
           where: { name: tempName },
         });
         if (temperamento) {
           await newDog.addTemperament(temperamento.id);
         }
-      }
-    } else {
-      // Si es un string, procesar un solo temperamento
-      const temperamento = await Temperament.findOne({
-        where: { name: temperament },
-      });
-      if (temperamento) {
-        await newDog.addTemperament(temperamento.id);
       }
     }
     
@@ -42,3 +37,5 @@ async function createDogs(nombre, imagen, altura, peso, anios, temperament) {
     throw error;
   }
 }
+
+module.exports = createDogs;
