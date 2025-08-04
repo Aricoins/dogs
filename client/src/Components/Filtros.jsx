@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import colores from '../vistas/colores';
 import { getTemperaments, applyFilters, getDogs } from '../redux/actions/dogsActions';
+import { translateTemperaments, getTemperamentsForForm } from '../utils/temperamentTranslations';
 
 const FiltrosContainer = styled.div`
   display: flex;
@@ -141,7 +142,7 @@ const Filtros = () => {
           <option value="">Todos</option>
              {temperaments.map((temperamento, index) => (
             <option key={index} value={temperamento.name}>
-              {temperamento.name}
+              {translateTemperaments(temperamento.name)}
             </option>
           ))}
         </SelectTemperamentos>)  }
