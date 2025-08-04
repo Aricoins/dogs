@@ -124,13 +124,72 @@ const Detalle = styled.div`
   font-size: 140%
 
 `;
+// Contenedor para la imagen optimizada
+const ImageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0 30px 0;
+  padding: 10px;
+  background: linear-gradient(145deg, #f0f0f0, #e0e0e0);
+  border-radius: 20px;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+`;
+
 const Img = styled.img`
-background-color: ${colores.amarillo};
-width: 100%;
-max-height: 300px;
-object-fit: cover;
-border-radius: 10px;
-margin: 10px 0;
+  width: 100%;
+  height: 450px; /* Altura aumentada para mejor visualización */
+  max-width: 650px; /* Ancho máximo optimizado */
+  object-fit: contain; /* Mantiene proporciones completas sin recortar */
+  object-position: center;
+  border-radius: 15px;
+  border: 4px solid ${colores.verde};
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  background: white; /* Fondo blanco para mejor contraste */
+  transition: all 0.4s ease;
+  
+  &:hover {
+    transform: scale(1.03);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+    border-color: ${colores.amarillo};
+  }
+  
+  /* Optimización de renderizado para mejor calidad */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: optimize-contrast;
+  image-rendering: crisp-edges;
+  
+  /* Asegurar que la imagen se muestre completa */
+  min-height: 300px;
+  
+  /* Responsive design mejorado */
+  @media (max-width: 768px) {
+    height: 350px;
+    max-width: 100%;
+  }
+  
+  @media (max-width: 480px) {
+    height: 280px;
+    min-height: 200px;
+  }
+  
+  /* Fallback para imágenes que no cargan */
+  &:before {
+    content: "🐕";
+    font-size: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: ${colores.amarillo};
+    opacity: 0;
+  }
+  
+  &:error:before {
+    opacity: 1;
+  }
 `
 
 const AdoptionSection = styled.div`
@@ -310,7 +369,9 @@ function Detail(props) {
         ) : (
           <>
             <Detalle>{dog.nombre}</Detalle>
-            <Img src={dog.imagen} alt={dog.nombre} />
+            <ImageContainer>
+              <Img src={dog.imagen} alt={`Foto de ${dog.nombre}`} />
+            </ImageContainer>
             
             {/* Información básica */}
             <InfoGrid>
