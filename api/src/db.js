@@ -1,18 +1,28 @@
 const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '../../../.env') });
+const envPath = path.join(__dirname, '../../.env');
+
+require('dotenv').config({ path: envPath });
 const { Sequelize } = require('sequelize');
 const fs = require('fs');
+
+if (!process.env.DB_URL) {
+  console.error('❌ DB_URL no está definida en las variables de entorno');
+  process.exit(1);
+}
 
 const sequelize = new Sequelize(process.env.DB_URL, {
   dialect: 'postgres',
   protocol: 'postgres',
   dialectOptions: {
-    ssl: {
+    ssl: process.env.NODE_ENV === 'production' ? {
       require: true,
-      rejectUnauthorized: false
+      rejectUnauthorized: true // Seguro en producción
+    } : {
+      require: true,
+      rejectUnauthorized: false // Flexible en desarrollo
     }
   },
-  logging: console.log // Agrega logging para depuración
+  logging: process.env.NODE_ENV === 'production' ? false : console.log
 });
 
 const basename = path.basename(__filename);
