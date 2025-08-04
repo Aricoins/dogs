@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import colores from '../vistas/colores';
+import { translateTemperaments } from '../utils/temperamentTranslations';
 
 const CardWrapper = styled.figure`
   width: 200px;
@@ -84,6 +85,20 @@ function Card({
     temperament
 
   } = dog;
+
+  // Función para mostrar solo los primeros 2-3 temperamentos en la card
+  const getShortTemperaments = (temperamentString) => {
+    const translated = translateTemperaments(temperamentString);
+    if (!translated) return '';
+    
+    const temperaments = translated.split(', ');
+    if (temperaments.length <= 2) {
+      return translated;
+    } else {
+      return temperaments.slice(0, 2).join(', ') + '...';
+    }
+  };
+
 console.log(dog)
   return (
     <CardWrapper>
@@ -96,7 +111,7 @@ console.log(dog)
           <SubHeading>Altura: {altura}</SubHeading>
           <SubHeading>Peso: {peso} </SubHeading>
           <SubHeading>Años: {anios}</SubHeading>
-          <SubHeading>Temperamentos: {temperament}</SubHeading>
+          <SubHeading>Temperamentos: {getShortTemperaments(temperament)}</SubHeading>
         </StyledLink>
       </CardContent>
     </CardWrapper>

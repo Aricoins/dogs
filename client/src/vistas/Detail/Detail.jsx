@@ -4,6 +4,7 @@ import axios from "axios";
 import styled from "styled-components";
 import colores from "../colores";
 import Nav from "../../Components/Nav";
+import { translateTemperaments } from "../../utils/temperamentTranslations";
 
 // Funciones para interpretar datos y generar recomendaciones de adopción
 const getActivityLevel = (temperament, height, weight) => {
@@ -133,20 +134,54 @@ margin: 10px 0;
 `
 
 const AdoptionSection = styled.div`
-  background-color: ${colores.verde};
-  color: ${colores.amarillo};
-  padding: 15px;
-  margin: 10px 0;
-  border-radius: 10px;
-  border: 2px solid ${colores.marron};
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  color: white;
+  padding: 20px;
+  margin: 15px 0;
+  border-radius: 20px;
+  border: 3px solid #1a252f;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.5s;
+  }
+  
+  &:hover::before {
+    left: 100%;
+  }
 `;
 
 const AdoptionTitle = styled.h2`
-  color: ${colores.amarillo};
+  color: #ffffff;
   text-align: center;
-  margin-bottom: 15px;
-  font-size: 1.5em;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  margin-bottom: 20px;
+  font-size: 1.8em;
+  font-weight: 700;
+  text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  letter-spacing: 1px;
+  position: relative;
+  z-index: 1;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #f1c40f, #f39c12);
+    border-radius: 2px;
+  }
 `;
 
 const InfoGrid = styled.div`
@@ -161,31 +196,87 @@ const InfoGrid = styled.div`
 `;
 
 const InfoCard = styled.div`
-  background-color: ${colores.marron};
-  color: ${colores.amarillo};
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid ${colores.verde};
+  background: linear-gradient(145deg, #2c3e50, #34495e);
+  color: #ecf0f1;
+  padding: 15px;
+  border-radius: 15px;
+  border: 2px solid #3498db;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, #3498db, #2980b9);
+    border-radius: 0 2px 2px 0;
+  }
+  
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(52, 152, 219, 0.3);
+    border-color: #5dade2;
+  }
 `;
 
 const InfoLabel = styled.span`
-  font-weight: bold;
-  color: ${colores.verde};
+  font-weight: 700;
+  color: #3498db;
+  font-size: 0.95em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 5px;
 `;
 
 const InfoValue = styled.span`
-  color: ${colores.amarillo};
-  margin-left: 5px;
+  color: #ecf0f1;
+  font-size: 1.1em;
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 `;
 
 const RecommendationBox = styled.div`
-  background-color: ${colores.azul};
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
   color: white;
-  padding: 15px;
-  margin: 15px 0;
-  border-radius: 10px;
+  padding: 25px;
+  margin: 20px 0;
+  border-radius: 20px;
   text-align: center;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 30px rgba(231, 76, 60, 0.3);
+  border: 3px solid #fff;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '💖';
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    font-size: 6em;
+    opacity: 0.1;
+    transform: rotate(15deg);
+  }
+  
+  h3 {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 15px;
+    font-size: 1.4em;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+  
+  p {
+    position: relative;
+    z-index: 1;
+    line-height: 1.6;
+    font-size: 1.05em;
+  }
 `;
 
 function Detail(props) {
@@ -224,20 +315,20 @@ function Detail(props) {
             {/* Información básica */}
             <InfoGrid>
               <InfoCard>
-                <InfoLabel>Altura:</InfoLabel>
+                <InfoLabel>📏 Altura:</InfoLabel>
                 <InfoValue>{dog.altura}</InfoValue>
               </InfoCard>
               <InfoCard>
-                <InfoLabel>Peso:</InfoLabel>
+                <InfoLabel>⚖️ Peso:</InfoLabel>
                 <InfoValue>{dog.peso}</InfoValue>
               </InfoCard>
               <InfoCard>
-                <InfoLabel>Esperanza de vida:</InfoLabel>
+                <InfoLabel>⏰ Esperanza de vida:</InfoLabel>
                 <InfoValue>{dog.anios}</InfoValue>
               </InfoCard>
               <InfoCard>
-                <InfoLabel>Temperamento:</InfoLabel>
-                <InfoValue>{dog.temperament}</InfoValue>
+                <InfoLabel>🎭 Temperamento:</InfoLabel>
+                <InfoValue>{translateTemperaments(dog.temperament)}</InfoValue>
               </InfoCard>
             </InfoGrid>
 
@@ -277,12 +368,15 @@ function Detail(props) {
             <RecommendationBox>
               <h3>💝 Recomendación Personalizada</h3>
               <p>
-                {dog.nombre} es ideal para familias que buscan una mascota con nivel de actividad {getActivityLevel(dog.temperament, dog.altura, dog.peso).toLowerCase()} 
+                <strong>{dog.nombre}</strong> es ideal para familias que buscan una mascota con nivel de actividad <strong>{getActivityLevel(dog.temperament, dog.altura, dog.peso).toLowerCase()}</strong>
                 {getExperienceLevel(dog.temperament) === "Principiante" 
                   ? " y es perfecto para dueños primerizos." 
                   : ` y requiere dueños con experiencia ${getExperienceLevel(dog.temperament).toLowerCase()}.`
                 }
                 {getGoodWithKids(dog.temperament) === "Excelente con niños" && " ¡Será un compañero maravilloso para los niños de la familia!"}
+              </p>
+              <p style={{marginTop: '10px', fontSize: '0.9em', fontStyle: 'italic'}}>
+                Su temperamento <strong>"{translateTemperaments(dog.temperament)}"</strong> lo hace especialmente adecuado para {getIdealHome(dog.temperament, dog.altura, dog.peso).toLowerCase()}.
               </p>
             </RecommendationBox>
           </>
