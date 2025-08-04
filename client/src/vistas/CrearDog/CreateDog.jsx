@@ -166,7 +166,12 @@ const CreateDog = () => {
         
         const createdDogId = response.data.id || response.data.ID;
         
-        alert(`¡${dogData.nombre} con temperamentos ${dogData.temperament.join(', ')} ha sido creado exitosamente!`);
+        // Manejar temperament como string o array
+        const temperamentDisplay = Array.isArray(dogData.temperament) 
+          ? dogData.temperament.join(', ')
+          : dogData.temperament;
+        
+        alert(`¡${dogData.nombre} con temperamentos ${temperamentDisplay} ha sido creado exitosamente!`);
         
         setForm({
           nombre: "",

@@ -36,6 +36,16 @@ const validateDogInput = (data) => {
     errors.push('Años debe ser un número entre 1 y 30');
   }
   
+  // Procesar temperament - puede venir como string o array
+  let processedTemperament = '';
+  if (data.temperament) {
+    if (typeof data.temperament === 'string') {
+      processedTemperament = data.temperament.trim();
+    } else if (Array.isArray(data.temperament)) {
+      processedTemperament = data.temperament.join(', ');
+    }
+  }
+
   return {
     isValid: errors.length === 0,
     errors,
@@ -45,7 +55,7 @@ const validateDogInput = (data) => {
       altura,
       peso,
       anios,
-      temperament: data.temperament?.trim()
+      temperament: processedTemperament
     }
   };
 };
