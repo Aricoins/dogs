@@ -4,6 +4,7 @@ import axios from 'axios';
 import colores from '../../vistas/colores';
 import Nav from '../../Components/Nav';
 import { useSelector } from 'react-redux';
+import { translateTemperaments, getTemperamentsForForm } from '../../utils/temperamentTranslations';
 
 // Validaciones
 const nombreRegex = /^[a-zA-ZÀ-ÿ\s]+$/;
@@ -78,6 +79,9 @@ const validation = (form) => {
 const CreateDog = () => {
   const history = useHistory();
   const temperaments = useSelector((state) => state.temperaments);
+  
+  // Procesar temperamentos para el formulario (mostrar en español, enviar en inglés)
+  const processedTemperaments = getTemperamentsForForm(temperaments);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [form, setForm] = useState({
@@ -101,11 +105,11 @@ const CreateDog = () => {
   };
 
   const handleTemperamentSelect = (event) => {
-    const selectedValue = event.target.value;
+    const selectedValue = event.target.value; // Este es el valor en inglés
     if (selectedValue && !form.temperament.includes(selectedValue)) {
       const updatedForm = {
         ...form,
-        temperament: [...form.temperament, selectedValue]
+        temperament: [...form.temperament, selectedValue] // Guardamos en inglés
       };
       setForm(updatedForm);
       
@@ -166,10 +170,10 @@ const CreateDog = () => {
         
         const createdDogId = response.data.id || response.data.ID;
         
-        // Manejar temperament como string o array
+        // Manejar temperament como string o array y traducir para mostrar
         const temperamentDisplay = Array.isArray(dogData.temperament) 
-          ? dogData.temperament.join(', ')
-          : dogData.temperament;
+          ? translateTemperaments(dogData.temperament.join(', '))
+          : translateTemperaments(dogData.temperament);
         
         alert(`¡${dogData.nombre} con temperamentos ${temperamentDisplay} ha sido creado exitosamente!`);
         
@@ -632,11 +636,11 @@ const CreateDog = () => {
                     <option value="" disabled>
                       Selecciona un temperamento
                     </option>
-                    {temperaments
-                      .filter(temp => !form.temperament.includes(temp.name))
+                    {processedTemperaments
+                      .filter(temp => !form.temperament.includes(temp.value))
                       .map((temp) => (
-                        <option key={temp.ID} value={temp.name}>
-                          {temp.name}
+                        <option key={temp.id} value={temp.value}>
+                          {temp.display}
                         </option>
                       ))}
                   </select>
@@ -645,11 +649,11 @@ const CreateDog = () => {
                     {form.temperament.length > 0 ? (
                       form.temperament.map((temp, index) => (
                         <span key={index} style={styles.chip}>
-                          {temp}
+                          {translateTemperaments(temp)}
                           <button
                             type="button"
                             onClick={() => removeTemperament(temp)}
-                            aria-label={`Remover ${temp}`}
+                            aria-label={`Remover ${translateTemperaments(temp)}`}
                             style={styles.chipButton}
                             onMouseEnter={(e) => Object.assign(e.target.style, {
                               ...styles.chipButton,
@@ -672,7 +676,7 @@ const CreateDog = () => {
                     <p style={styles.errorMessage}>{errors.temperament}</p>
                   ) : form.temperament.length > 0 && (
                     <p style={styles.successMessage}>
-                      ✓ {form.temperament.length} temperamento{form.temperament.length > 1 ? 's' : ''} seleccionado{form.temperament.length > 1 ? 's' : ''}
+                      ✓ {form.temperament.length} temperamento{form.temperament.length > 1 ? 's' : ''} seleccionado{form.temperament.length > 1 ? 's' : ''}: {form.temperament.map(temp => translateTemperaments(temp)).join(', ')}
                     </p>
                   )}
                 </div>

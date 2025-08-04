@@ -1,131 +1,173 @@
-// Mapeo de temperamentos de inglés a español
+// Mapeo completo de temperamentos de inglés a español
+// Basado en todos los 124 temperamentos únicos de la API de TheDogAPI
 const temperamentMap = {
-  // Temperamentos comunes de perros
-  'Stubborn': 'Terco',
-  'Curious': 'Curioso',
-  'Playful': 'Juguetón',
-  'Adventurous': 'Aventurero',
+  // A
   'Active': 'Activo',
-  'Fun-loving': 'Divertido',
-  'Aloof': 'Distante',
-  'Clownish': 'Payaso',
-  'Dignified': 'Digno',
-  'Independent': 'Independiente',
-  'Happy': 'Feliz',
-  'Friendly': 'Amigable',
-  'Affectionate': 'Cariñoso',
-  'Devoted': 'Devoto',
-  'Sweet-Tempered': 'Dulce',
-  'Gentle': 'Gentil',
-  'Energetic': 'Enérgico',
-  'Loyal': 'Leal',
-  'Confident': 'Confiado',
-  'Alert': 'Alerta',
-  'Intelligent': 'Inteligente',
-  'Protective': 'Protector',
-  'Brave': 'Valiente',
-  'Courageous': 'Valiente',
-  'Fearless': 'Intrépido',
-  'Bold': 'Audaz',
-  'Calm': 'Tranquilo',
-  'Quiet': 'Silencioso',
-  'Patient': 'Paciente',
-  'Even Tempered': 'Temperamento Equilibrado',
-  'Good-natured': 'Bondadoso',
-  'Loving': 'Amoroso',
-  'Obedient': 'Obediente',
-  'Trainable': 'Entrenable',
-  'Responsive': 'Receptivo',
-  'Eager': 'Ansioso',
-  'Keen': 'Entusiasta',
-  'Lively': 'Vivaz',
-  'Spirited': 'Animado',
-  'Cheerful': 'Alegre',
-  'Merry': 'Jovial',
-  'Joyful': 'Gozoso',
-  'Outgoing': 'Extrovertido',
-  'Sociable': 'Sociable',
-  'Companionable': 'Compañero',
-  'Reliable': 'Confiable',
-  'Stable': 'Estable',
-  'Steady': 'Constante',
-  'Reserved': 'Reservado',
-  'Docile': 'Dócil',
-  'Submissive': 'Sumiso',
-  'Trusting': 'Confiado',
-  'Faithful': 'Fiel',
-  'Strong Willed': 'Voluntarioso',
-  'Dominant': 'Dominante',
-  'Assertive': 'Asertivo',
-  'Territorial': 'Territorial',
-  'Aggressive': 'Agresivo',
-  'Feisty': 'Luchador',
-  'Tenacious': 'Tenaz',
-  'Determined': 'Determinado',
-  'Hardworking': 'Trabajador',
-  'Dutiful': 'Cumplidor',
-  'Responsible': 'Responsable',
   'Adaptable': 'Adaptable',
-  'Versatile': 'Versátil',
-  'Hardy': 'Resistente',
-  'Rugged': 'Robusto',
-  'Athletic': 'Atlético',
+  'Adventurous': 'Aventurero',
+  'Affectionate': 'Cariñoso',
+  'Aggressive': 'Agresivo',
   'Agile': 'Ágil',
-  'Quick': 'Rápido',
-  'Swift': 'Veloz',
-  'Graceful': 'Elegante',
-  'Dignified': 'Distinguido',
-  'Noble': 'Noble',
-  'Regal': 'Regio',
-  'Proud': 'Orgulloso',
-  'Majestic': 'Majestuoso',
-  'Elegant': 'Elegante',
-  'Refined': 'Refinado',
-  'Sophisticated': 'Sofisticado',
+  'Alert': 'Alerta',
+  'Aloof': 'Distante',
+  'Amiable': 'Amable',
+  'Assertive': 'Asertivo',
+  'Athletic': 'Atlético',
+  'Attentive': 'Atento',
+  
+  // B
+  'Benevolent': 'Benevolente',
+  'Boisterous': 'Bullicioso',
+  'Bold': 'Audaz',
+  'Bossy': 'Dominante',
+  'Brave': 'Valiente',
+  'Bright': 'Brillante',
+  'Bubbly': 'Burbujeante',
+  
+  // C
+  'Calm': 'Tranquilo',
+  'Cat-like': 'Felino',
+  'Cautious': 'Cauteloso',
+  'Charming': 'Encantador',
+  'Cheerful': 'Alegre',
+  'Clever': 'Astuto',
+  'Clownish': 'Payaso',
+  'Companionable': 'Compañero',
   'Composed': 'Sereno',
+  'Confident': 'Confiado',
+  'Cooperative': 'Cooperativo',
+  'Courageous': 'Valiente',
+  'Cunning': 'Astuto',
+  'Curious': 'Curioso',
+  
+  // D
+  'Determined': 'Determinado',
+  'Devoted': 'Devoto',
+  'Dignified': 'Digno',
+  'Diligent': 'Diligente',
+  'Docile': 'Dócil',
+  'Dominant': 'Dominante',
+  'Dutiful': 'Cumplidor',
+  
+  // E
+  'Eager': 'Ansioso',
+  'Easygoing': 'Relajado',
+  'Energetic': 'Enérgico',
+  'Even tempered': 'Temperamento Equilibrado',
+  'Excitable': 'Excitable',
+  'Extroverted': 'Extrovertido',
+  
+  // F
+  'Faithful': 'Fiel',
+  'Familial': 'Familiar',
+  'Fast': 'Rápido',
+  'Fearless': 'Intrépido',
+  'Feisty': 'Luchador',
+  'Fierce': 'Feroz',
+  'Friendly': 'Amigable',
+  'Fun-loving': 'Divertido',
+  
+  // G
+  'Gay': 'Alegre',
+  'Generous': 'Generoso',
+  'Gentle': 'Gentil',
+  'Good-natured': 'Bondadoso',
+  'Good-tempered': 'Buen Temperamento',
+  'Great-hearted': 'Gran Corazón',
+  
+  // H
+  'Happy': 'Feliz',
+  'Hard-working': 'Trabajador',
+  'Hardworking': 'Trabajador',
+  'Hardy': 'Resistente',
+  
+  // I
+  'Independent': 'Independiente',
+  'Inquisitive': 'Inquisitivo',
+  'Intelligent': 'Inteligente',
+  
+  // J
+  'Joyful': 'Gozoso',
+  
+  // K
+  'Keen': 'Entusiasta',
+  'Kind': 'Amable',
+  
+  // L
+  'Lively': 'Vivaz',
+  'Lovable': 'Adorable',
+  'Loving': 'Amoroso',
+  'Loyal': 'Leal',
+  
+  // M
+  'Merry': 'Jovial',
+  'Mischievous': 'Travieso',
+  
+  // O
+  'Obedient': 'Obediente',
+  'Opinionated': 'Terco',
+  'Outgoing': 'Extrovertido',
+  
+  // P
+  'Patient': 'Paciente',
+  'People-oriented': 'Orientado a las Personas',
+  'Playful': 'Juguetón',
+  'Powerful': 'Poderoso',
+  'Protective': 'Protector',
+  'Proud': 'Orgulloso',
+  
+  // Q
+  'Quick': 'Rápido',
+  'Quiet': 'Silencioso',
+  
+  // R
+  'Rational': 'Racional',
+  'Receptive': 'Receptivo',
+  'Refined': 'Refinado',
+  'Reliable': 'Confiable',
+  'Reserved': 'Reservado',
+  'Respectful': 'Respetuoso',
+  'Responsible': 'Responsable',
+  'Responsive': 'Receptivo',
+  'Rugged': 'Robusto',
+  
+  // S
   'Self-assured': 'Seguro de sí mismo',
   'Self-confidence': 'Confianza en sí mismo',
-  'Powerful': 'Poderoso',
+  'Self-important': 'Presumido',
+  'Sensitive': 'Sensible',
+  'Sociable': 'Sociable',
+  'Spirited': 'Animado',
+  'Spunky': 'Vivaz',
+  'Stable': 'Estable',
+  'Steady': 'Constante',
   'Strong': 'Fuerte',
-  'Muscular': 'Musculoso',
-  'Robust': 'Robusto',
-  'Vigorous': 'Vigoroso',
-  'Enduring': 'Resistente',
-  'Tireless': 'Incansable',
-  'Indefatigable': 'Infatigable',
-  'Persistent': 'Persistente',
-  'Persevering': 'Perseverante',
-  'Dedicated': 'Dedicado',
-  'Committed': 'Comprometido',
-  'Focused': 'Concentrado',
-  'Attentive': 'Atento',
-  'Observant': 'Observador',
-  'Vigilant': 'Vigilante',
-  'Watchful': 'Vigilante',
-  'Cautious': 'Cauteloso',
-  'Careful': 'Cuidadoso',
-  'Prudent': 'Prudente',
-  'Sensible': 'Sensato',
-  'Wise': 'Sabio',
+  'Strong willed': 'Voluntarioso',
+  'Stubborn': 'Terco',
+  'Sturdy': 'Robusto',
+  'Suspicious': 'Desconfiado',
+  'Sweet-tempered': 'Dulce',
+  
+  // T
+  'Tenacious': 'Tenaz',
+  'Territorial': 'Territorial',
   'Thoughtful': 'Reflexivo',
-  'Contemplative': 'Contemplativo',
-  'Peaceful': 'Pacífico',
-  'Serene': 'Sereno',
-  'Tranquil': 'Tranquilo',
-  'Relaxed': 'Relajado',
-  'Easy-going': 'Relajado',
-  'Laid-back': 'Tranquilo',
-  'Mellow': 'Apacible',
-  'Mild': 'Suave',
-  'Sweet': 'Dulce',
-  'Kind': 'Amable',
-  'Benevolent': 'Benevolente',
-  'Compassionate': 'Compasivo',
-  'Empathetic': 'Empático',
-  'Understanding': 'Comprensivo',
   'Tolerant': 'Tolerante',
-  'Forgiving': 'Perdonador',
-  'Great-hearted': 'Gran corazón'
+  'Trainable': 'Entrenable',
+  'Trusting': 'Confiado',
+  'Trustworthy': 'Confiable',
+  
+  // U
+  'Unflappable': 'Imperturbable',
+  
+  // V
+  'Vigilant': 'Vigilante',
+  'Vocal': 'Vocal',
+  
+  // W
+  'Watchful': 'Vigilante',
+  'Wild': 'Salvaje',
+  'Willful': 'Obstinado'
 };
 
 /**
@@ -196,6 +238,37 @@ export const hasTranslation = (temperament) => {
          Object.keys(temperamentMap).some(key => 
            key.toLowerCase() === temperament.toLowerCase()
          );
+};
+
+/**
+ * Traduce de español a inglés (traducción inversa)
+ * @param {string} spanishTemperament - Temperamento en español
+ * @returns {string} - Temperamento en inglés o el original si no se encuentra
+ */
+export const translateToEnglish = (spanishTemperament) => {
+  if (!spanishTemperament) return '';
+  
+  // Crear mapeo inverso en tiempo de ejecución
+  const reverseMap = Object.fromEntries(
+    Object.entries(temperamentMap).map(([english, spanish]) => [spanish, english])
+  );
+  
+  return reverseMap[spanishTemperament] || spanishTemperament;
+};
+
+/**
+ * Obtiene temperamentos para el formulario (en español para mostrar, en inglés como valor)
+ * @param {Array} englishTemperaments - Array de temperamentos en inglés de la API
+ * @returns {Array} - Array de objetos {display: 'español', value: 'english'}
+ */
+export const getTemperamentsForForm = (englishTemperaments) => {
+  return englishTemperaments
+    .map(temp => ({
+      display: translateTemperaments(temp.name || temp), // Para mostrar
+      value: temp.name || temp, // Para enviar al backend
+      id: temp.id || temp.ID
+    }))
+    .sort((a, b) => a.display.localeCompare(b.display));
 };
 
 export default temperamentMap;
