@@ -18,26 +18,72 @@ async function createDogs(nombre, imagen, altura, peso, anios, temperament) {
         .map(t => t.trim())
         .filter(t => t !== '');
 
-      // 3. Normalizar nombres (primera letra mayúscula)
-      const normalizedNames = temperamentNames.map(name => 
-        name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
-      );
+      // 3. Mantener nombres exactos como vienen de la API (sin normalizar case)
+      const normalizedNames = temperamentNames.map(name => name.trim());
+      
+      console.log('Temperamentos originales recibidos:', temperamentNames);
+      console.log('Temperamentos después de trim:', normalizedNames);
 
-      // 4. Buscar temperamentos existentes
-      const existingTemperaments = await Temperament.findAll({
-        where: { name: normalizedNames }
-      });
+      // 4. Buscar temperamentos existentes usando búsqueda individual
+      const { Op } = require('sequelize');
+      const existingTemperaments = [];
+      
+      for (const tempName of normalizedNames) {
+        try {
+          // Buscar cada temperamento individualmente
+          const found = await Temperament.findOne({
+            where: { 
+              [Op.or]: [
+                { name: tempName }, // Búsqueda exacta
+                { name: { [Op.iLike]: tempName } } // Búsqueda case-insensitive
+              ]
+            }
+          });
+          
+          if (found) {
+            existingTemperaments.push(found);
+            console.log(`✅ Encontrado: ${tempName} -> ${found.name} (ID: ${found.id})`);
+          } else {
+            console.log(`❌ No encontrado: ${tempName}`);
+          }
+        } catch (searchError) {
+          console.error(`Error buscando temperamento "${tempName}":`, searchError.message);
+        }
+      }
 
       // 5. Logs para depuración
       console.log('=== VALIDACIÓN DE TEMPERAMENTOS ===');
       console.log('Solicitados:', normalizedNames);
-      console.log('Encontrados:', existingTemperaments.filter(t => t && t.name).map(t => t.name));
+      console.log('Temperamentos raw encontrados:', existingTemperaments);
+      console.log('Encontrados válidos:', existingTemperaments.filter(t => t && t.name).map(t => t.name));
       
-      // 6. Filtrar temperamentos válidos y asociar
-      const validTemperaments = existingTemperaments.filter(t => t && t.id);
+      // 6. Filtrar temperamentos válidos con verificación estricta
+      const validTemperaments = existingTemperaments.filter(t => {
+        if (!t) {
+          console.log('⚠️ Temperamento null encontrado');
+          return false;
+        }
+        if (!t.id) {
+          console.log('⚠️ Temperamento sin ID encontrado:', t);
+          return false;
+        }
+        if (typeof t.id !== 'number' && typeof t.id !== 'string') {
+          console.log('⚠️ Temperamento con ID inválido:', t.id, typeof t.id);
+          return false;
+        }
+        return true;
+      });
+      
+      console.log(`Temperamentos válidos para asociar: ${validTemperaments.length}/${existingTemperaments.length}`);
+      
       if (validTemperaments.length > 0) {
-        await newDog.addTemperaments(validTemperaments);
-        console.log('✅ Temperamentos asociados correctamente');
+        try {
+          await newDog.addTemperaments(validTemperaments);
+          console.log('✅ Temperamentos asociados correctamente:', validTemperaments.map(t => `${t.name}(${t.id})`));
+        } catch (associationError) {
+          console.error('❌ Error asociando temperamentos:', associationError.message);
+          // No lanzar error, continuar sin temperamentos
+        }
       } else {
         console.log('⚠️ No se encontraron temperamentos válidos para asociar');
       }
