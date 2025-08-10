@@ -3,38 +3,150 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import colores from '../vistas/colores';
 import { getTemperaments, applyFilters, getDogs } from '../redux/actions/dogsActions';
-import { translateTemperaments, getTemperamentsForForm } from '../utils/temperamentTranslations';
+import { translateTemperaments } from '../utils/temperamentTranslations';
 
 const FiltrosContainer = styled.div`
   display: flex;
   flex-direction: row;
-  background-color: ${colores.verde};
-  border-radius: 8px;
-   margin-top: 10px;
+  background: ${colores.white};
+  border-radius: 12px;
+  margin: 20px 0;
+  padding: 20px;
   width: 100%;
-  height: 40px;
-  color: ${colores.amarillo};
-  font-size: 15px;
-  font-weight: bold;
+  min-height: 60px;
+  color: ${colores.primary};
+  font-size: 14px;
+  font-weight: 600;
   align-items: center;
-  @media only screen and (max-width : 700px) {
-    flex-direction: column;}
-  `;
+  justify-content: space-between;
+  box-shadow: ${colores.mediumShadow};
+  border: 1px solid ${colores.lightGrey};
+  gap: 20px;
+  
+  @media only screen and (max-width: 768px) {
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    align-items: stretch;
+  }
+  
+  h5 {
+    margin: 0 8px 0 0;
+    color: ${colores.primary};
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    
+    @media only screen and (max-width: 768px) {
+      margin: 0 0 8px 0;
+      text-align: center;
+    }
+  }
+`;
+
+const FilterGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  
+  @media only screen and (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+`;
+
 const BotonFiltro = styled.button`
-  padding: 10px;
-  background-color: ${colores.amarillo};
+  padding: 10px 16px;
+  background: ${colores.primaryGradient};
+  color: ${colores.white};
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
-  margin:4px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  min-width: 120px;
+  box-shadow: ${colores.softShadow};
+  
   &:hover {
-    background-color: ${colores.gris};
+    transform: translateY(-2px);
+    box-shadow: ${colores.mediumShadow};
+    background: linear-gradient(135deg, #5a67d8 0%, #667eea 100%);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  @media only screen and (max-width: 768px) {
+    min-width: auto;
+    width: 100%;
+    padding: 12px 16px;
   }
 `;
 
 const SelectTemperamentos = styled.select`
-  margin-left: 10px;
-  justify-content: center;
+  padding: 10px 12px;
+  border: 2px solid ${colores.lightGrey};
+  border-radius: 8px;
+  background-color: ${colores.white};
+  color: ${colores.primary};
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 140px;
+  outline: none;
+  
+  &:focus {
+    border-color: ${colores.secondary};
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+  }
+  
+  &:hover {
+    border-color: ${colores.secondary};
+  }
+  
+  option {
+    padding: 8px;
+    color: ${colores.primary};
+  }
+  
+  @media only screen and (max-width: 768px) {
+    min-width: auto;
+    width: 100%;
+  }
+`;
+
+const LoadingSpinner = styled.div`
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid ${colores.lightGrey};
+  border-radius: 50%;
+  border-top-color: ${colores.secondary};
+  animation: spin 1s ease-in-out infinite;
+  margin: 0 8px;
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+`;
+
+const Divider = styled.div`
+  width: 1px;
+  height: 30px;
+  background-color: ${colores.lightGrey};
+  margin: 0 8px;
+  
+  @media only screen and (max-width: 768px) {
+    width: 100%;
+    height: 1px;
+    margin: 8px 0;
+  }
 `;
 const Filtros = () => {
   const dogs = useSelector((state) => state.dogs);
@@ -135,42 +247,59 @@ const Filtros = () => {
 
    return (
     <FiltrosContainer>
-      <h5>Temperamento:</h5><div>
-      {loading ? (<p>Cargando...</p>) : 
-            (
-        <SelectTemperamentos value={selectedTemperament} onChange={handleTemperamentChange}>
-          <option value="">Todos</option>
-             {temperaments.map((temperamento, index) => (
-            <option key={index} value={temperamento.name}>
-              {translateTemperaments(temperamento.name)}
-            </option>
-          ))}
-        </SelectTemperamentos>)  }
-          <BotonFiltro onClick={handleApplyFilters
-          }>Aplicar Filtro</BotonFiltro>
-    </div>
-      <hr />
-      <h5>Alfabético:</h5>
-      <BotonFiltro onClick={handleSortAZ}>
-        {sortType === 'asc' ? 'Z-A' : 'A-Z'}
-      </BotonFiltro>
+      <FilterGroup>
+        <h5>Temperamento:</h5>
+        {loading ? (
+          <LoadingSpinner />
+        ) : (
+          <>
+            <SelectTemperamentos value={selectedTemperament} onChange={handleTemperamentChange}>
+              <option value="">Todos los temperamentos</option>
+              {temperaments.map((temperamento, index) => (
+                <option key={index} value={temperamento.name}>
+                  {translateTemperaments(temperamento.name)}
+                </option>
+              ))}
+            </SelectTemperamentos>
+            <BotonFiltro onClick={handleApplyFilters}>
+              Aplicar
+            </BotonFiltro>
+          </>
+        )}
+      </FilterGroup>
 
-            <h5>Por Peso:</h5>
-        <BotonFiltro onClick={handleSortByWeight}>
-          {sortTypeW === 'Mayor a Menor' ? 'Menor a Mayor' : 'Mayor a Menor'}
+      <Divider />
+
+      <FilterGroup>
+        <h5>Alfabético:</h5>
+        <BotonFiltro onClick={handleSortAZ}>
+          {sortType === 'asc' ? 'Z → A' : 'A → Z'}
         </BotonFiltro>
+      </FilterGroup>
 
-      <h5> Origen: </h5>
-           <SelectTemperamentos value={filterType} onChange={(e) => setFilterType(e.target.value)}>
-          <option value="all">Todos</option>
-          <option value="api">Dogs API</option>
-          <option value="uuid">Dogs DB</option>
+      <Divider />
+
+      <FilterGroup>
+        <h5>Por Peso:</h5>
+        <BotonFiltro onClick={handleSortByWeight}>
+          {sortTypeW === 'Mayor a Menor' ? 'Menor → Mayor' : 'Mayor → Menor'}
+        </BotonFiltro>
+      </FilterGroup>
+
+      <Divider />
+
+      <FilterGroup>
+        <h5>Origen:</h5>
+        <SelectTemperamentos value={filterType} onChange={(e) => setFilterType(e.target.value)}>
+          <option value="all">Todos los orígenes</option>
+          <option value="api">API Externa</option>
+          <option value="uuid">Base de Datos</option>
         </SelectTemperamentos>
-        
-        <BotonFiltro onClick={handleOrigen}>Aplicar Filtro</BotonFiltro>
-  
+        <BotonFiltro onClick={handleOrigen}>
+          Aplicar
+        </BotonFiltro>
+      </FilterGroup>
     </FiltrosContainer>
- 
   );
 };
 

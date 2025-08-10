@@ -5,71 +5,149 @@ import colores from '../vistas/colores';
 import { translateTemperaments } from '../utils/temperamentTranslations';
 
 const CardWrapper = styled.figure`
-  width: 200px;
-  height: 400px;
-  margin: 10px;
+  width: 280px;
+  height: 420px;
+  margin: 16px;
   display: flex;
   justify-content: center;
-  border: 5px solid ${colores.verde};
-  background-color: ${colores.amarillo};
-  border-radius: 10px;
-  box-shadow: 0em 1em 2em 0.5em black;
+  background: ${colores.white};
+  border-radius: 16px;
+  box-shadow: ${colores.softShadow};
+  border: 1px solid ${colores.lightGrey};
+  transition: all 0.3s ease;
+  overflow: hidden;
+  position: relative;
+  
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: ${colores.strongShadow};
+  }
+  
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 320px;
+    margin: 12px auto;
+  }
 `;
 
 const CardContent = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  margin: 0.5em;
-  opacity: 1;
+  padding: 16px;
+  width: 100%;
+  height: 100%;
 `;
 
-const ImageContainer = styled.h2`
-  width: 200px;
-  max-height: 200px;
-   display: flex;
-  flex-direction: column;
+const ImageContainer = styled.div`
+  width: 100%;
+  height: 200px;
+  display: flex;
   justify-content: center;
-  transition: 1s;
-  opacity: 1;
-  color: ${colores.marron}
-
+  align-items: center;
+  overflow: hidden;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  background: ${colores.lightGrey};
+  
   img {
-    width: 150px;
-    height: 100px;
-    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+    border-radius: 12px;
   }
+  
+  &:hover img {
+    transform: scale(1.05);
+  }
+`;
 
-  :hover {
-    filter: brightness(1.2);
-  }
+const DogName = styled.h2`
+  color: ${colores.primary};
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 12px 0;
+  text-transform: capitalize;
+  letter-spacing: -0.02em;
 `;
 
 const StyledLink = styled(NavLink)`
+  color: inherit;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: all 0.3s ease;
   
-color: ${colores.marron};
-font-weight: bold;
-text-decoration: none;
-  text-align: center;
-  transition: 1s;
-  opacity: 1;
-  border-radius: 10px;
-  font-size: 15px;
-
-  :hover {
-    color: ${colores.negro};
-    cursor: pointer;
-    opacity: 0.9;
+  &:hover {
+    text-decoration: none;
+    color: inherit;
   }
 `;
 
-
-const SubHeading = styled.h6`
-  color: ${colores.verde};
+const InfoSection = styled.div`
   display: flex;
-  justify-content: center;
-  margin: 1%;
-  opacity: 1;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+`;
+
+const InfoItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: ${colores.lightGrey};
+  border-radius: 8px;
+  font-size: 13px;
+  
+  .label {
+    font-weight: 600;
+    color: ${colores.mediumGrey};
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 11px;
+  }
+  
+  .value {
+    font-weight: 600;
+    color: ${colores.primary};
+    text-align: right;
+    flex: 1;
+    margin-left: 8px;
+  }
+`;
+
+const TemperamentContainer = styled.div`
+  margin-top: 8px;
+  
+  .label {
+    font-weight: 600;
+    color: ${colores.mediumGrey};
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 11px;
+    margin-bottom: 6px;
+    display: block;
+  }
+  
+  .temperaments {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+`;
+
+const TemperamentTag = styled.span`
+  background: ${colores.primaryGradient};
+  color: ${colores.white};
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
 `;
 
 function Card({
@@ -86,32 +164,60 @@ function Card({
 
   } = dog;
 
-  // Función para mostrar solo los primeros 2-3 temperamentos en la card
-  const getShortTemperaments = (temperamentString) => {
+  // Función para mostrar temperamentos como tags
+  const getTemperamentTags = (temperamentString) => {
     const translated = translateTemperaments(temperamentString);
-    if (!translated) return '';
+    if (!translated) return [];
     
     const temperaments = translated.split(', ');
-    if (temperaments.length <= 2) {
-      return translated;
-    } else {
-      return temperaments.slice(0, 2).join(', ') + '...';
-    }
+    return temperaments.slice(0, 3); // Mostrar máximo 3 temperamentos
   };
 
-console.log(dog)
+  const temperamentTags = getTemperamentTags(temperament);
+
   return (
     <CardWrapper>
       <CardContent>
-        <StyledLink to={`/detail/${id}`} props={dog}>
-          {nombre}
+        <StyledLink to={`/detail/${id}`}>
           <ImageContainer>
-            <img src={imagen} alt={`Dog ${nombre}`} />
+            <img 
+              src={imagen} 
+              alt={`${nombre} - Perro de raza`}
+              loading="lazy"
+            />
           </ImageContainer>
-          <SubHeading>Altura: {altura}</SubHeading>
-          <SubHeading>Peso: {peso} </SubHeading>
-          <SubHeading>Años: {anios}</SubHeading>
-          <SubHeading>Temperamentos: {getShortTemperaments(temperament)}</SubHeading>
+          
+          <DogName>{nombre}</DogName>
+          
+          <InfoSection>
+            <InfoItem>
+              <span className="label">Altura</span>
+              <span className="value">{altura} cm</span>
+            </InfoItem>
+            
+            <InfoItem>
+              <span className="label">Peso</span>
+              <span className="value">{peso} kg</span>
+            </InfoItem>
+            
+            <InfoItem>
+              <span className="label">Años de vida</span>
+              <span className="value">{anios} años</span>
+            </InfoItem>
+            
+            {temperamentTags.length > 0 && (
+              <TemperamentContainer>
+                <span className="label">Temperamentos</span>
+                <div className="temperaments">
+                  {temperamentTags.map((temp, index) => (
+                    <TemperamentTag key={index}>
+                      {temp.trim()}
+                    </TemperamentTag>
+                  ))}
+                </div>
+              </TemperamentContainer>
+            )}
+          </InfoSection>
         </StyledLink>
       </CardContent>
     </CardWrapper>

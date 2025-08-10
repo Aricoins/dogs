@@ -111,12 +111,13 @@ const Onda = styled.div`
   }
 `;
 
-const Propiedades = styled.h3`
-  justify-content: center;
-  color: ${colores.verde};
-  height: 5%;
-  background-color: ${colores.amarillo};
-`;
+// Unused styled component - kept for future development
+// const Propiedades = styled.h3`
+//   justify-content: center;
+//   color: ${colores.verde};
+//   height: 5%;
+//   background-color: ${colores.amarillo};
+// `;
 const Detalle = styled.div`
   background-color: ${colores.verde};
   color: ${colores.gris};

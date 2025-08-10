@@ -7,7 +7,8 @@ import SearchBar from '../../Components/SearchBar';
 import styled, { keyframes } from 'styled-components';
 import imagen from "../Landing/icono.png";
 import colores from "../../vistas/colores";
-import { setPage, setTotalPages } from '../../redux/actions/paginationActions';
+// Pagination actions available but not used in current implementation
+// import { setPage, setTotalPages } from '../../redux/actions/paginationActions';
 import gif from "../../assets/gif3.gif";
 
 // Animaciones
@@ -196,6 +197,31 @@ const LoadingSubtext = styled.p`
   max-width: 400px;
 `;
 
+const ProgressContainer = styled.div`
+  width: 100%;
+  max-width: 300px;
+  height: 8px;
+  background-color: ${colores.lightGrey};
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 1rem 0;
+`;
+
+const ProgressBar = styled.div`
+  height: 100%;
+  background: ${colores.primaryGradient};
+  border-radius: 4px;
+  transition: width 0.3s ease;
+  width: ${props => props.progress}%;
+`;
+
+const ProgressText = styled.div`
+  font-size: 0.9rem;
+  color: ${colores.mediumGrey};
+  margin-top: 0.5rem;
+  font-weight: 600;
+`;
+
 // Contenedor de tarjetas
 const CardsContainer = styled.div`
   padding: 2rem;
@@ -252,6 +278,8 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [loadingDots, setLoadingDots] = useState('');
+  const [loadingMessage, setLoadingMessage] = useState('Iniciando conexión');
+  const [loadingProgress, setLoadingProgress] = useState(0);
 
   // Efecto para los puntos del loading
   useEffect(() => {
@@ -270,7 +298,29 @@ const Home = () => {
       try {
         setError(false);
         setLoading(true);
+        setLoadingProgress(0);
+        
+        // Simular progreso para mejor UX
+        setLoadingMessage('Verificando cache local');
+        setLoadingProgress(20);
+        
+        await new Promise(resolve => setTimeout(resolve, 200)); // Breve pausa para mostrar mensaje
+        
+        setLoadingMessage('Conectando con el servidor');
+        setLoadingProgress(40);
+        
         await dispatch(getDogs());
+        
+        setLoadingMessage('Procesando datos');
+        setLoadingProgress(80);
+        
+        await new Promise(resolve => setTimeout(resolve, 300)); // Pausa para procesar
+        
+        setLoadingProgress(100);
+        setLoadingMessage('¡Listo!');
+        
+        await new Promise(resolve => setTimeout(resolve, 200)); // Pausa final
+        
         setLoading(false);
       } catch (error) {
         console.error('Error fetching dogs:', error);
@@ -315,12 +365,23 @@ const Home = () => {
           </LoadingImageContainer>
           
           <LoadingText>
-            Buscando los perritos más adorables
+            {loadingMessage}
             <span className="dots">{loadingDots}</span>
           </LoadingText>
           
+          <ProgressContainer>
+            <ProgressBar progress={loadingProgress} />
+          </ProgressContainer>
+          
+          <ProgressText>
+            {loadingProgress}% completado
+          </ProgressText>
+          
           <LoadingSubtext>
-            Estamos preparando una experiencia increíble llena de amor canino
+            {loadingProgress < 40 ? 'Verificando datos locales...' :
+             loadingProgress < 80 ? 'Descargando desde el servidor...' :
+             loadingProgress < 100 ? 'Preparando la interfaz...' :
+             '¡Ya casi listo!'}
           </LoadingSubtext>
         </LoadingContainer>
       );

@@ -168,7 +168,7 @@ const CreateDog = () => {
 
         const response = await axios.post('https://server-dogs-lr41.onrender.com/post', dogData);
         
-        const createdDogId = response.data.id || response.data.ID;
+        const createdDogId = response.data.dog?.id || response.data.id || response.data.ID;
         
         // Manejar temperament como string o array y traducir para mostrar
         const temperamentDisplay = Array.isArray(dogData.temperament) 

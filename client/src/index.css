@@ -1,3 +1,12 @@
+/* CSS Reset and Base Styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,13 +14,108 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-   @media screen and (max-width : 700px) {
-top: 100%;
-  width: 90%;
-}}
-;
+  background-color: #f8f9fa;
+  color: #2c3e50;
+  line-height: 1.6;
+  font-size: 16px;
+  overflow-x: hidden;
+}
 
+/* Mejoras de accesibilidad */
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Estilos para elementos de formulario mejorados */
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: 2px solid #3498db;
+  outline-offset: 2px;
+}
+
+/* Scrollbar personalizada para webkit */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Utilidades de responsive design */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
+  
+  body {
+    font-size: 14px;
+  }
+}
+
+/* Código monoespaciado */
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+  background-color: #f4f4f4;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+/* Animaciones globales suaves */
+@media (prefers-reduced-motion: no-preference) {
+  * {
+    transition: all 0.3s ease;
+  }
+}
+
+/* Estados de hover mejorados para elementos interactivos */
+button:not(:disabled):hover,
+a:hover {
+  opacity: 0.9;
+}
+
+/* Mejorar la legibilidad en pantallas pequeñas */
+@media (max-width: 480px) {
+  body {
+    font-size: 13px;
+  }
 }
